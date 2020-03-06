@@ -6,6 +6,9 @@ import {DrawerMenu} from './DrawerMenu';
 import {NotificationsPage} from './Notifications'
 import { CardIOModule, CardIOUtilities } from 'react-native-awesome-card-io';
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+import MapView from 'react-native-maps';
+import IndoorMap from './IndoorMap';
+
 import {
   TouchableOpacity,
 } from 'react-native';
@@ -14,6 +17,11 @@ const App = () => (
     <IconRegistry icons={EvaIconsPack} />
     <DrawerMenu renderPage={pageChange("Anasayfa")}></DrawerMenu>
   </ApplicationProvider>
+);
+const MapPage = ()=>(
+  <Layout style={{flex:1,backgroundColor:'#cccccc'}}>
+    <IndoorMap></IndoorMap>
+  </Layout>
 );
 const Page = ()=>(
   <Layout style={{flex:1,backgroundColor:'#cccccc'}}>
@@ -54,6 +62,9 @@ const pageChange=(pageName)=>{
   }
   else if(pageName=="Kartlar"){
     return <NotificationsPage></NotificationsPage>
+  }
+  else if(pageName=="Haritalar"){
+    return <IndoorMap></IndoorMap>
   }
 }
 export default App;

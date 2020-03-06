@@ -12,7 +12,10 @@ import {
   View,
   Text,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated,
+  Image,
+  Easing
 } from 'react-native';
 
 import {BeaconMonitoringAndRanging} from './beaconMonitoringAndRanging';
@@ -103,7 +106,25 @@ export class DrawerMenu extends Component{
   constructor(props){
     super(props);
     this.state={
-      headerHeight:Platform.select({ios: 60,android: 50})    
+      menuContent: null,
+    }
+    
+  }
+  renderMenuContent(){
+    if(this.state.open){
+      var fadeAnim = new Animated.Value(0);
+      Animated.timing(
+        fadeAnim,
+        {
+          toValue: 1,
+          duration: 1000,
+        }
+      ).start();
+      return(
+        <Animated.View style={{flex:1,opacity:fadeAnim}}>
+            <DrawerMenuContent drawer={this._drawer}></DrawerMenuContent>
+        </Animated.View>
+      );
     }
   }
   render(){
@@ -112,11 +133,11 @@ export class DrawerMenu extends Component{
       ref={(ref) => this._drawer = ref}
       type="static"
       content={
-        <DrawerMenuContent drawer={this._drawer}></DrawerMenuContent>
+        this.renderMenuContent()
       }
       acceptDoubleTap
       styles={{main: {shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15,}}}
-      onOpen={() => {
+      onOpenStart={() => {
         this.setState({open: true})
       }}
       onClose={() => {
@@ -157,7 +178,6 @@ export class DrawerMenu extends Component{
     );
   }
   componentDidMount(){
-    
   }
   renderLeftControl = () => (
     <TouchableOpacity style={{width:'50%',height:'50%'}} onPress={()=>this._drawer.open()}>
