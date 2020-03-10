@@ -3,7 +3,7 @@ import { ApplicationProvider, IconRegistry,Layout, Text } from '@ui-kitten/compo
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import {DrawerMenu} from './DrawerMenu';
-import {NotificationsPage} from './Notifications'
+import Notification from './components/notificationComponent/Notification';
 import { CardIOModule, CardIOUtilities } from 'react-native-awesome-card-io';
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import MapView from 'react-native-maps';
@@ -15,7 +15,7 @@ import {
 const App = () => (
   <ApplicationProvider mapping={mapping} theme={lightTheme}>
     <IconRegistry icons={EvaIconsPack} />
-    <DrawerMenu renderPage={pageChange("Anasayfa")}></DrawerMenu>
+    <DrawerMenu renderPage={pageChange("Kartlar")}></DrawerMenu>
   </ApplicationProvider>
 );
 const MapPage = ()=>(
@@ -61,10 +61,11 @@ const pageChange=(pageName)=>{
     return <Page></Page>
   }
   else if(pageName=="Kartlar"){
-    return <NotificationsPage></NotificationsPage>
+    return <Notification></Notification>
   }
   else if(pageName=="Haritalar"){
     return <IndoorMap></IndoorMap>
   }
+
 }
 export default App;
