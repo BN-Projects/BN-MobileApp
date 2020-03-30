@@ -1,4 +1,5 @@
 export default {
-    products:[]
+    currentPage:"Profil",
+    login:"a"
 }
 //default parametreler oluşturuldu

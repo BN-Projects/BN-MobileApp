@@ -1,48 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React , {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Platform,
-  TouchableOpacity,
-  Animated,
-  Image,
-  Easing
-} from 'react-native';
-
+import {StyleSheet,View,Text,Platform,TouchableOpacity,Animated,Image,Easing} from 'react-native';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as pageActions from "./redux/actions/pageActions";
 import {BeaconMonitoringAndRanging} from './beaconMonitoringAndRanging';
 import BouncyDrawer from 'react-native-bouncy-drawer';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Drawer from 'react-native-drawer';
-import {
-  Icon,
-  Menu,
-} from '@ui-kitten/components';
-import {
-  TopNavigation,
-} from '@ui-kitten/components';
-const Ap: () => React$Node = () => {
-  // return (
-  //   <>
-  //     <StatusBar barStyle="dark-content" />
-  //     <SafeAreaView>
-  //       <ScrollView
-  //         contentInsetAdjustmentBehavior="automatic"
-  //         style={styles.scrollView}>
-  //         <BeaconMonitoringAndRanging/>
-  //       </ScrollView>
-  //     </SafeAreaView>
-  //   </>
-  // );
-};
+import {Icon,Menu} from '@ui-kitten/components';
+import {TopNavigation} from '@ui-kitten/components';
+
+
 const StarIcon = (style) => (
   <Icon {...style} fill={'#0bc1f1'} name='star'/>
 );
@@ -77,31 +45,49 @@ const styles = StyleSheet.create({
 });
 const data = [
   {
-    title: 'Item 1',
+    title: 'Hakkımızda',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Item 2',
+    title: 'Profil',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Item 3',
+    title: 'Cihazlarım',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Item 4',
+    title: 'Kayıp İlanı',
+    icon: StarIcon,
+    style: styles.menuItem,
+    titleStyle:styles.menuItemTitle,
+  },
+  {
+    title: 'Cihaz Tarama',
+    icon: StarIcon,
+    style: styles.menuItem,
+    titleStyle:styles.menuItemTitle,
+  },
+  {
+    title: 'Bildirimlerim',
+    icon: StarIcon,
+    style: styles.menuItem,
+    titleStyle:styles.menuItemTitle,
+  },
+  {
+    title: 'Giriş Yap',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
   },
 ];
-
+var drawer;
 export class DrawerMenu extends Component{
   constructor(props){
     super(props);
@@ -111,6 +97,7 @@ export class DrawerMenu extends Component{
     
   }
   renderMenuContent(){
+    drawer = this._drawer;
     if(this.state.open){
       var fadeAnim = new Animated.Value(0);
       Animated.timing(
@@ -122,7 +109,7 @@ export class DrawerMenu extends Component{
       ).start();
       return(
         <Animated.View style={{flex:1,opacity:fadeAnim}}>
-            <DrawerMenuContent drawer={this._drawer}></DrawerMenuContent>
+            <ConnectedTest1></ConnectedTest1>
         </Animated.View>
       );
     }
@@ -216,10 +203,26 @@ class DrawerMenuContent extends Component{
     )
   }
   setSelectedIndex(index){
-    this.setState({ index });
-    this.props.drawer.close();
+    this.props.actions.changePage(data[index].title);
+    console.log(this.props.currentPage)
+    //this.setState({ index });
+    drawer.close();
     //this.props.pageChange(index)
   }
 }
-
-export default Menu;
+const ConnectedTest1 = connect(mapStateToProps,mapDispatchToProps) (DrawerMenuContent);
+function mapStateToProps(state) {
+  return {
+    currentPage: state.changePageReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      changePage: bindActionCreators(
+        pageActions.changePage,
+        dispatch
+      )}
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);

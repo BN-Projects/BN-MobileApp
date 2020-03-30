@@ -1,70 +1,96 @@
-import React from 'react';
+﻿import React, { Component } from 'react';
 import { ApplicationProvider, IconRegistry,Layout, Text } from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import {DrawerMenu} from './DrawerMenu';
-import {NotificationsPage} from './Notifications'
+import Notification from './components/notificationComponent/Notification';
 import { CardIOModule, CardIOUtilities } from 'react-native-awesome-card-io';
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import MapView from 'react-native-maps';
 import IndoorMap from './IndoorMap';
-
-import {
-  TouchableOpacity,
-} from 'react-native';
-const App = () => (
-  <ApplicationProvider mapping={mapping} theme={lightTheme}>
-    <IconRegistry icons={EvaIconsPack} />
-    <DrawerMenu renderPage={pageChange("Anasayfa")}></DrawerMenu>
-  </ApplicationProvider>
-);
+import { TouchableOpacity} from 'react-native';
+import MissingDeclaration from './components/missingDeclarationComponent/MissingDeclaration';
+import DeviceEdit from './components/deviceEditComponent/DeviceEdit';
+import AddCreditCard from './components/addCreditCardComponent/AddCreditCard';
+import FindDevice from './modals/findDeviceModal/FindDevice';
+import Scanner from './modals/scannerModal/Sccanner';
+import Success from './modals/successModal/Success';
+import Error from './components/errorComponent/Error';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as pageActions from "./redux/actions/pageActions";
+import About from './components/aboutComponent/About'
+import ProfileAccount from './components/profileAccountComponent/ProfileAccount';
+import Device from './components/deviceComponent/Device';
+import SıgnIn from './components/signInComponent/SignIn';
+import DeviceDetail from './components/deviceDetailComponent/DeviceDetail';
+class App extends Component{
+  render()
+  {
+    return(
+      <ApplicationProvider mapping={mapping} theme={lightTheme}>
+        <IconRegistry icons={EvaIconsPack} />
+        <DrawerMenu renderPage={pageChange("Giriş Yap")}></DrawerMenu>
+      </ApplicationProvider>
+    )
+  }
+}
 const MapPage = ()=>(
   <Layout style={{flex:1,backgroundColor:'#cccccc'}}>
     <IndoorMap></IndoorMap>
   </Layout>
 );
-const Page = ()=>(
-  <Layout style={{flex:1,backgroundColor:'#cccccc'}}>
-        <TouchableOpacity onPress={()=>scanCard()}>
-          <Text>Scan card!</Text>
-        </TouchableOpacity>
-        <CreditCardInput
-              autoFocus
-
-              requiresName
-              requiresCVC
-              requiresPostalCode
-
-              labelStyle={{
-                color: "black",
-                fontSize: 12,
-              }}
-              inputStyle={{
-                fontSize: 16,
-                color: "black",
-              }}
-              validColor={"black"}
-              invalidColor={"red"}
-              placeholderColor={"darkgray"}/>
-  </Layout>
-);
-const scanCard = async () => {
-  try {
-    const card = await CardIOModule.scanCard()
-    alert(JSON.stringify(card))
-  } catch (err) {
-    console.log(err)
-  }
-}
 const pageChange=(pageName)=>{
+  console.log(pageName)
   if(pageName=="Anasayfa"){
-    return <Page></Page>
+    return <AddCreditCard></AddCreditCard>
   }
-  else if(pageName=="Kartlar"){
-    return <NotificationsPage></NotificationsPage>
+  else if(pageName=="Bildirimlerim"){
+    return <Notification></Notification>
   }
   else if(pageName=="Haritalar"){
     return <IndoorMap></IndoorMap>
   }
+  else if(pageName=="Kayıp İlanı"){
+    return <MissingDeclaration></MissingDeclaration>
+  }
+  else if(pageName=="Düzenle"){
+    return <DeviceEdit></DeviceEdit>
+  }
+  else if(pageName=="Detay"){
+    return <DeviceDetail></DeviceDetail>
+  }
+  else if(pageName=="Kartlar"){
+    return <AddCreditCard></AddCreditCard>
+  }
+  else if(pageName=="Cihaz Tarama"){
+    return <FindDevice></FindDevice>
+  }
+  else if(pageName=="TarayıcıModal"){
+    return <Scanner></Scanner>
+  }
+  else if(pageName=="BaşarılıModal"){
+    return <Success></Success>
+  }
+  else if(pageName=="Hakkımızda"){
+    return <About></About>
+  }
+  else if(pageName=="Profil"){
+    return <ProfileAccount></ProfileAccount>
+  }
+  else if(pageName=="Cihazlarım"){
+    return <Device></Device>
+  }
+  else if(pageName=="Giriş Yap"){
+    return <SıgnIn></SıgnIn>
+  }
+  else{
+    return <Error></Error>
+  }
 }
-export default App;
+function mapStateToProps(state) {
+  return {
+    currentPage: state.changePageReducer
+  };
+}
+export default connect(mapStateToProps)(App);
