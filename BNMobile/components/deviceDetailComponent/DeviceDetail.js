@@ -29,7 +29,11 @@ export default class DeviceDetail extends Component {
             style={{height:responsiveHeight(30),width:responsiveWidth(100),justifyContent: "center",alignItems: "center",resizeMode: 'contain'}}
             source={{
               uri:
+<<<<<<< HEAD
               'https://lh6.googleusercontent.com/proxy/Bqqq2DHYLI-9bYWmUQkSz7UdLfvGavr6tPysMgBl6y7GDFFwc1dwlxqOr0tCtkWVVRfXI9j-fx-0LM5f-GW2jWfm4aCIkj5HJmwDuTL8h4mh5uzlR0plpUk',
+=======
+                'url',
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
             }}
           />
         <Layout style={Styles.formContainer} level="1">

@@ -26,9 +26,13 @@
     "react-native-bouncy-drawer": "^1.0.1",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-drawer": "^2.5.1",
+<<<<<<< HEAD
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^2.3.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
+=======
+    "react-native-image-picker": "^2.3.1",
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
     "react-native-maps": "0.26.1",
     "react-native-navigation": "^6.4.0",
     "react-native-reanimated": "^1.7.1",
@@ -40,7 +44,9 @@
     "react-native-vector-icons": "^6.6.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
+    "react-native-responsive-dimensions": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

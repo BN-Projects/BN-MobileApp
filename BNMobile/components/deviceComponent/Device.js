@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
+<<<<<<< HEAD
 import {Button, List, Text, Layout} from '@ui-kitten/components';
+=======
+import {Button, Card, List, Text, Layout} from '@ui-kitten/components';
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
 import {ArrowRightIcon} from './extra/icons';
 
 export default class Device extends Component {

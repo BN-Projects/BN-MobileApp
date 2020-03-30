@@ -14,11 +14,22 @@ const Styles = {
     fontSize: 18,
   },
   vertical: {
+<<<<<<< HEAD
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
   icons: {
+=======
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
   },
   main: {
     height: '70%',

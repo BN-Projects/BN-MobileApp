@@ -8,6 +8,7 @@ import { CardIOModule, CardIOUtilities } from 'react-native-awesome-card-io';
 import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import MapView from 'react-native-maps';
 import IndoorMap from './IndoorMap';
+<<<<<<< HEAD
 import { TouchableOpacity} from 'react-native';
 import MissingDeclaration from './components/missingDeclarationComponent/MissingDeclaration';
 import DeviceEdit from './components/deviceEditComponent/DeviceEdit';
@@ -35,6 +36,18 @@ class App extends Component{
     )
   }
 }
+=======
+
+import {
+  TouchableOpacity,
+} from 'react-native';
+const App = () => (
+  <ApplicationProvider mapping={mapping} theme={lightTheme}>
+    <IconRegistry icons={EvaIconsPack} />
+    <DrawerMenu renderPage={pageChange("Kartlar")}></DrawerMenu>
+  </ApplicationProvider>
+);
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
 const MapPage = ()=>(
   <Layout style={{flex:1,backgroundColor:'#cccccc'}}>
     <IndoorMap></IndoorMap>
@@ -45,12 +58,17 @@ const pageChange=(pageName)=>{
   if(pageName=="Anasayfa"){
     return <AddCreditCard></AddCreditCard>
   }
+<<<<<<< HEAD
   else if(pageName=="Bildirimlerim"){
+=======
+  else if(pageName=="Kartlar"){
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
     return <Notification></Notification>
   }
   else if(pageName=="Haritalar"){
     return <IndoorMap></IndoorMap>
   }
+<<<<<<< HEAD
   else if(pageName=="Kayıp İlanı"){
     return <MissingDeclaration></MissingDeclaration>
   }
@@ -92,5 +110,8 @@ function mapStateToProps(state) {
   return {
     currentPage: state.changePageReducer
   };
+=======
+
+>>>>>>> d282ed4bcec05bcf1c2b5be8e425b23a52328867
 }
 export default connect(mapStateToProps)(App);
