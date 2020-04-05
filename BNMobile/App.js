@@ -50,7 +50,7 @@ class App extends Component{
                 <Scene key="Bildirimlerim" component={Notification}/>
                 <Scene key="CihazDetayı" path={"/detail/device/:id/"} component={DeviceDetail}/>
                 <Scene key="CihazGuncelle" path={"/edit/device/:device/"} component={DeviceEdit}/>
-                <Scene key="ProfilGuncelle" path={"/edit/profile/"} component={ProfileAccount}/>
+                <Scene key="Profil" component={ProfileAccount}/>
                 <Scene key="Kayıpilanı" component={MissingDeclaration}/>
                 <Scene key="CihazTarama" component={FindDevice}/>
                 {/* üste dinamik path gelecek */}

@@ -70,7 +70,7 @@ class Device extends Component {
             appearance="outline"
             status="control"
             icon={ArrowRightIcon}
-            onPress={() => this.onItemPress(info.item.ID)}>
+            onPress={() => this.onItemPress(info.item.beacon_id)}>
             {'Details'}
           </Button>
         </View>

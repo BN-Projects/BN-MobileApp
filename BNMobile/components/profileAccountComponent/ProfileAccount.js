@@ -169,6 +169,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { ProfileAvatar } from './extra/profile-avatar.component';
 import { Profile } from './extra/data';
 import ImagePicker from 'react-native-image-picker';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as ProfileActions from "../../redux/actions/profileActions";
+import { Actions } from 'react-native-router-flux';
 
 const options={
   title: 'Add image',
@@ -176,7 +180,7 @@ const options={
   chooseFromLibraryButtonTitle: 'Choose photo from library',
   }
 
-export default class ProfileAccount extends Component {
+class ProfileAccount extends Component {
   profile = Profile.jenniferGreen();
 
   constructor(props) {
@@ -220,14 +224,22 @@ export default class ProfileAccount extends Component {
   }
   onPress()
   {
-    console.log("a")
   }
   onPasswordIconPress = () => {
     this.setState({
       passwordVisible:!this.state.passwordVisible
     })
   };
-
+  componentDidMount = () =>{
+    console.log(this.props.profil)
+    this.setState({
+      name:this.props.profil.user_real_name,
+      surname:this.props.profil.user_surname,
+      email:this.props.profil.user_mail,
+      phone:this.props.profil.user_phone,
+      password:this.props.profil.user_password
+    })
+  }
   renderPhotoButton = () => (
     <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon}  onPress={this.myfun}/>
   );
@@ -243,7 +255,7 @@ export default class ProfileAccount extends Component {
           <Input
             style={this.state.name ? Styles.input : Styles.emptyInput}
             value={this.state.name}
-            label="Cihaz adı"
+            label="İsim"
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
             icon={CloseOutlineIcon}
@@ -253,7 +265,7 @@ export default class ProfileAccount extends Component {
           <Input
             style={this.state.surname ? Styles.input : Styles.emptyInput}
             value={this.state.surname}
-            label="Türü"
+            label="Soyisim"
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
             icon={CloseOutlineIcon}
@@ -263,7 +275,7 @@ export default class ProfileAccount extends Component {
           <Input
             style={this.state.email ? Styles.input : Styles.emptyInput}
             value={this.state.email}
-            label="Güvenlik aralığı"
+            label="Email"
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
             icon={CloseOutlineIcon}
@@ -273,7 +285,7 @@ export default class ProfileAccount extends Component {
           <Input
             style={this.state.phone ? Styles.input : Styles.emptyInput}
             value={this.state.phone}
-            label="Güvenlik aralığı"
+            label="Telefon numarası"
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
             icon={CloseOutlineIcon}
@@ -305,3 +317,18 @@ export default class ProfileAccount extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    profil: state.profileReducer,
+    login:state.loginReducer
+  };
+}//reducer'dan çekilen veri props'lara işlendi
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      getProfile: bindActionCreators(ProfileActions.getProfile, dispatch)
+    }
+  };
+}//actions alındı
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileAccount);
