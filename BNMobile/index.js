@@ -7,11 +7,15 @@ import App from './App';
 import {name as appName} from './app.json';
 import { Provider } from "react-redux";
 import configureStore from "./redux/reducers/configureStore";
-const store = configureStore();
+import { PersistGate } from 'redux-persist/integration/react';
+const store = configureStore().store;
+const persistor = configureStore().persistor;
 const Root = () => (
  
   <Provider store={store}>
-    <App />
+    <PersistGate persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );
 AppRegistry.registerComponent(appName, () => Root );

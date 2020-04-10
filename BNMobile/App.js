@@ -24,9 +24,21 @@ import ProfileAccount from './components/profileAccountComponent/ProfileAccount'
 import Device from './components/deviceComponent/Device';
 import SıgnIn from './components/signInComponent/SignIn';
 import DeviceDetail from './components/deviceDetailComponent/DeviceDetail';
-import { Router, Scene, Modal } from 'react-native-router-flux';
+import { Router, Scene, Modal, Actions } from 'react-native-router-flux';
+import * as LoginActions from "./redux/actions/loginActions";
+import Map from './components/mapComponent/map';
 class App extends Component{
   componentDidMount(){
+    // if(this.props.token=="")
+    // {
+    //   Actions.Login();
+    // }
+    // else{
+    //   Actions.drawerMenu();
+    //   Actions.Device();
+    // }
+    Actions.drawerMenu();
+    Actions.Map();
   }
   render()
   {
@@ -53,6 +65,7 @@ class App extends Component{
                 <Scene key="ProfileAccount" component={ProfileAccount}/>
                 <Scene key="MissingDeclaration" component={MissingDeclaration}/>
                 <Scene key="FindDevice" component={FindDevice}/>
+                <Scene key="Map" component={Map}/>
                 {/* üste dinamik path gelecek */}
               </Scene>
             </Scene>
@@ -117,7 +130,14 @@ const pageChange=(pageName)=>{
 }
 function mapStateToProps(state) {
   return {
-    currentPage: state.changePageReducer
+    token: state.loginReducer,
   };
 }
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      getToken: bindActionCreators(LoginActions.login, dispatch),
+    }
+  };
+}//actions alındı
+export default connect(mapStateToProps,mapDispatchToProps)(App);

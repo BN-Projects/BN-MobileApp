@@ -89,6 +89,13 @@ const data = [
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
+  },
+  {
+    title: 'Map',
+    key:'Map',
+    icon: StarIcon,
+    style: styles.menuItem,
+    titleStyle:styles.menuItemTitle,
   }
 ];
 var drawer;
@@ -167,7 +174,7 @@ export class DrawerMenu extends Component{
     );
   }
   componentDidMount(){
-    Actions.GirisYap()
+    Actions.Login()
   }
   renderLeftControl = () => (
     <TouchableOpacity style={{width:'50%',height:'50%'}} onPress={()=>this._drawer.open()}>
