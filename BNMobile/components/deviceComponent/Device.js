@@ -10,10 +10,10 @@ import { Actions } from 'react-native-router-flux';
 class Device extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      spinner: false
+    }
   }
-  state = {
-    spinner: false
-  };
   onItemPress = (ID) => {
     Actions.DeviceDetail({ ID: ID })
   };
@@ -24,17 +24,18 @@ class Device extends Component {
   );
   componentDidMount = () =>{
     this.props.actions.getProfile("profile",["token"],[this.props.login])
-    setTimeout(() => {
+  }
+  componentDidUpdate = () => {
+    if(this.props.profile !="" && this.state.spinner==false){
       this.getBeaconList()
-    }, 10000);
-    
+    }
   }
   getBeaconList()
   {
     console.log("asda "+this.props.profile.user_id)
     this.props.actions.getBeacons("devices",["userId"],[this.props.profile.user_id]);
     this.setState({
-      spinner:!this.state.spinner
+      spinner:true
     })
   }
   renderItem = info => (
@@ -64,7 +65,7 @@ class Device extends Component {
                 'https://clipartart.com/images/default-profile-picture-clipart-1.jpg',
             }}
           />
-          <View style={styles.bosluk}></View>
+          <View style={styles.space}></View>
           <Button
             style={styles.iconButton}
             appearance="outline"
@@ -82,9 +83,7 @@ class Device extends Component {
       <Layout style={styles.layout}>
         {
           this.state.spinner == false ?
-          <View style={styles.loading}>
-            <Spinner/>
-          </View>
+          this.renderLoading()
         :
           <List
           style={styles.list}
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
   iconButton: {
     flex: 3
   },
-  bosluk: {
+  space: {
     flex:3
   },
   headerImage: {

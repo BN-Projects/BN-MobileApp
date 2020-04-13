@@ -9,8 +9,13 @@ export default class MissingDeclaration extends Component {
   state = {
     selectedOption: null,
     checkedInformations:false,
-    checkedAutoFind:false
+    checkedAutoFind:false,
+    coordinate:""
   };
+  componentDidMount()
+  {
+    coordinate = this.props.coordinate
+  }
   onCheckedInformations = () => {
     this.setState({
         checkedInformations:!this.state.checkedInformations

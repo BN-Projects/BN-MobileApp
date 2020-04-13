@@ -29,16 +29,18 @@ import * as LoginActions from "./redux/actions/loginActions";
 import Map from './components/mapComponent/map';
 class App extends Component{
   componentDidMount(){
-    // if(this.props.token=="")
-    // {
-    //   Actions.Login();
-    // }
-    // else{
-    //   Actions.drawerMenu();
-    //   Actions.Device();
-    // }
-    Actions.drawerMenu();
-    Actions.Map();
+    this.props.actions.login("")
+    console.log("token "+this.props.token)
+    if(this.props.token=="")
+    {
+      Actions.Login();
+    }
+    else{
+      Actions.drawerMenu();
+      Actions.Device();
+    }
+    // Actions.drawerMenu();
+    // Actions.Map();
   }
   render()
   {
@@ -136,7 +138,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      getToken: bindActionCreators(LoginActions.login, dispatch),
+      login: bindActionCreators(LoginActions.login, dispatch),
     }
   };
 }//actions alındı

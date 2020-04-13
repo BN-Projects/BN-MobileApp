@@ -6,6 +6,8 @@ import beaconDetailReducer from './beaconDetailReducer';
 import beaconEditReducer from './beaconEditReducer';
 import profileReducer from './profileReducer';
 import profileEditReducer from './profileEditReducer';
+import lostBeaconListReducer from './lostBeaconListReducer';
+import lostBeaconReducer from './lostBeaconReducer';
 const rootReducer = combineReducers({
     changePageReducer,
     loginReducer,
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
     beaconDetailReducer,
     beaconEditReducer,
     profileReducer,
-    profileEditReducer
+    profileEditReducer,
+    lostBeaconListReducer,
+    lostBeaconReducer
 })
 export default rootReducer
 

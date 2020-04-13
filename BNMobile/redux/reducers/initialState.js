@@ -8,5 +8,7 @@ export default {
     beaconEdit:"",
     profile:"",
     profileEdit:"",
+    lostBeacons:"",
+    lostBeacon:""
 }
 //default parametreler oluşturuldu
