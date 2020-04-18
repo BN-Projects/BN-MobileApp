@@ -8,10 +8,10 @@ export function profile(profile)
         payload:profile
     }
 }
-export function getProfile(directory,paramsNames,paramsValues)
+export function getProfile(paramsValues)
 {
     return function(dispatch){
-        postToken(directory,paramsNames,paramsValues)
+        postToken(paramsValues)
         .then((result)=>{
             dispatch(profile(result))
             console.log(result);

@@ -8,10 +8,10 @@ export function login(login)
         payload:login
     }
 }
-export function getToken(directory,paramsNames,paramsValues)
+export function getToken(paramsValues)
 {
     return function(dispatch){
-        postLogin(directory,paramsNames,paramsValues)
+        postLogin(paramsValues)
         .then((result)=>{
             dispatch(login(result))
             console.log(result);

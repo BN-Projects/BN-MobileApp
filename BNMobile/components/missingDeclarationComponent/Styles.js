@@ -7,19 +7,32 @@ const Styles = {
     container: {
       backgroundColor: '#F0F3F6',
     },
+    checkbox: {
+      marginTop:'2%',
+      borderColor: '#55AFFB',
+    },
     formContainer: {
       backgroundColor: '#F0F3F6',
       flex: 1,
       paddingTop: 5,
       paddingHorizontal: 16,
     },
+    loading: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     input: {
-      marginTop:'5%',
+      marginTop:'2%',
       borderColor: '#55AFFB',
     },
     emptyInput:{
-      marginTop:'5%',
+      marginTop:'2%',
       borderColor: '#FF3D71',
+    },
+    red:{
+      color: '#FF3D71',
+      marginBottom:'2%'
     },
     customizeTextStyle:{
       color:'#55AFFB',
@@ -31,11 +44,13 @@ const Styles = {
       marginTop: 16,
     },
     save: {
-      marginHorizontal: 16,
-      marginVertical:'4%',
-      backgroundColor:'#55AFFB',
-      borderColor:'#55AFFB',
-      borderRadius:15 
+    backgroundColor:'#55AFFB',
+    borderColor:'#55AFFB',
+    borderRadius:15,
+    marginTop:'2%'
+    },
+    buttonColor: {
+      color:"white"
     },
     forgotPasswordContainer: {
       flexDirection: 'row',
@@ -69,6 +84,8 @@ const Styles = {
       borderRadius: 24,
     },
     checkbox: {
+        color:'#55AFFB',
+        borderColor:'#55AFFB',
         marginVertical: 8,
     },
     IndoorMap:{

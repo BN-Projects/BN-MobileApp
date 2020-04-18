@@ -9,6 +9,8 @@ import ImagePicker from 'react-native-image-picker';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as BeaconEditAction from "../../redux/actions/beaconEditActions";
+import Success from '../../modals/successModal/Success';
+import { Actions } from 'react-native-router-flux';
 const options={
   title: 'Add image',
   takePhotoButtonTitle: 'Take photo with your camera',
@@ -29,7 +31,8 @@ class DeviceEdit extends Component {
       type: '',
       securityArea: '',
       avatarSource: this.profile.photo,
-      pic:null
+      pic:null,
+      visible: false
     };
   }
   componentDidMount(){
@@ -77,12 +80,23 @@ class DeviceEdit extends Component {
     if(this.isFormValid())
     {
       console.log("form geçerli")
-      var paramsNames=["name","type","variance","beaconID"];
       var paramsValues=[state.name, state.type, state.securityArea, this.props.beacon.deviceId];
-      this.props.actions.putBeaconEdit("updatedevice",paramsNames,paramsValues)
+      this.props.actions.putBeaconEdit(paramsValues)
+      this.toggleModal()
+      setTimeout(
+        () => {
+          this.goToDevice() 
+        },
+        3000);
     }else{
       console.log("form geçersiz")
+      Actions.replace("Error")
     }
+  }
+  goToDevice = () =>
+  {
+    this.toggleModal();
+    Actions.replace("Device")
   }
   isFormValid = () => {
     for (const item in this.isValid) {
@@ -129,6 +143,11 @@ class DeviceEdit extends Component {
       return false
     }
   }
+  toggleModal = () => {
+    this.setState({
+        visible:!this.state.visible
+    })
+  };
   render() {
     return (
       <KeyboardAwareScrollView style={Styles.container}>
@@ -183,6 +202,7 @@ class DeviceEdit extends Component {
         textStyle={Styles.buttonColor}  >
           Save Changes
         </Button>
+        <Success visible={this.state.visible} ></Success>
       </KeyboardAwareScrollView>
     );
   }

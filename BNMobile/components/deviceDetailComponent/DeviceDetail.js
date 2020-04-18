@@ -26,9 +26,8 @@ class DeviceDetail extends Component {
     });
   };
   componentDidMount = () =>{
-    var paramsNames=["deviceId"];
     var paramsValues=[this.props.ID];
-    this.props.actions.getBeaconDetail("devicedetail",paramsNames,paramsValues);
+    this.props.actions.getBeaconDetail(paramsValues);
   }
   setEmail = () => {};
   onItemPress = (beacon) => {

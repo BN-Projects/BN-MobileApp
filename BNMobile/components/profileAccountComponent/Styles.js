@@ -22,6 +22,9 @@ const Styles = {
   customizeLabelStyle:{
     color:'black'
   },
+  red:{
+    color: '#FF3D71',
+  },
   buttonColor: {
     color:"white"
   },

@@ -1,7 +1,9 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
 var lostBeacons=[];
-export default async function getLostBeaconList(directory,paramsNames,paramsValues){
+export default async function getLostBeaconList(paramsValues){
+    var directory="lostdevices";
+    var paramsNames=["userId"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"GET")
     console.log("getLostBeaconList "+obj)
     await axios.get(obj)

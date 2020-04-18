@@ -7,10 +7,10 @@ export function lostBeaconList(beacons)
         payload:beacons
     }
 }
-export function getLostBeacons(directory,paramsNames,paramsValues)
+export function getLostBeacons(paramsValues)
 {
     return function(dispatch){
-        getLostBeaconList(directory,paramsNames,paramsValues)
+        getLostBeaconList(paramsValues)
         .then((result)=>{
             dispatch(lostBeaconList(result))
         })

@@ -67,6 +67,7 @@ import { bindActionCreators } from "redux";
 import * as LoginActions from "../../redux/actions/loginActions";
 import { Actions } from 'react-native-router-flux';
 import * as ProfileActions from "../../redux/actions/profileActions";
+import md5 from 'md5';
 class SıgnIn extends Component {
 
   state={
@@ -76,10 +77,9 @@ class SıgnIn extends Component {
   }
 
   onSignUpButtonPress(){
-    var paramsNames=["email","password"];
-    var paramsValues=["den55","deneme"];
-    this.props.actions.getToken("login",paramsNames,paramsValues);
-    
+    var hash = md5("deneme");
+    var paramsValues=["den57@gmail.com",hash];
+    this.props.actions.getToken(paramsValues);
   }
   componentDidMount(){
   }

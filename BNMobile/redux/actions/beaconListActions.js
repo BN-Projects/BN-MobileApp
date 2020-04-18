@@ -7,10 +7,10 @@ export function beaconList(beacons)
         payload:beacons
     }
 }
-export function getBeacons(directory,paramsNames,paramsValues)
+export function getBeacons(paramsValues)
 {
     return function(dispatch){
-        getBeaconList(directory,paramsNames,paramsValues)
+        getBeaconList(paramsValues)
         .then((result)=>{
             dispatch(beaconList(result))
         })

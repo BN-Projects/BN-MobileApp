@@ -7,10 +7,10 @@ export function beaconEdit(beacon)
         payload:beacon
     }
 }
-export function putBeaconEdit(directory,paramsNames,paramsValues)
+export function putBeaconEdit(paramsValues)
 {
     return function(dispatch){
-        putBeacon(directory,paramsNames,paramsValues)
+        putBeacon(paramsValues)
         .then((result)=>{
             dispatch(beaconEdit(result))
         })

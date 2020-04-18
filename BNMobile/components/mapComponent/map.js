@@ -57,7 +57,7 @@ class Map extends Component {
   componentDidMount()
   {
     console.log("lostdevice kullanıcı id "+this.props.profile.user_id)
-    this.props.actions.getLostBeacons("lostdevices",["userId"],[this.props.profile.user_id]);
+    this.props.actions.getLostBeacons([this.props.profile.user_id]);
   }
   renderLoading = () => (
     <View style={styles.loading}>
@@ -160,7 +160,7 @@ class Map extends Component {
   }
   goToAddLostDevice(state)
   {
-    Actions.MissingDeclaration({ coordinate: state.marker })
+    Actions.replace("MissingDeclaration",{ coordinate: state.marker })
   }
   render() {
     return (

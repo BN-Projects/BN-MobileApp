@@ -15,7 +15,7 @@ class Device extends Component {
     }
   }
   onItemPress = (ID) => {
-    Actions.DeviceDetail({ ID: ID })
+    Actions.replace("DeviceDetail",{ ID: ID })
   };
   renderLoading = () => (
     <View style={styles.loading}>
@@ -23,7 +23,7 @@ class Device extends Component {
     </View>
   );
   componentDidMount = () =>{
-    this.props.actions.getProfile("profile",["token"],[this.props.login])
+    this.props.actions.getProfile([this.props.login])
   }
   componentDidUpdate = () => {
     if(this.props.profile !="" && this.state.spinner==false){
@@ -33,7 +33,11 @@ class Device extends Component {
   getBeaconList()
   {
     console.log("asda "+this.props.profile.user_id)
-    this.props.actions.getBeacons("devices",["userId"],[this.props.profile.user_id]);
+    this.props.actions.getBeacons([this.props.profile.user_id]);
+    this.showSpinner()
+  }
+  showSpinner()
+  {
     this.setState({
       spinner:true
     })
@@ -109,7 +113,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       getBeacons: bindActionCreators(BeaconListActions.getBeacons, dispatch),
-      getProfile: bindActionCreators(ProfileActions.getProfile, dispatch)
+      getProfile: bindActionCreators(ProfileActions.getProfile, dispatch),
     }
   };
 }//actions alındı

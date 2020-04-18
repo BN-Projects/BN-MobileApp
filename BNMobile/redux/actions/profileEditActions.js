@@ -7,10 +7,10 @@ export function profileEdit(profile)
         payload:profile
     }
 }
-export function putProfileEdit(directory,paramsNames,paramsValues)
+export function putProfileEdit(paramsValues)
 {
     return function(dispatch){
-        putProfile(directory,paramsNames,paramsValues)
+        putProfile(paramsValues)
         .then((result)=>{
             dispatch(profileEdit(result))
         })

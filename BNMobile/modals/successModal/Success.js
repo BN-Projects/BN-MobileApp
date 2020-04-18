@@ -4,16 +4,6 @@ import {Button, Layout, Modal, Text} from '@ui-kitten/components';
 import { CheckIcon } from './extra/icons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 export default class Success extends Component {
-  state = {
-    visible: false,
-    name:'burak',
-    image:''
-  };
-  toggleModal = () => {
-    this.setState({
-        visible:!this.state.visible
-    })
-  };
 
   renderModalElement = () => (
     <KeyboardAwareScrollView style={styles.bnBackgroundColor}>
@@ -43,11 +33,9 @@ export default class Success extends Component {
   render() {
     return (
       <Layout style={styles.container}>
-        <Button onPress={this.toggleModal}>TOGGLE MODAL</Button>
         <Modal
           backdropStyle={styles.backdrop}
-          onBackdropPress={this.toggleModal}
-          visible={this.state.visible}>
+          visible={this.props.visible}>
           {this.renderModalElement()}
         </Modal>
       </Layout>

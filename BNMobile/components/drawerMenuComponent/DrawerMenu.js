@@ -2,8 +2,8 @@ import React , {Component} from 'react';
 import {StyleSheet,View,Text,Platform,TouchableOpacity,Animated,Image,Easing} from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as pageActions from "./redux/actions/pageActions";
-import {BeaconMonitoringAndRanging} from './beaconMonitoringAndRanging';
+import * as pageActions from "../../redux/actions/pageActions";
+import {BeaconMonitoringAndRanging} from '../../beaconMonitoringAndRanging';
 import BouncyDrawer from 'react-native-bouncy-drawer';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Drawer from 'react-native-drawer';
@@ -11,9 +11,9 @@ import {Icon,Menu} from '@ui-kitten/components';
 import {TopNavigation} from '@ui-kitten/components';
 import {Actions} from 'react-native-router-flux';
 
-import SıgnIn from './components/signInComponent/SignIn';
-import Notification from './components/notificationComponent/Notification';
-import About from './components/aboutComponent/About'
+import SıgnIn from '../signInComponent/SignIn';
+import Notification from '../notificationComponent/Notification';
+import About from '../aboutComponent/About'
 
 const StarIcon = (style) => (
   <Icon {...style} fill={'#0bc1f1'} name='star'/>
@@ -70,13 +70,6 @@ const data = [
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Kayıp ilanı',
-    key:'MissingDeclaration',
-    icon: StarIcon,
-    style: styles.menuItem,
-    titleStyle:styles.menuItemTitle,
-  },
-  {
     title: 'Cihaz Tarama',
     key:'FindDevice',
     icon: StarIcon,
@@ -91,12 +84,12 @@ const data = [
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Map',
+    title: 'Kayıp Cihazlar',
     key:'Map',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
-  }
+  },
 ];
 var drawer;
 export class DrawerMenu extends Component{
@@ -213,7 +206,8 @@ class DrawerMenuContent extends Component{
     )
   }
   setSelectedIndex(index){
-    Actions[data[index].key].call();
+    Actions.replace(data[index].key)
+    //Actions[data[index].key].call();
     drawer.close();
   }
 }

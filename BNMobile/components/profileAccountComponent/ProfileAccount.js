@@ -174,6 +174,7 @@ import { bindActionCreators } from "redux";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import * as ProfileEditActions from "../../redux/actions/profileEditActions";
 import { Actions } from 'react-native-router-flux';
+import Success from '../../modals/successModal/Success';
 
 const options={
   title: 'Add image',
@@ -201,9 +202,15 @@ class ProfileAccount extends Component {
       id:'',
       passwordVisible: false,
       avatarSource: this.profile.photo,
-      pic:null
+      pic:null,
+      visible: false
     };
   }
+  toggleModal = () => {
+    this.setState({
+        visible:!this.state.visible
+    })
+  };
   myfun=()=>{
     //alert('clicked');
   
@@ -242,12 +249,23 @@ class ProfileAccount extends Component {
     if(this.isFormValid())
     {
       console.log("form geçerli")
-      var paramsNames=["name","surname","email","phone","password","id"];
       var paramsValues=[state.name, state.surname, state.email, state.phone, state.password, state.id];
-      this.props.actions.putProfileEdit("updateprofile",paramsNames,paramsValues)
+      this.props.actions.putProfileEdit(paramsValues)
+      this.toggleModal()
+      setTimeout(
+        () => {
+          this.goToDevice() 
+        },
+        3000);
     }else{
       console.log("form geçersiz")
+      Actions.replace("Error")
     }
+  }
+  goToDevice = () =>
+  {
+    this.toggleModal();
+    Actions.replace("Device")
   }
   isFormValid = () => {
     for (const item in this.isValid) {
@@ -418,6 +436,7 @@ class ProfileAccount extends Component {
         textStyle={Styles.buttonColor} >
           Save Changes
         </Button>
+        <Success visible={this.state.visible} ></Success>
       </KeyboardAwareScrollView>
     );
   }

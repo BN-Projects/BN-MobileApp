@@ -1,7 +1,9 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
 var profile="";
-export default async function putBeacon(directory,paramsNames,paramsValues){
+export default async function putBeacon(paramsValues){
+    var directory="updateprofile";
+    var paramsNames=["name","surname","email","phone","password","id"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"PUT")
     console.log(obj)
     await axios.put(obj.url,obj.data)

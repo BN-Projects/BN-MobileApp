@@ -1,7 +1,9 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
 var beacon="";
-export default async function getBeaconDetailData(directory,paramsNames,paramsValues){
+export default async function getBeaconDetailData(paramsValues){
+    var directory="devicedetail";
+    var paramsNames=["deviceId"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"GET")
     console.log("url "+obj)
     await axios.get(obj)

@@ -1,7 +1,9 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
 var profile="";
-export default async function postToken(directory,paramsNames,paramsValues){
+export default async function postToken(paramsValues){
+    var directory="profile";
+    var paramsNames=["token"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
     await axios.post(obj.url,obj.data)
     .then((res) => {

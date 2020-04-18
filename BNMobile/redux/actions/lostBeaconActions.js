@@ -7,10 +7,10 @@ export function addLostBeacon(beacon)
         payload:beacon
     }
 }
-export function setLostBeacon(directory,paramsNames,paramsValues)
+export function setLostBeacon(paramsValues)
 {
     return function(dispatch){
-        postLostBeacon(directory,paramsNames,paramsValues)
+        postLostBeacon(paramsValues)
         .then((result)=>{
             dispatch(addLostBeacon(result))
             console.log(result);

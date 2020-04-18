@@ -15,13 +15,17 @@ export default class AddCreditCard extends Component {
       console.log(err);
     }
   };
+  _onChange(form)
+  {
+    console.log(form)
+  }
   render() {
     return (
       <KeyboardAwareScrollView>
         <Layout style={Styles.container}>
           <TouchableOpacity onPress={() => this.scanCard()}>
             <CreditCardInput 
-              onChange={this._onChange}
+              onChange={(form) => this._onChange(form)}
               onPress={() => this.scanCard()}
               requiresName
               requiresCVC
