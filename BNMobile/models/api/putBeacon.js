@@ -3,7 +3,7 @@ import axios from 'axios';
 var beacon="";
 export default async function putBeacon(paramsValues){
     var directory="updatedevice";
-    var paramsNames=["name","type","variance","beaconID"];
+    var paramsNames=["name", "variance", "img", "imgDesc", "beaconID"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"PUT")
     console.log(obj)
     await axios.put(obj.url,obj.data)

@@ -124,7 +124,7 @@ try {
 // Print a log of the detected iBeacons (1 per second)
 DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
   console.log('Found beacons!', data.beacons)
-})
+})//buraya bak
   }
 
   componentDidUnMount() {

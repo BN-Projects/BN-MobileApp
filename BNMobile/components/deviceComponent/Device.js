@@ -7,12 +7,14 @@ import { bindActionCreators } from "redux";
 import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import { Actions } from 'react-native-router-flux';
+import { BeaconMonitoringAndRanging } from '../../beaconMonitoringAndRanging';
 class Device extends Component {
   constructor(props) {
     super(props);
     this.state={
       spinner: false
     }
+    props.actions.getProfile([this.props.login])
   }
   onItemPress = (ID) => {
     Actions.replace("DeviceDetail",{ ID: ID })
@@ -23,7 +25,6 @@ class Device extends Component {
     </View>
   );
   componentDidMount = () =>{
-    this.props.actions.getProfile([this.props.login])
   }
   componentDidUpdate = () => {
     if(this.props.profile !="" && this.state.spinner==false){
@@ -65,7 +66,7 @@ class Device extends Component {
           <Image
             style={styles.headerImage}
             source={{
-              uri:
+              uri:info.item.img? info.item.img :
                 'https://clipartart.com/images/default-profile-picture-clipart-1.jpg',
             }}
           />
@@ -80,6 +81,7 @@ class Device extends Component {
           </Button>
         </View>
       </Layout>
+    {/* <BeaconMonitoringAndRanging></BeaconMonitoringAndRanging> */}
     </View>
   );
   render() {

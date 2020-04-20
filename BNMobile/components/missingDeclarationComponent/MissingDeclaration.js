@@ -134,7 +134,7 @@ class MissingDeclaration extends Component {
   renderTextbox = () =>(
     <View>
       <Input
-            style={this.regPhone(this.state.phone) ? Styles.input : Styles.emptyInput}
+            style={this.regPhone(this.state.phone) ? Styles.successInput : this.state.phone=='' ? Styles.input : Styles.emptyInput}
             value={this.state.phone}
             label="Telefon numarası"
             labelStyle={Styles.customizeLabelStyle}
@@ -143,12 +143,11 @@ class MissingDeclaration extends Component {
             onChangeText={item => this.setState({ phone:item})}
             onIconPress={() => this.setState({ phone: '' })}
             captionStyle={Styles.red}
-            caption={this.regPhone(this.state.phone) ? '' : 'Can not be empty'}
             keyboardType={'numeric'}
             disabled={this.state.checkedInformations ? false : true}
           />
      <Input
-           style={this.regEmail(this.state.email) ? Styles.input : Styles.emptyInput}
+           style={this.regEmail(this.state.email) ? Styles.successInput : this.state.email=='' ? Styles.input : Styles.emptyInput}
            value={this.state.email}
            label="Email"
            labelStyle={Styles.customizeLabelStyle}
@@ -157,7 +156,6 @@ class MissingDeclaration extends Component {
            onChangeText={item => this.setState({ email:item})}
            onIconPress={() => this.setState({ email: '' })}
            captionStyle={Styles.red}
-           caption={this.regEmail(this.state.email) == true ? '' : 'Can not be empty'}
            disabled={this.state.checkedInformations ? false : true}
           />
     </View>

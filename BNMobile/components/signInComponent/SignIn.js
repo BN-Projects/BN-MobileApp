@@ -1,62 +1,3 @@
-// import React, {Component} from 'react';
-// import {View, Text, Button, TextInput} from 'react-native';
-// import Styles from './Styles';
-// import Icon from 'react-native-vector-icons/FontAwesome5';
-// export default class SignIn extends Component {
-//   render() {
-//     return (
-//       <View style={Styles.container}>
-//         <View style={Styles.header}>
-//           <Text style={Styles.benimkiNerede}>Benimki Nerede?</Text>
-//         </View>
-//         <View style={Styles.main}>
-//           <Text style={Styles.signIn}>Giriş Yap</Text>
-//           <TextInput
-//             style={Styles.textInput}
-//             placeholderTextColor="#55AFFB"
-//             placeholder="example@example.example"
-//           />
-//           <TextInput
-//             style={Styles.textInput}
-//             placeholderTextColor="#55AFFB"
-//             placeholder="parola"
-//           />
-//           <Text style={Styles.newAccount}>
-//             Hesabın yok mu? Buraya tıklayarak kaydolabilirsin.
-//           </Text>
-//           <View style={Styles.vertical}>
-//             <View>
-//               <Icon
-//                 style={Styles.icons}
-//                 name={'facebook'}
-//                 color={'#55AFFB'}
-//                 size={30}></Icon>
-//             </View>
-//             <View>
-//               <Icon
-//                 style={Styles.icons}
-//                 name={'google-plus'}
-//                 color={'#55AFFB'}
-//                 size={30}></Icon>
-//             </View>
-//             <View>
-//               <Icon
-//                 style={Styles.icons}
-//                 name={'twitter'}
-//                 color={'#55AFFB'}
-//                 size={30}></Icon>
-//             </View>
-//           </View>
-//         </View>
-//         <View style={Styles.footer}>
-//           <Button style={Styles.SignInButton} title="Giriş Yap" />
-//         </View>
-//       </View>
-//     );
-//   }
-// }
-
-
 import React, { Component } from 'react';
 import { View, StyleSheet} from 'react-native';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
@@ -69,26 +10,44 @@ import { Actions } from 'react-native-router-flux';
 import * as ProfileActions from "../../redux/actions/profileActions";
 import md5 from 'md5';
 class SıgnIn extends Component {
-
-  state={
-    email:"",
-    password:"",
-    passwordVisible:false
+  constructor(props)
+  {
+    super(props)
+    this.state={
+      email:"",
+      password:"",
+      passwordVisible:false,
+      showError:false
+    }
   }
+    
 
   onSignUpButtonPress(){
-    var hash = md5("deneme");
+    var hash = md5("deneme12");
     var paramsValues=["den57@gmail.com",hash];
     this.props.actions.getToken(paramsValues);
-  }
-  componentDidMount(){
   }
   onPasswordIconPress = () => {
     this.setState({
       passwordVisible:!this.state.passwordVisible
     })
   };
-
+  componentDidUpdate = () =>
+  {
+    console.log("this.props.login")
+    if(this.props.login.error=="false")
+    {
+      console.log("giriyor")
+      Actions.drawerMenu();
+      Actions.Device();
+    }
+    if(this.props.login.error=="true")
+    {
+      this.setState({
+        showError:true
+      })
+    }
+  }
   render()
   {
     return (
@@ -110,7 +69,7 @@ class SıgnIn extends Component {
           style={styles.formContainer}
           level='1'>
           <Input
-            style={this.state.email ? styles.input : styles.emptyInput}
+            style={styles.input}
             placeholder='Email'
             icon={PersonIcon}
             value={this.state.email}
@@ -118,7 +77,7 @@ class SıgnIn extends Component {
             textStyle={styles.bnColor}
           />
           <Input
-            style={this.state.password ? styles.input : styles.emptyInput}
+            style={styles.input}
             placeholder='Password'
             textStyle={styles.bnColor}
             icon={this.state.passwordVisible ? EyeIcon : EyeOffIcon}
@@ -127,6 +86,16 @@ class SıgnIn extends Component {
             secureTextEntry={!this.state.passwordVisible}
             onIconPress={this.onPasswordIconPress}
           />
+          {
+            this.state.showError==true ?
+            <Text
+            style={styles.error}
+            status='danger'>
+            Kullanıcı adı veya şifre hatalı
+            </Text>:
+            null
+          }
+          
           <Button
           style={styles.signInButton}
           textStyle={styles.buttonColor}
@@ -230,6 +199,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color:'#55AFFB'
   },
+  error:{
+    marginTop: 5,
+    alignSelf: 'center',
+    marginBottom: 5,
+    color:'#FF3D71'
+  }
 });
 
 function mapStateToProps(state) {

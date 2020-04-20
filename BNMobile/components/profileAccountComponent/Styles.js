@@ -25,6 +25,15 @@ const Styles = {
   red:{
     color: '#FF3D71',
   },
+  successInput: {
+    marginTop:'2%',
+    borderColor: '#28a745',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonColor: {
     color:"white"
   },
@@ -47,6 +56,13 @@ const Styles = {
     aspectRatio: 1.0,
     height: 48,
     borderRadius: 24,
+  },
+  changePasswordContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  changePasswordButton: {
+    paddingHorizontal: 0,
   },
 
 };

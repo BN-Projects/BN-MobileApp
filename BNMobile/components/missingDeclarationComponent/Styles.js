@@ -40,6 +40,10 @@ const Styles = {
     customizeLabelStyle:{
       color:'black'
     },
+    successInput: {
+      marginTop:'2%',
+      borderColor: '#28a745',
+    },
     signInLabel: {
       marginTop: 16,
     },

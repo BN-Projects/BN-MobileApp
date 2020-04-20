@@ -5,89 +5,112 @@ import { CameraIcon, CloseOutlineIcon } from './extra/icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileAvatar } from './extra/profile-avatar.component';
 import { Profile } from './extra/data';
-import ImagePicker from 'react-native-image-picker';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as BeaconEditAction from "../../redux/actions/beaconEditActions";
+import * as BeaconListAction from "../../redux/actions/beaconListActions";
 import Success from '../../modals/successModal/Success';
 import { Actions } from 'react-native-router-flux';
-const options={
-  title: 'Add image',
-  takePhotoButtonTitle: 'Take photo with your camera',
-  chooseFromLibraryButtonTitle: 'Choose photo from library',
-  }
+import ImagePicker from 'react-native-image-crop-picker';
+import ActionSheet from 'react-native-actionsheet';
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 class DeviceEdit extends Component {
   profile = Profile.jenniferGreen();
   isValid ={
     nameIsValid: false,
-    typeIsValid: false,
     securityAreaIsValid: false,
   }
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      type: '',
       securityArea: '',
-      avatarSource: this.profile.photo,
-      pic:null,
-      visible: false
+      image:null,
+      visible: false,
+      image_logo:null,
+      image_logo_uri:null,
+      image_type:null
     };
   }
   componentDidMount(){
     this.setState({
       name:this.props.beacon.beacon_name,
-      type:this.props.beacon.type,
-      securityArea:this.props.beacon.variance+""
+      securityArea:this.props.beacon.variance+"",
+      image:{uri:this.props.beacon.img}
     })
   }
-  myfun=()=>{
-    //alert('clicked');
-  
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-  
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('Image Picker Error: ', response.error);
-      }
-  
-      else {
-        let source = { uri: response.uri };
-  
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-  
-        this.setState({
-          avatarSource: source,
-          pic:response.data
-        });
-      }
-    });
-  }
-  renderPhotoButton = () => (
-    <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon}  onPress={this.myfun}/>
-  );
-  onPress(state)
+  componentDidUpdate()
   {
-    console.log(state)
-    this.regName(state.name);
-    this.regType(state.type);
-    this.regSecurityArea(state.securityArea);
-    if(this.isFormValid())
+    if(this.props.beaconEdit.error=="false")
     {
-      console.log("form geçerli")
-      var paramsValues=[state.name, state.type, state.securityArea, this.props.beacon.deviceId];
-      this.props.actions.putBeaconEdit(paramsValues)
       this.toggleModal()
+      this.props.actions.clearBeaconEdit("");
+      this.props.actions.clearBeaconList("");
       setTimeout(
         () => {
           this.goToDevice() 
         },
         3000);
+    }
+    if(this.props.beaconEdit.error=="true")
+    {
+      this.props.actions.clearBeaconEdit("");
+      Actions.replace("Error")
+    }
+  }
+  renderPhotoButton = () => (
+    <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon} onPress={() =>this.show()}/>
+  );
+  show = () =>{
+    this.ActionSheet.show()
+  }
+
+  getImage(index){
+    // More info on all the options is below in the README...just some common use cases shown here
+    var options = {
+      width: responsiveWidth(160),
+      height: responsiveWidth(100),
+      cropping: true,
+      includeBase64:true,
+      cropperToolbarTitle:'Düzenle'
+    };
+    if(index==0){
+      ImagePicker.openPicker(options).then(image => {
+        let source = { uri: 'data:'+image.mime+';base64,' + image.data };
+        let typeNum=image.mime.indexOf('/');
+        let type=image.mime.slice(typeNum+1);
+        console.log(type)
+        this.setState({
+          image_logo: source,
+          image_logo_uri:image.data,
+          image_type:type
+        });
+      });
+    }
+    else if(index==1){
+    ImagePicker.openCamera(options).then(image => {
+      let source = { uri: 'data:'+image.mime+';base64,' + image.data };
+      let typeNum=image.mime.indexOf('/');
+      let type=image.mime.slice(typeNum+1);
+      this.setState({
+        image_logo: source,
+        image_logo_uri:image.data,
+        image_type:type
+      });
+    });
+    }
+      }
+  onPress(state)
+  {
+    console.log(state)
+    this.regName(state.name);
+    this.regSecurityArea(state.securityArea);
+    if(this.isFormValid())
+    {
+      console.log("form geçerli")
+      var paramsValues=[state.name, state.securityArea, state.image_logo_uri, state.image_type, this.props.beacon.deviceId];
+      this.props.actions.putBeaconEdit(paramsValues)
     }else{
       console.log("form geçersiz")
       Actions.replace("Error")
@@ -119,18 +142,6 @@ class DeviceEdit extends Component {
       return false
     }
   }
-  regType = (type) => {
-    var re = /(.|\s)*\S(.|\s)*/;
-    if(re.test(type))
-    {
-      this.isValid.typeIsValid=true
-      return true
-    }
-    else{
-      this.isValid.typeIsValid=false
-      return false
-    }
-  }
   regSecurityArea = (securityArea) => {
     var re = /^(?:[1-9]|(?:[1-9][0-9])|(?:[1-4][0-9][0-9])|(?:500))$/;
     if(re.test(securityArea))
@@ -153,12 +164,12 @@ class DeviceEdit extends Component {
       <KeyboardAwareScrollView style={Styles.container}>
         <ProfileAvatar
           style={Styles.profileAvatar}
-          source={this.state.avatarSource}
+          source={this.state.image_logo ? this.state.image_logo : this.state.image}
           editButton={this.renderPhotoButton}
         />
         <Layout style={Styles.formContainer} level="1">
           <Input
-            style={this.regName(this.state.name) ? Styles.input : Styles.emptyInput}
+            style={this.regName(this.state.name) ? Styles.successInput : this.state.name=='' ? Styles.input : Styles.emptyInput}
             value={this.state.name}
             label="Cihaz adı"
             labelStyle={Styles.customizeLabelStyle}
@@ -170,19 +181,7 @@ class DeviceEdit extends Component {
             caption={this.regName(this.state.name) ? '' : 'Can not be empty'}
           />
           <Input
-            style={this.regType(this.state.type) ? Styles.input : Styles.emptyInput}
-            value={this.state.type}
-            label="Türü"
-            labelStyle={Styles.customizeLabelStyle}
-            textStyle={Styles.customizeTextStyle}
-            icon={CloseOutlineIcon}
-            onChangeText={item => this.setState({ type:item})}
-            onIconPress={() => this.setState({ type: '' })}
-            captionStyle={Styles.red}
-            caption={this.regType(this.state.type) ? '' : 'Can not be empty'}
-          />
-          <Input
-            style={this.regSecurityArea(this.state.securityArea) ? Styles.input : Styles.emptyInput}
+            style={this.regSecurityArea(this.state.securityArea) ? Styles.successInput : this.state.securityArea=='' ? Styles.input : Styles.emptyInput}
             value={this.state.securityArea}
             label="Güvenlik aralığı"
             labelStyle={Styles.customizeLabelStyle}
@@ -202,20 +201,31 @@ class DeviceEdit extends Component {
         textStyle={Styles.buttonColor}  >
           Save Changes
         </Button>
-        <Success visible={this.state.visible} ></Success>
+        <ActionSheet
+          ref={o => this.ActionSheet = o}
+          title={'Yüklemeyi nasıl yapacaksınız?'}
+          options={['Telefondan fotoğraf seç.', 'Kameradan fotoğraf çek.', 'İptal']}
+          cancelButtonIndex={2}
+          destructiveButtonIndex={1}
+          onPress={(index) => this.getImage(index)}
+        />
+        <Success visible={this.state.visible}></Success>
       </KeyboardAwareScrollView>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    beaconEdit: state.beaconEditReducer
+    beaconEdit: state.beaconEditReducer,
+    beaconList: state.beaconListReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      putBeaconEdit: bindActionCreators(BeaconEditAction.putBeaconEdit, dispatch)
+      putBeaconEdit: bindActionCreators(BeaconEditAction.putBeaconEdit, dispatch),
+      clearBeaconEdit: bindActionCreators(BeaconEditAction.beaconEdit, dispatch),
+      clearBeaconList: bindActionCreators(BeaconListAction.beaconList, dispatch)
     }
   };
 }//actions alındı

@@ -203,6 +203,7 @@ class Map extends Component {
             <View style={styles.continueContainer}>
               <TouchableOpacity style={styles.button}>
                 <Button
+                  disabled={this.state.marker=="" ? true : false}
                   style={styles.add}
                   size={'tiny'}
                   icon={ArrowRightIcon}

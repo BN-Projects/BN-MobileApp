@@ -8,6 +8,7 @@ import profileReducer from './profileReducer';
 import profileEditReducer from './profileEditReducer';
 import lostBeaconListReducer from './lostBeaconListReducer';
 import lostBeaconReducer from './lostBeaconReducer';
+import changePassReducer from './changePassReducer';
 const rootReducer = combineReducers({
     changePageReducer,
     loginReducer,
@@ -17,7 +18,9 @@ const rootReducer = combineReducers({
     profileReducer,
     profileEditReducer,
     lostBeaconListReducer,
-    lostBeaconReducer
+    lostBeaconReducer,
+    changePageReducer,
+    changePassReducer
 })
 export default rootReducer
 

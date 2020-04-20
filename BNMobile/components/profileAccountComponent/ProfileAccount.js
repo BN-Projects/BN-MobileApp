@@ -1,195 +1,26 @@
-// import Styles from './Styles';
-
-// import React, {Component} from 'react';
-// import {View, Image, StyleSheet} from 'react-native';
-// import {Button, Input, Layout} from '@ui-kitten/components';
-// import {EyeIcon, EyeOffIcon, PersonIcon} from './extra/icons';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-// export default class Profile extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       name: 'Uğur',
-//       surname: 'Çakar',
-//       email: 'ugurcakar@hotmail.com',
-//       phone: '5555555555',
-//       password: 'baguvix',
-//       passwordVisible: false,
-//     };
-//   }
-
-//   onSignUpButtonPress = () => {
-//     navigation && navigation.navigate('SignUp2');
-//   };
-//   onPasswordIconPress = () => {
-//     this.setState({
-//       passwordVisible: !this.state.passwordVisible,
-//     });
-//   };
-//   setEmail = () => {};
-//   render() {
-//     return (
-//       <KeyboardAwareScrollView>
-//         <View style={Styles.container}>
-//         <View style={Styles.headerContainer}>
-//           <Image
-//             style={Styles.headerImage}
-//             source={{
-//               uri:
-//                 'https://lh6.googleusercontent.com/proxy/Bqqq2DHYLI-9bYWmUQkSz7UdLfvGavr6tPysMgBl6y7GDFFwc1dwlxqOr0tCtkWVVRfXI9j-fx-0LM5f-GW2jWfm4aCIkj5HJmwDuTL8h4mh5uzlR0plpUk',
-//             }}
-//           />
-//         </View>
-//         <Layout style={Styles.formContainer} level="1">
-//         <Input
-//             style={this.state.name ? Styles.input : Styles.emptyInput}
-//             placeholder='name'
-//             icon={PersonIcon}
-//             value={this.state.name}
-//             onChangeText={item => this.setState({name:item})}
-//             textStyle={Styles.bnColor}
-//           />
-//           <Input
-//             style={this.state.surname ? Styles.input : Styles.emptyInput}
-//             placeholder='surname'
-//             icon={PersonIcon}
-//             value={this.state.surname}
-//             onChangeText={item => this.setState({surname:item})}
-//             textStyle={Styles.bnColor}
-//           />
-//           <Input
-//             style={this.state.email ? Styles.input : Styles.emptyInput}
-//             placeholder='Email'
-//             icon={PersonIcon}
-//             value={this.state.email}
-//             onChangeText={item => this.setState({email:item})}
-//             textStyle={Styles.bnColor}
-//           />
-//           <Input
-//             style={this.state.phone ? Styles.input : Styles.emptyInput}
-//             placeholder='Email'
-//             icon={PersonIcon}
-//             value={this.state.phone}
-//             onChangeText={item => this.setState({phone:item})}
-//             keyboardType={"numeric"}
-//             textStyle={Styles.bnColor}
-//           />
-//           <Input
-//             style={this.state.password ? Styles.input : Styles.emptyInput}
-//             placeholder='Password'
-//             textStyle={Styles.bnColor}
-//             icon={this.state.passwordVisible ? EyeIcon : EyeOffIcon}
-//             value={this.state.password}
-//             onChangeText={item => this.setState({password:item})}
-//             secureTextEntry={!this.state.passwordVisible}
-//             onIconPress={this.onPasswordIconPress}
-//           />
-//           <Button 
-//             onPress={this.onPress} 
-//             style={Styles.save} 
-//             size="giant" 
-//             textStyle={Styles.buttonColor} 
-//             disabled={this.state.name && this.state.type && this.state.securityArea?false:true} >
-//               Save Changes
-//           </Button>
-//         </Layout>
-//         </View>
-//       </KeyboardAwareScrollView>
-//     );
-//   }
-// }
-// // const Styles = StyleSheet.create({
-// //   container: {
-// //     backgroundColor:'#F0F3F6'
-// //   },
-// //   headerContainer: {
-// //     justifyContent: 'center',
-// //     alignItems: 'center',
-// //     minHeight: 216,
-// //     backgroundColor: '#55AFFB',
-// //   },
-// //   buttonColor: {
-// //     color:"white"
-// //   },
-// //   save: {
-// //     marginVertical:'4%',
-// //     backgroundColor:'#55AFFB',
-// //     borderColor:'#55AFFB',
-// //     borderRadius:15
-// //   },
-// //   bnColor: {
-// //     color:'#55AFFB'
-// //   },
-// //   formContainer: {
-// //     flex: 1,
-// //     paddingTop:'5%',
-// //     paddingHorizontal:'5%',
-// //     backgroundColor:'#F0F3F6'
-// //   },
-// //   signInButton: {
-// //     marginVertical:'4%',
-// //     backgroundColor:'#55AFFB',
-// //     borderColor:'#55AFFB',
-// //     borderRadius:15
-// //   },
-// //   signUpButton: {
-// //     marginVertical: 12,
-// //     marginHorizontal: 16
-// //   },
-// //   input: {
-// //     marginTop:'4%',
-// //     borderColor: '#55AFFB',
-// //   },
-// //   emptyInput:{
-// //     marginTop:'4%',
-// //     borderColor: '#FF3D71',
-// //   }, 
-// //   socialAuthContainer: {
-// //     marginTop: 32,
-// //   },
-// //   socialAuthButtonsContainer: {
-// //     flexDirection: 'row',
-// //     justifyContent: 'space-evenly',
-// //   },
-// //   socialAuthHintText: {
-// //     alignSelf: 'center',
-// //     marginBottom: 16,
-// //     color:'#55AFFB'
-// //   },
-// // });
-
-
-
 import Styles from './Styles';
 import React, { Component } from 'react';
-import { Button, Input, Layout } from '@ui-kitten/components';
+import { Button, Input, Layout, Spinner } from '@ui-kitten/components';
 import { CameraIcon, CloseOutlineIcon, EyeIcon, EyeOffIcon } from './extra/icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ProfileAvatar } from './extra/profile-avatar.component';
-import { Profile } from './extra/data';
-import ImagePicker from 'react-native-image-picker';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import * as ProfileEditActions from "../../redux/actions/profileEditActions";
 import { Actions } from 'react-native-router-flux';
 import Success from '../../modals/successModal/Success';
-
-const options={
-  title: 'Add image',
-  takePhotoButtonTitle: 'Take photo with your camera',
-  chooseFromLibraryButtonTitle: 'Choose photo from library',
-  }
+import ImagePicker from 'react-native-image-crop-picker';
+import ActionSheet from 'react-native-actionsheet';
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import { View } from 'react-native';
 
 class ProfileAccount extends Component {
-  profile = Profile.jenniferGreen();
   isValid ={
     nameIsValid: false,
     surnameIsValid: false,
     emailIsValid: false,
     phoneIsValid: false,
-    passwordIsValid: false,
   }
   constructor(props) {
     super(props);
@@ -198,45 +29,53 @@ class ProfileAccount extends Component {
       surname: '',
       email: '',
       phone: '',
-      password: '',
       id:'',
+      user_img:null,
       passwordVisible: false,
-      avatarSource: this.profile.photo,
-      pic:null,
-      visible: false
+      visible: false,
+      image_logo:null,
+      image_logo_uri:null,
+      image_type:null,
+      spinner: false
     };
+  }
+  componentDidUpdate()
+  {
+    if(this.props.profileEdit.error=="false")
+    {
+      console.log("girdi")
+      this.props.actions.clearProfileEdit("");
+      this.props.actions.clearProfile("");
+      this.toggleModal()
+      setTimeout(
+        () => {
+          this.goToDevice() 
+        },
+        3000);
+    }
+    if(this.props.profileEdit.error=="true")
+    {
+      this.props.actions.clearProfileEdit("");
+      Actions.replace("Error")
+    }
+    if(this.state.profil != "" && this.state.spinner == false)
+    {
+      this.setState({
+        name:this.props.profil.user_real_name,
+        surname:this.props.profil.user_surname,
+        email:this.props.profil.user_mail,
+        phone:this.props.profil.user_phone,
+        id:this.props.profil.user_id,
+        user_img:this.props.profil.user_img,
+        spinner:true
+      })
+    }
   }
   toggleModal = () => {
     this.setState({
         visible:!this.state.visible
     })
   };
-  myfun=()=>{
-    //alert('clicked');
-  
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-  
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      }
-      else if (response.error) {
-        console.log('Image Picker Error: ', response.error);
-      }
-  
-      else {
-        let source = { uri: response.uri };
-  
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-  
-        this.setState({
-          avatarSource: source,
-          pic:response.data
-        });
-      }
-    });
-  }
   onPress(state)
   {
     console.log(state)
@@ -244,19 +83,12 @@ class ProfileAccount extends Component {
     this.regSurname(state.surname);
     this.regEmail(state.email);
     this.regPhone(state.phone);
-    this.regPassword(state.password);
     
     if(this.isFormValid())
     {
       console.log("form geçerli")
-      var paramsValues=[state.name, state.surname, state.email, state.phone, state.password, state.id];
+      var paramsValues=[state.name, state.surname, state.email, state.phone, state.image_logo_uri, state.image_type, state.id];
       this.props.actions.putProfileEdit(paramsValues)
-      this.toggleModal()
-      setTimeout(
-        () => {
-          this.goToDevice() 
-        },
-        3000);
     }else{
       console.log("form geçersiz")
       Actions.replace("Error")
@@ -326,117 +158,152 @@ class ProfileAccount extends Component {
       return false
     }
   }
-  regPassword = (password) => {
-    var re = /(.|\s)*\S(.|\s)*/;
-    if(re.test(password))
-    {
-      this.isValid.passwordIsValid=true
-      return true
-    }
-    else{
-      this.isValid.passwordIsValid=false
-      return false
-    }
-  }
-  onPasswordIconPress = () => {
-    this.setState({
-      passwordVisible:!this.state.passwordVisible
-    })
-  };
   componentDidMount = () =>{
-    console.log(this.props.profil)
-    this.setState({
-      name:this.props.profil.user_real_name,
-      surname:this.props.profil.user_surname,
-      email:this.props.profil.user_mail,
-      phone:this.props.profil.user_phone,
-      password:this.props.profil.user_password,
-      id:this.props.profil.user_id
-    })
+    this.props.actions.getProfile([this.props.token])
   }
   renderPhotoButton = () => (
-    <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon}  onPress={this.myfun}/>
+    <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon} onPress={() =>this.show()}/>
+  );
+  show = () =>{
+    this.ActionSheet.show()
+  }
+
+  getImage(index){
+    // More info on all the options is below in the README...just some common use cases shown here
+    var options = {
+      width: responsiveWidth(160),
+      height: responsiveWidth(100),
+      cropping: true,
+      includeBase64:true,
+      cropperToolbarTitle:'Düzenle'
+    };
+    if(index==0){
+      ImagePicker.openPicker(options).then(image => {
+        let source = { uri: 'data:'+image.mime+';base64,' + image.data };
+        let typeNum=image.mime.indexOf('/');
+        let type=image.mime.slice(typeNum+1);
+        console.log(type)
+        this.setState({
+          image_logo: source,
+          image_logo_uri:image.data,
+          image_type:type
+        });
+      });
+    }
+    else if(index==1){
+    ImagePicker.openCamera(options).then(image => {
+      let source = { uri: 'data:'+image.mime+';base64,' + image.data };
+      let typeNum=image.mime.indexOf('/');
+      let type=image.mime.slice(typeNum+1);
+      this.setState({
+        image_logo: source,
+        image_logo_uri:image.data,
+        image_type:type
+      });
+    });
+    }
+  }
+  onChangePasswordButtonPress = () => {
+    Actions.replace("ChangePass")
+  }
+  renderLoading = () => (
+    <View style={Styles.loading}>
+      <Spinner/>
+    </View>
   );
   render() {
     return (
       <KeyboardAwareScrollView style={Styles.container}>
-        <ProfileAvatar
-          style={Styles.profileAvatar}
-          source={this.state.avatarSource}
-          editButton={this.renderPhotoButton}
+         {
+          this.state.spinner == false ?
+          this.renderLoading()
+        :
+        <View>
+          <ProfileAvatar
+        style={Styles.profileAvatar}
+        source={this.state.image_logo ? this.state.image_logo : this.state.user_img}
+        editButton={this.renderPhotoButton}
+      />
+      <Layout style={Styles.formContainer} level="1">
+        <Input
+          style={this.regName(this.state.name) ? Styles.successInput : this.state.name=='' ? Styles.input : Styles.emptyInput}
+          value={this.state.name}
+          label="İsim"
+          labelStyle={Styles.customizeLabelStyle}
+          textStyle={Styles.customizeTextStyle}
+          icon={CloseOutlineIcon}
+          onChangeText={item => this.setState({ name:item})}
+          onIconPress={() => this.setState({ name: '' })}
+          captionStyle={Styles.red}
+          caption={this.regName(this.state.name) ? '' : 'Can not be empty'}
         />
-        <Layout style={Styles.formContainer} level="1">
-          <Input
-            style={this.regName(this.state.name) ? Styles.input : Styles.emptyInput}
-            value={this.state.name}
-            label="İsim"
-            labelStyle={Styles.customizeLabelStyle}
-            textStyle={Styles.customizeTextStyle}
-            icon={CloseOutlineIcon}
-            onChangeText={item => this.setState({ name:item})}
-            onIconPress={() => this.setState({ name: '' })}
-            captionStyle={Styles.red}
-            caption={this.regName(this.state.name) ? '' : 'Can not be empty'}
-          />
-          <Input
-            style={this.regSurname(this.state.surname) ? Styles.input : Styles.emptyInput}
-            value={this.state.surname}
-            label="Soyisim"
-            labelStyle={Styles.customizeLabelStyle}
-            textStyle={Styles.customizeTextStyle}
-            icon={CloseOutlineIcon}
-            onChangeText={item => this.setState({ surname:item})}
-            onIconPress={() => this.setState({ surname: '' })}
-            captionStyle={Styles.red}
-            caption={this.regSurname(this.state.surname) ? '' : 'Can not be empty'}
-          />
-          <Input
-           style={this.regEmail(this.state.email) ? Styles.input : Styles.emptyInput}
-           value={this.state.email}
-           label="Email"
-           labelStyle={Styles.customizeLabelStyle}
-           textStyle={Styles.customizeTextStyle}
-           icon={CloseOutlineIcon}
-           onChangeText={item => this.setState({ email:item})}
-           onIconPress={() => this.setState({ email: '' })}
-           captionStyle={Styles.red}
-           caption={this.regEmail(this.state.email) ? '' : 'Can not be empty'}
-          />
-          <Input
-            style={this.regPhone(this.state.phone) ? Styles.input : Styles.emptyInput}
-            value={this.state.phone}
-            label="Telefon numarası"
-            labelStyle={Styles.customizeLabelStyle}
-            textStyle={Styles.customizeTextStyle}
-            icon={CloseOutlineIcon}
-            onChangeText={item => this.setState({ phone:item})}
-            onIconPress={() => this.setState({ phone: '' })}
-            captionStyle={Styles.red}
-            caption={this.regPhone(this.state.phone) ? '' : 'Can not be empty'}
-            keyboardType={'numeric'}
-          />
-          <Input
-            style={this.regPassword(this.state.password) ? Styles.input : Styles.emptyInput}
-            value={this.state.password}
-            label="Şifre"
-            labelStyle={Styles.customizeLabelStyle}
-            textStyle={Styles.customizeTextStyle}
-            icon={this.state.passwordVisible ? EyeIcon : EyeOffIcon}
-            onChangeText={item => this.setState({ password:item})}
-            captionStyle={Styles.red}
-            caption={this.regPassword(this.state.password) ? '' : 'Can not be empty'}
-            secureTextEntry={!this.state.passwordVisible}
-            onIconPress={this.onPasswordIconPress}
-          />
-        </Layout>
-        <Button 
-        onPress={() => this.onPress(this.state)}
-        style={Styles.save} 
-        size="giant" 
-        textStyle={Styles.buttonColor} >
-          Save Changes
+        <Input
+          style={this.regSurname(this.state.surname) ? Styles.successInput : this.state.surname=='' ? Styles.input : Styles.emptyInput}
+          value={this.state.surname}
+          label="Soyisim"
+          labelStyle={Styles.customizeLabelStyle}
+          textStyle={Styles.customizeTextStyle}
+          icon={CloseOutlineIcon}
+          onChangeText={item => this.setState({ surname:item})}
+          onIconPress={() => this.setState({ surname: '' })}
+          captionStyle={Styles.red}
+          caption={this.regSurname(this.state.surname) ? '' : 'Can not be empty'}
+        />
+        <Input
+         style={this.regEmail(this.state.email) ? Styles.successInput : this.state.email=='' ? Styles.input : Styles.emptyInput}
+         value={this.state.email}
+         label="Email"
+         labelStyle={Styles.customizeLabelStyle}
+         textStyle={Styles.customizeTextStyle}
+         icon={CloseOutlineIcon}
+         onChangeText={item => this.setState({ email:item})}
+         onIconPress={() => this.setState({ email: '' })}
+         captionStyle={Styles.red}
+         caption={this.regEmail(this.state.email) ? '' : 'Can not be empty'}
+        />
+        <Input
+          style={this.regPhone(this.state.phone) ? Styles.successInput : this.state.phone=='' ? Styles.input : Styles.emptyInput}
+          value={this.state.phone}
+          label="Telefon numarası"
+          labelStyle={Styles.customizeLabelStyle}
+          textStyle={Styles.customizeTextStyle}
+          icon={CloseOutlineIcon}
+          onChangeText={item => this.setState({ phone:item})}
+          onIconPress={() => this.setState({ phone: '' })}
+          captionStyle={Styles.red}
+          caption={this.regPhone(this.state.phone) ? '' : 'Can not be empty'}
+          keyboardType={'numeric'}
+        />
+        <View style={Styles.changePasswordContainer}>
+        <Button
+          style={Styles.changePasswordButton}
+          appearance='ghost'
+          status='basic'
+          onPress={() => this.onChangePasswordButtonPress()}>
+          Change Password
         </Button>
-        <Success visible={this.state.visible} ></Success>
+      </View>
+      </Layout>
+      <Button 
+      onPress={() => this.onPress(this.state)}
+      style={Styles.save} 
+      size="giant" 
+      textStyle={Styles.buttonColor} >
+        Save Changes
+      </Button>
+      <Success visible={this.state.visible} ></Success>
+      <ActionSheet
+        ref={o => this.ActionSheet = o}
+        title={'Yüklemeyi nasıl yapacaksınız?'}
+        options={['Telefondan fotoğraf seç.', 'Kameradan fotoğraf çek.', 'İptal']}
+        cancelButtonIndex={2}
+        destructiveButtonIndex={1}
+        onPress={(index) => this.getImage(index)}
+      />
+        </View>
+        
+         }
+        
       </KeyboardAwareScrollView>
     );
   }
@@ -444,7 +311,7 @@ class ProfileAccount extends Component {
 function mapStateToProps(state) {
   return {
     profil: state.profileReducer,
-    login:state.loginReducer,
+    token:state.loginReducer,
     profileEdit:state.profileEditReducer,
   };
 }//reducer'dan çekilen veri props'lara işlendi
@@ -452,8 +319,9 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       getProfile: bindActionCreators(ProfileActions.getProfile, dispatch),
-      putProfileEdit: bindActionCreators(ProfileEditActions.putProfileEdit, dispatch)
-
+      clearProfile: bindActionCreators(ProfileActions.profile, dispatch),
+      putProfileEdit: bindActionCreators(ProfileEditActions.putProfileEdit, dispatch),
+      clearProfileEdit: bindActionCreators(ProfileEditActions.profileEdit, dispatch)
     }
   };
 }//actions alındı

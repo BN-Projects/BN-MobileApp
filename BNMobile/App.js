@@ -22,6 +22,7 @@ import DeviceDetail from './components/deviceDetailComponent/DeviceDetail';
 import { Router, Scene, Modal, Actions } from 'react-native-router-flux';
 import * as LoginActions from "./redux/actions/loginActions";
 import Map from './components/mapComponent/map';
+import ChangePass from './components/changePassComponent/ChangePass';
 class App extends Component{
   componentDidMount(){
     this.props.actions.login("")
@@ -65,6 +66,7 @@ class App extends Component{
                 <Scene key="Map" component={Map}/>
                 <Scene key="Card" component={AddCreditCard}/>
                 <Scene key="Error" component={Error}/>
+                <Scene key="ChangePass" component={ChangePass}/>
                 {/* üste dinamik path gelecek */}
               </Scene>
             </Scene>

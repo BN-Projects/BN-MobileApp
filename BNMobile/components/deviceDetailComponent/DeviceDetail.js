@@ -16,23 +16,17 @@ class DeviceDetail extends Component {
       surname: 'Çakar',
       email: 'ugurcakar@hotmail.com',
       phone: '5555555555',
-      password: 'baguvix',
-      passwordVisible: false,
     };
   }
-  onPasswordIconPress = () => {
-    this.setState({
-      passwordVisible: !this.state.passwordVisible,
-    });
-  };
   componentDidMount = () =>{
     var paramsValues=[this.props.ID];
     this.props.actions.getBeaconDetail(paramsValues);
   }
   setEmail = () => {};
   onItemPress = (beacon) => {
+    console.log(this.props.beaconDetail)
     beacon["deviceId"]=this.props.ID
-    Actions.DeviceEdit({ beacon: beacon })
+    Actions.replace("DeviceEdit",{ beacon: beacon })
   };
   render() {
     return (
@@ -40,7 +34,7 @@ class DeviceDetail extends Component {
           <Image
             style={{height:responsiveHeight(30),width:responsiveWidth(100),justifyContent: "center",alignItems: "center",resizeMode: 'contain'}}
             source={{
-              uri:
+              uri:this.props.beaconDetail.img? this.props.beaconDetail.img :
               'https://lh6.googleusercontent.com/proxy/Bqqq2DHYLI-9bYWmUQkSz7UdLfvGavr6tPysMgBl6y7GDFFwc1dwlxqOr0tCtkWVVRfXI9j-fx-0LM5f-GW2jWfm4aCIkj5HJmwDuTL8h4mh5uzlR0plpUk',
             }}
           />

@@ -32,13 +32,11 @@ export default class Success extends Component {
 
   render() {
     return (
-      <Layout style={styles.container}>
         <Modal
           backdropStyle={styles.backdrop}
           visible={this.props.visible}>
           {this.renderModalElement()}
         </Modal>
-      </Layout>
     );
   }
 }

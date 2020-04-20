@@ -13,7 +13,7 @@ export default function getConnectionLink(directory, paramsNames, paramsValues,r
             return link;
         }
         else if(paramsNames.length != paramsValues.length){
-            throw "Parametrelerin isim ve değer sayısı eşit değil.";
+            throw paramsNames.length+ " " + paramsValues.length + " " +"Parametrelerin isim ve değer sayısı eşit değil.";
         }
         else{
             return link;
@@ -32,7 +32,7 @@ export default function getConnectionLink(directory, paramsNames, paramsValues,r
             return obj;
         }
         else if(paramsNames.length != paramsValues.length){
-            throw "Parametrelerin isim ve değer sayısı eşit değil.";
+            throw paramsNames.length+ " " + paramsValues.length + " " +"Parametrelerin isim ve değer sayısı eşit değil.";
         }
         else{
             throw "Parametreler POST methodunda boş bırakılamaz."; 
