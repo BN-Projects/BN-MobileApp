@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
-import {Button, Icon, Spinner} from '@ui-kitten/components';
+import {Button, Icon, Spinner, Card, Layout, Input} from '@ui-kitten/components';
 import Modal from 'react-native-modal';
 import * as LostBeaconListActions from "../../redux/actions/lostBeaconListActions";
 import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { bindActionCreators } from "redux";
 import { Actions } from 'react-native-router-flux';
 const pin = style => <Icon {...style} fill={'#fff'} name="pin" />;
 const ArrowRightIcon = style => <Icon {...style} name='arrow-right' fill="#fff"/>
+const CloseOutlineIcon = style => <Icon {...style} name='close-outline' fill="#55AFFB"/>
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -28,10 +30,36 @@ class Map extends Component {
       // },
       isModalVisible: false,
       scrollOffset: null,
-      spinner: false
+      spinner: false,
+      addItemModalVisible:false,
+      newItemDes:''
     };
     this.scrollViewRef = React.createRef();
     this.map = React.createRef();
+  }
+  isValid ={
+    newItemDesIsValid: false,
+  }
+  isFormValid = () => {
+    for (const item in this.isValid) {
+      if(this.isValid[item]==false)
+      {
+        return false
+      }
+    }
+    return true;
+  }
+  regNewItemDes = (newItemDes) => {
+    var re = /(.|\s)*\S(.|\s)*/;
+    if(re.test(newItemDes))
+    {
+      this.isValid.newItemDesIsValid=true
+      return true
+    }
+    else{
+      this.isValid.newItemDesIsValid=false
+      return false
+    }
   }
   isVisible = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
@@ -69,20 +97,21 @@ class Map extends Component {
       region: region,
     });
   };
-  addMarker(state) {
-    let regionToBeMarked = {
-        latitude: state.region.latitude,
-        longitude: state.region.longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-    };
-    this.setState({
-        marker: regionToBeMarked,
-    });
-    this.showMarker();
-  }
+  // adddMarker(state) {
+  //   let regionToBeMarked = {
+  //       latitude: state.region.latitude,
+  //       longitude: state.region.longitude,
+  //       latitudeDelta: 0.01,
+  //       longitudeDelta: 0.01,
+  //   };
+  //   this.setState({
+  //       marker: regionToBeMarked,
+  //   });
+  //   this.showMarker();
+  // }
   showLostBeaconsMarkers(lostBeacons)
   {
+    console.log(lostBeacons)
     if(lostBeacons=="")
     {
       return <View></View>
@@ -100,6 +129,7 @@ class Map extends Component {
           <Marker
             pinColor={'#55AFFB'}
             coordinate={coordinate}
+            description={marker.lost_desc}
             title={marker.lost_date}
             key={index}
             onPress={this.isVisible}
@@ -108,11 +138,37 @@ class Map extends Component {
       });
     }
   }
+  showaddItemModal = () => {
+    this.setState({
+        addItemModalVisible:!this.state.addItemModalVisible,
+    })
+  }
+  addMarker(state) {
+    this.regNewItemDes(state.newItemDes);
+    if(this.isFormValid())
+    {
+      console.log("form geçerli")
+      this.showaddItemModal();
+    let regionToBeMarked = {
+        latitude: state.region.latitude,
+        longitude: state.region.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+    };
+    this.setState({
+        marker: regionToBeMarked,
+    });
+    this.showMarker();
+    }else{
+      console.log("form geçersiz")
+    }
+  }
   showMarker() {
       return (
         <Marker
           pinColor={'#55AFFB'}
           coordinate={this.state.marker}
+          description={this.state.newItemDes}
           onPress={this.isVisible}
         />
       );
@@ -131,6 +187,7 @@ class Map extends Component {
   {
     console.log("bu cihaz "+device)
     return(
+      <View>
       <Modal
         testID={'modal'}
         isVisible={this.state.isModalVisible}
@@ -156,11 +213,47 @@ class Map extends Component {
           </ScrollView>
         </View>
       </Modal>
+      </View>
+    )
+  }
+  addModal()
+  {
+    return(
+      <Modal style={styles.modalContainer}
+          visible={this.state.addItemModalVisible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={() => this.setState({addItemModalVisible:false})}>
+          <Card disabled={true}>
+              
+        <KeyboardAwareScrollView>
+            <Layout style={styles.formContainer} level="1">
+                <Input
+                    style={this.regNewItemDes(this.state.newItemDes) ? styles.successInput : this.state.newItemDes=='' ? styles.input : styles.emptyInput }
+                    value={this.state.newItemDes}
+                    label="Detay"
+                    labelStyle={styles.customizeLabelStyle}
+                    textStyle={styles.customizeTextStyle}
+                    icon={CloseOutlineIcon}
+                    onChangeText={item => this.setState({ newItemDes:item})}
+                    onIconPress={() => this.setState({ newItemDes: '' })}
+                />
+            </Layout>
+            <Button 
+            onPress={() => this.addMarker(this.state)} 
+            style={styles.save} 
+            size="giant" 
+            textStyle={styles.buttonColor}  >
+            Save Changes
+            </Button>
+            </KeyboardAwareScrollView>
+          </Card>
+        </Modal>
+       
     )
   }
   goToAddLostDevice(state)
   {
-    Actions.replace("MissingDeclaration",{ coordinate: state.marker })
+    Actions.replace("MissingDeclaration",{ coordinate: state.marker , desc:state.newItemDes})
   }
   render() {
     return (
@@ -170,13 +263,6 @@ class Map extends Component {
               ref={this.map}
               region={this.state.region}
               onRegionChangeComplete={this.onRegionChange}
-              loadingEnabled={true}
-              loadingIndicatorColor="#666666"
-              loadingBackgroundColor="#eeeeee"
-              moveOnMarkerPress={false}
-              showsUserLocation={true}
-              showsCompass={true}
-              showsPointsOfInterest={false}
               provider="google">
               {this.state.marker=="" ? <View></View> : this.showMarker()}
               {this.props.lostBeacons=="" ? <View></View> : this.showLostBeaconsMarkers(this.props.lostBeacons)}
@@ -192,7 +278,7 @@ class Map extends Component {
               <View style={styles.spacer} />
               <TouchableOpacity style={styles.button}>
                 <Button
-                  onPress={() => this.addMarker(this.state)}
+                  onPress={() => this.showaddItemModal()}
                   style={styles.add}
                   size={'tiny'}
                   icon={pin}
@@ -213,6 +299,7 @@ class Map extends Component {
               </TouchableOpacity>
             </View>      
             {this.modal()}
+            {this.addModal()}
            </View>
     );
   }
@@ -276,7 +363,6 @@ const styles = StyleSheet.create({
     color:"white"
   },
   save: {
-    marginVertical:'4%',
     backgroundColor:'#55AFFB',
     borderColor:'#55AFFB',
     borderRadius:15
@@ -307,5 +393,17 @@ const styles = StyleSheet.create({
   scrollableModalText2: {
     fontSize: 20,
     color: 'white',
+  },
+  successInput: {
+    marginTop:'2%',
+    borderColor: '#28a745',
+  },
+  input: {
+    marginTop:'2%',
+    borderColor: '#55AFFB',
+  },
+  emptyInput:{
+    marginTop:'2%',
+    borderColor: '#FF3D71',
   },
 });

@@ -1,6 +1,6 @@
 import Styles from './Styles';
 import React, {Component} from 'react';
-import {Select, Layout, Input, Button, CheckBox, Text, Spinner, Icon} from '@ui-kitten/components';
+import {Select, Layout, Input, Button, CheckBox, Text, Spinner, Icon, Datepicker} from '@ui-kitten/components';
 import { View, TouchableOpacity } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from "react-redux";
@@ -9,9 +9,11 @@ import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import * as LostBeaconActions from "../../redux/actions/lostBeaconActions";
 import { Actions } from 'react-native-router-flux';
+import * as LostBeaconListActions from "../../redux/actions/lostBeaconListActions";
 
 import { CardIOModule, CardIOUtilities} from 'react-native-awesome-card-io';
 import { CreditCardInput, LiteCreditCardInput } from 'react-native-credit-card-input';
+import Success from '../../modals/successModal/Success';
 
 
 
@@ -26,11 +28,14 @@ class MissingDeclaration extends Component {
       checkedInformations:false,
       checkedAutoFind:false,
       coordinate:{},
+      description:"",
       spinner:false,
       data:[],
+      date:new Date(),
       email: '',
       phone: '',
-      creditCard:{}
+      creditCard:{},
+      visible:false
     }
   }
   _onChange(form)
@@ -46,10 +51,11 @@ class MissingDeclaration extends Component {
   }
   componentDidMount()
   {
-    console.log(" BAK BAK BAK"+this.props.coordinate)
+    console.log(" BAK BAK BAK"+this.props.desc)
     let data=[];
     this.setState({
       coordinate : this.props.coordinate,
+      description: this.props.desc
     });
     this.props.beacons.map((beacon, index) => {
       let obj = {
@@ -62,6 +68,11 @@ class MissingDeclaration extends Component {
       data:data
     })
   }
+  toggleModal = () => {
+    this.setState({
+        visible:!this.state.visible
+    })
+  };
   componentDidUpdate()
   {
     if(this.state.data!=[] && this.state.spinner==false)
@@ -71,6 +82,27 @@ class MissingDeclaration extends Component {
         spinner:true
       })
     }
+    if(this.props.lostBeacon.error=="false")
+    {
+      this.toggleModal()
+      this.props.actions.clearLostDevice("");
+      this.props.actions.clearLostBeacons("");
+      setTimeout(
+        () => {
+          this.goToDevice() 
+        },
+        3000);
+    }
+    if(this.props.lostBeacon.error=="true")
+    {
+      this.props.actions.clearLostDevice("");
+      Actions.replace("Error")
+    }
+  }
+  goToDevice = () =>
+  {
+    this.toggleModal();
+    Actions.replace("Device")
   }
   onCheckedInformations = () => {
     this.setState({
@@ -200,7 +232,7 @@ class MissingDeclaration extends Component {
       let number = state.creditCard.values.number.replace(/\s/g, "")
       
       var paramsValues=[state.phone, state.email, number, state.creditCard.values.name, expiry, state.creditCard.values.cvc,
-      "15546556",state.coordinate.latitude,state.coordinate.longitude,state.selectedOption];
+      this.state.date.toLocaleDateString(),state.coordinate.latitude,state.coordinate.longitude,state.selectedOption,state.description];
       this.props.actions.setLostDevice(paramsValues)
       }else{
       console.log("form geçersiz")
@@ -216,7 +248,7 @@ class MissingDeclaration extends Component {
         expiry = [expiry.slice(0, position), year, expiry.slice(position)].join('');
         let number = state.creditCard.values.number.replace(/\s/g, "")
         var paramsValues=[this.props.profile.user_phone, this.props.profile.user_mail, number, state.creditCard.values.name, expiry, 
-        state.creditCard.values.cvc, "15546556",state.coordinate.latitude,state.coordinate.longitude,state.selectedOption];
+        state.creditCard.values.cvc, this.state.date.toLocaleDateString(),state.coordinate.latitude,state.coordinate.longitude,state.selectedOption,state.description];
         this.props.actions.setLostDevice(paramsValues)
       }
       else{
@@ -249,6 +281,14 @@ class MissingDeclaration extends Component {
             checked={this.state.checkedInformations}
             onChange={this.onCheckedInformations}
         />
+        <Datepicker
+          style={Styles.input}
+          label="Kaybolduğu gün"
+          labelStyle={Styles.bnColor}
+          status="info"
+          date={this.state.date}
+          onSelect={item => this.setState({ date: item })}
+          />
         {
           this.state.checkedInformations==true ?
           this.renderTextbox() :
@@ -267,6 +307,7 @@ class MissingDeclaration extends Component {
         </Layout>
         </View>
         }
+        <Success visible={this.state.visible}></Success>
       </KeyboardAwareScrollView>
     );
   }
@@ -275,7 +316,8 @@ function mapStateToProps(state) {
   return {
     beacons: state.beaconListReducer,
     profile: state.profileReducer,
-    login:state.loginReducer
+    login:state.loginReducer,
+    lostBeacon: state.lostBeaconReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {
@@ -283,7 +325,9 @@ function mapDispatchToProps(dispatch) {
     actions: {
       getBeacons: bindActionCreators(BeaconListActions.getBeacons, dispatch),
       getProfile: bindActionCreators(ProfileActions.getProfile, dispatch),
-      setLostDevice: bindActionCreators(LostBeaconActions.setLostBeacon, dispatch)
+      setLostDevice: bindActionCreators(LostBeaconActions.setLostBeacon, dispatch),
+      clearLostDevice: bindActionCreators(LostBeaconActions.addLostBeacon, dispatch),
+      clearLostBeacons: bindActionCreators(LostBeaconListActions.lostBeaconList, dispatch),
     }
   };
 }//actions alındı
