@@ -15,7 +15,7 @@ export function getToken(paramsValues)
         .then((result)=>{
             dispatch(login(result))
             console.log(result);
-            Actions.drawerMenu();
+            Actions.replace("drawerMenu");
             Actions.Device();
         })
     }

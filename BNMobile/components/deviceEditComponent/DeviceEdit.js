@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as BeaconEditAction from "../../redux/actions/beaconEditActions";
 import * as BeaconListAction from "../../redux/actions/beaconListActions";
+import * as BeaconDetailAction from "../../redux/actions/beaconDetailActions";
 import Success from '../../modals/successModal/Success';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -16,7 +17,6 @@ import ActionSheet from 'react-native-actionsheet';
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
 class DeviceEdit extends Component {
-  profile = Profile.jenniferGreen();
   isValid ={
     nameIsValid: false,
     securityAreaIsValid: false,
@@ -47,6 +47,7 @@ class DeviceEdit extends Component {
       this.toggleModal()
       this.props.actions.clearBeaconEdit("");
       this.props.actions.clearBeaconList("");
+      this.props.actions.clearBeaconDetail("");
       setTimeout(
         () => {
           this.goToDevice() 
@@ -225,7 +226,8 @@ function mapDispatchToProps(dispatch) {
     actions: {
       putBeaconEdit: bindActionCreators(BeaconEditAction.putBeaconEdit, dispatch),
       clearBeaconEdit: bindActionCreators(BeaconEditAction.beaconEdit, dispatch),
-      clearBeaconList: bindActionCreators(BeaconListAction.beaconList, dispatch)
+      clearBeaconList: bindActionCreators(BeaconListAction.beaconList, dispatch),
+      clearBeaconDetail: bindActionCreators(BeaconDetailAction.beaconDetailList, dispatch)
     }
   };
 }//actions alındı

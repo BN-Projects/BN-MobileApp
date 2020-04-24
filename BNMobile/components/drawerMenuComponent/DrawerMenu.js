@@ -10,6 +10,8 @@ import Drawer from 'react-native-drawer';
 import {Icon,Menu} from '@ui-kitten/components';
 import {TopNavigation} from '@ui-kitten/components';
 import {Actions} from 'react-native-router-flux';
+import * as LoginActions from "../../redux/actions/loginActions";
+import * as LogoutActions from "../../redux/actions/logoutActions";
 
 import SıgnIn from '../signInComponent/SignIn';
 import Notification from '../notificationComponent/Notification';
@@ -86,6 +88,13 @@ const data = [
   {
     title: 'Kayıp Cihazlar',
     key:'Map',
+    icon: StarIcon,
+    style: styles.menuItem,
+    titleStyle:styles.menuItemTitle,
+  },
+  {
+    title: 'Giriş Yap',
+    key:'Login',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
@@ -199,11 +208,22 @@ class DrawerMenuContent extends Component{
         <View style={styles.footer}>
           <View style={styles.footerContent}>
             <FAIcon size={16} color='#f9f9f9' name={'door-open'}></FAIcon>
-            <Text style={{marginLeft:15,color:'#f9f9f9'}}>Çıkış Yap</Text>
+            <Text onPress={(e) => this.logout(e)} style={{marginLeft:15,color:'#f9f9f9'}}>Çıkış Yap</Text>
           </View>
         </View>
       </View>
     )
+  }
+  componentDidUpdate()
+  {
+    if(this.props.token=="" && this.props.logout=="logout")
+    {
+      Actions.replace("Login")
+    }
+  }
+  logout = () => {
+    this.props.actions.setLogout("logout");
+    this.props.actions.setToken("")
   }
   setSelectedIndex(index){
     Actions.replace(data[index].key)
@@ -214,16 +234,18 @@ class DrawerMenuContent extends Component{
 const ConnectedTest1 = connect(mapStateToProps,mapDispatchToProps) (DrawerMenuContent);
 function mapStateToProps(state) {
   return {
-    currentPage: state.changePageReducer
+    currentPage: state.changePageReducer,
+    token:state.loginReducer,
+    logout:state.logoutReducer
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      changePage: bindActionCreators(
-        pageActions.changePage,
-        dispatch
-      )}
+      changePage: bindActionCreators(pageActions.changePage,dispatch),
+      setToken: bindActionCreators(LoginActions.getToken, dispatch),
+      setLogout: bindActionCreators(LogoutActions.logout, dispatch),
+    }
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerMenu);

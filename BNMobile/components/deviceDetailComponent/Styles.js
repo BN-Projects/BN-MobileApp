@@ -7,6 +7,11 @@ const Styles = {
   container: {
     backgroundColor:'#F0F3F6'
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -29,6 +34,10 @@ const Styles = {
   },
   customizeLabelStyle:{
     color:'black'
+  },
+  layout: {
+    flex: 1,
+    flexDirection: 'row',
   },
   signInLabel: {
     marginTop: 16,

@@ -12,12 +12,13 @@ class Device extends Component {
   constructor(props) {
     super(props);
     this.state={
-      spinner: false
+      spinner: false,
     }
     props.actions.getProfile([this.props.login])
   }
   onItemPress = (ID) => {
     Actions.replace("DeviceDetail",{ ID: ID })
+    // Actions.DeviceDetail({ID: ID})
   };
   renderLoading = () => (
     <View style={styles.loading}>
@@ -27,7 +28,8 @@ class Device extends Component {
   componentDidMount = () =>{
   }
   componentDidUpdate = () => {
-    if(this.props.profile !="" && this.state.spinner==false){
+    if(this.props.profile.error==false && this.state.spinner==false)
+    {
       this.getBeaconList()
     }
   }
@@ -43,6 +45,39 @@ class Device extends Component {
       spinner:true
     })
   }
+  proximity(item){
+    if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length)
+    {
+      var condition = this.props.getBeaconRange.map((range) =>{
+        if(range.uuid==item.uuid)
+        {
+          console.log(range)
+          return(
+          <Text style={styles.itemDescription} category="h6" status="control">
+          {range.proximity}
+          </Text>
+          );
+        }
+        else{
+          return(
+            <Text style={styles.itemDescription} category="h6" status="control">
+              Tanımsız
+            </Text>
+          )
+        }
+      })
+      return(condition);
+    }
+    else{
+      return(
+        <Text style={styles.itemDescription} category="h6" status="control">
+          Tanımsız asdasda
+        </Text>
+      )
+      
+    }
+  }
+    
   renderItem = info => (
     <View style={styles.item}>
       <Layout style={styles.itemImage}>
@@ -55,11 +90,9 @@ class Device extends Component {
               Tür: {info.item.type}
             </Text>
           </View>
-          {/* <View style={styles.right}>
-            <Text style={styles.itemDescription} category="h6" status="control">
-              {info.item.metre}
-            </Text>
-          </View> */}
+          <View style={styles.right}>
+              {this.proximity(info.item)}
+          </View>
         </View>
 
         <View style={styles.itemFooter}>
@@ -81,7 +114,6 @@ class Device extends Component {
           </Button>
         </View>
       </Layout>
-    {/* <BeaconMonitoringAndRanging></BeaconMonitoringAndRanging> */}
     </View>
   );
   render() {
@@ -91,12 +123,14 @@ class Device extends Component {
           this.state.spinner == false ?
           this.renderLoading()
         :
+        <>
           <List
           style={styles.list}
           contentContainerStyle={styles.listContent}
           data={this.props.beacons}
           renderItem={this.renderItem.bind()}
           />
+        </>
         }
       
       </Layout>
@@ -108,7 +142,8 @@ function mapStateToProps(state) {
   return {
     beacons: state.beaconListReducer,
     profile: state.profileReducer,
-    login:state.loginReducer
+    login:state.loginReducer,
+    getBeaconRange:state.beaconRangeReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {

@@ -1,7 +1,7 @@
 import Styles from './Styles';
 import React, {Component} from 'react';
-import {Image} from 'react-native';
-import {Button, Input, Layout} from '@ui-kitten/components';
+import {Image, View} from 'react-native';
+import {Button, Input, Layout, Spinner} from '@ui-kitten/components';
 import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from "react-redux";
@@ -12,36 +12,103 @@ class DeviceDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Uğur',
-      surname: 'Çakar',
-      email: 'ugurcakar@hotmail.com',
-      phone: '5555555555',
+      name: '',
+      variance: '',
+      type:'',
+      image:'',
+      spinner: false
     };
-  }
-  componentDidMount = () =>{
     var paramsValues=[this.props.ID];
     this.props.actions.getBeaconDetail(paramsValues);
   }
-  setEmail = () => {};
+  distance(uuid){
+    if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length)
+    {
+      var condition = this.props.getBeaconRange.map((range) =>{
+        if(range.uuid==uuid)
+        {
+          console.log(range)
+          return Math.floor(range.distance)
+          
+        }
+        else{
+          return "Tanımsız"
+        }
+      })
+      return(condition+"");
+    }
+    else{
+      return "Tanımsız"
+      
+    }
+  }
+  batteryLevel(uuid){
+    if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length)
+    {
+      var condition = this.props.getBeaconRange.map((range) =>{
+        if(range.uuid==uuid)
+        {
+          console.log(range)
+          return Math.floor(range.battery_level)
+          
+        }
+        else{
+          return "Tanımsız"
+        }
+      })
+      return(condition+"");
+    }
+    else{
+      return "Tanımsız"
+      
+    }
+  }
+  componentDidUpdate()
+  {
+    if(this.props.beaconDetail.error==false && this.state.spinner==false)
+    {
+      console.log(this.props.beaconDetail)
+      this.setState({
+      name:this.props.beaconDetail.beacon_name,
+      type:this.props.beaconDetail.type,
+      variance:this.props.beaconDetail.variance,
+      image:this.props.beaconDetail.img,
+      uuid:this.props.beaconDetail.uuid,
+      spinner:true
+    })
+    }
+    
+  }
+  renderLoading = () => (
+    <View style={Styles.loading}>
+      <Spinner/>
+    </View>
+  );
   onItemPress = (beacon) => {
     console.log(this.props.beaconDetail)
     beacon["deviceId"]=this.props.ID
     Actions.replace("DeviceEdit",{ beacon: beacon })
+    // Actions.DeviceEdit({ beacon: beacon })
   };
   render() {
     return (
-      <KeyboardAwareScrollView style={Styles.container}>
+      <Layout style={Styles.layout}>
+        {
+          this.state.spinner == false ?
+          this.renderLoading()
+        :
+        <KeyboardAwareScrollView style={Styles.container}>
           <Image
             style={{height:responsiveHeight(30),width:responsiveWidth(100),justifyContent: "center",alignItems: "center",resizeMode: 'contain'}}
             source={{
-              uri:this.props.beaconDetail.img? this.props.beaconDetail.img :
+              uri:this.state.image? this.state.image :
               'https://lh6.googleusercontent.com/proxy/Bqqq2DHYLI-9bYWmUQkSz7UdLfvGavr6tPysMgBl6y7GDFFwc1dwlxqOr0tCtkWVVRfXI9j-fx-0LM5f-GW2jWfm4aCIkj5HJmwDuTL8h4mh5uzlR0plpUk',
             }}
           />
         <Layout style={Styles.formContainer} level="1">
             <Input 
             style={Styles.input}
-            value={this.props.beaconDetail.beacon_name}
+            value={this.state.name}
             label='Cihaz adı'
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
@@ -49,7 +116,7 @@ class DeviceDetail extends Component {
           />
             <Input 
             style={Styles.input}
-            value={this.props.beaconDetail.type}
+            value={this.state.type}
             label='Türü'
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
@@ -57,7 +124,7 @@ class DeviceDetail extends Component {
           />
             <Input 
             style={Styles.input}
-            value={this.props.beaconDetail.variance ? this.props.beaconDetail.variance + "" : "" }
+            value={this.state.variance ? this.state.variance + "" : "" }
             label='Güven aralığı'
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
@@ -65,7 +132,7 @@ class DeviceDetail extends Component {
           />
             <Input 
             style={Styles.input}
-            value={this.state.name}
+            value={this.batteryLevel(this.state.uuid)}
             label='Batarya seviyesi'
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
@@ -73,7 +140,7 @@ class DeviceDetail extends Component {
           />
             <Input 
             style={Styles.input}
-            value={"he"}
+            value={this.distance(this.state.uuid)}
             label='Cihazın güncel uzaklığı'
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
@@ -85,12 +152,16 @@ class DeviceDetail extends Component {
           Edit
         </Button>
         </KeyboardAwareScrollView>
-    );
+   
+        }
+        </Layout>
+       );
   }
 }
 function mapStateToProps(state) {
   return {
-    beaconDetail: state.beaconDetailReducer
+    beaconDetail: state.beaconDetailReducer,
+    getBeaconRange:state.beaconRangeReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {

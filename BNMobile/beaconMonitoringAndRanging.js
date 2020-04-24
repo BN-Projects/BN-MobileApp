@@ -2,15 +2,10 @@
 import React, {Component} from 'react';
 import Beacons  from 'react-native-beacons-manager';
 import moment   from 'moment';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  DeviceEventEmitter,
-  PermissionsAndroid,
-} from 'react-native';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as BeaconRangeActions from "./redux/actions/beaconRangeActions";
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, DeviceEventEmitter,PermissionsAndroid} from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 const TIME_FORMAT = 'MM/DD/YYYY HH:mm:ss';
 const styles = StyleSheet.create({
@@ -68,7 +63,7 @@ const styles = StyleSheet.create({
     color: '#F1F1F1',
   },
 });
-export class BeaconMonitoringAndRanging extends Component {
+class BeaconMonitoringAndRanging extends Component {
   // will be set as a reference to "beaconsDidRange" event:
   beaconsDidRangeEvent = null;
   // will be set as a reference to "regionDidEnter" event:
@@ -78,7 +73,7 @@ export class BeaconMonitoringAndRanging extends Component {
 
   state = {
     // region information
-    uuid: 'fda50693-a4e2-4fb1-afcf-c6eb07647825',
+    uuid: '',
     identifier: 'some id',
 
     rangingDataSource:     new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
@@ -123,6 +118,7 @@ try {
 
 // Print a log of the detected iBeacons (1 per second)
 DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
+  this.props.actions.setBeaconRange(data.beacons)
   console.log('Found beacons!', data.beacons)
 })//buraya bak
   }
@@ -154,33 +150,34 @@ DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
     const { bluetoothState, rangingDataSource, regionEnterDatasource, regionExitDatasource } =  this.state;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.headline}>
-          ranging beacons in the area:
-        </Text>
-        <ListView
-          dataSource={ rangingDataSource }
-          enableEmptySections={ true }
-          renderRow={this.renderRangingRow}
-        />
-        <Text style={styles.headline}>
-          monitoring enter information:
-        </Text>
-        <ListView
-          dataSource={ regionEnterDatasource }
-          enableEmptySections={ true }
-          renderRow={this.renderMonitoringEnterRow}
-        />
+      // <View style={styles.container}>
+      //   <Text style={styles.headline}>
+      //     ranging beacons in the area:
+      //   </Text>
+      //   <ListView
+      //     dataSource={ rangingDataSource }
+      //     enableEmptySections={ true }
+      //     renderRow={this.renderRangingRow}
+      //   />
+      //   <Text style={styles.headline}>
+      //     monitoring enter information:
+      //   </Text>
+      //   <ListView
+      //     dataSource={ regionEnterDatasource }
+      //     enableEmptySections={ true }
+      //     renderRow={this.renderMonitoringEnterRow}
+      //   />
 
-        <Text style={styles.headline}>
-          monitoring exit information:
-        </Text>
-        <ListView
-          dataSource={ regionExitDatasource }
-          enableEmptySections={ true }
-          renderRow={this.renderMonitoringLeaveRow}
-        />
-      </View>
+      //   <Text style={styles.headline}>
+      //     monitoring exit information:
+      //   </Text>
+      //   <ListView
+      //     dataSource={ regionExitDatasource }
+      //     enableEmptySections={ true }
+      //     renderRow={this.renderMonitoringLeaveRow}
+      //   />
+      // </View>
+      <View></View>
     );
   }
 
@@ -253,5 +250,18 @@ DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
       </View>
     );
   }
-  
 }
+function mapStateToProps(state) {
+  return {
+    getBeaconRange: state.beaconRangeReducer,
+  };
+}//reducer'dan çekilen veri props'lara işlendi
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      setBeaconRange: bindActionCreators(BeaconRangeActions.beaconRange, dispatch),
+    }
+  };
+}//actions alındı
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeaconMonitoringAndRanging);

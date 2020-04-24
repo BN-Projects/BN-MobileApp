@@ -23,6 +23,7 @@ import { Router, Scene, Modal, Actions } from 'react-native-router-flux';
 import * as LoginActions from "./redux/actions/loginActions";
 import Map from './components/mapComponent/map';
 import ChangePass from './components/changePassComponent/ChangePass';
+import BeaconMonitoringAndRanging from './beaconMonitoringAndRanging';
 class App extends Component{
   componentDidMount(){
     this.props.actions.login("")
@@ -43,6 +44,7 @@ class App extends Component{
     return(
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <IconRegistry icons={EvaIconsPack} />
+        <BeaconMonitoringAndRanging></BeaconMonitoringAndRanging>
         <Router>
           <Modal>
             <Scene key="root" hideNavBar>

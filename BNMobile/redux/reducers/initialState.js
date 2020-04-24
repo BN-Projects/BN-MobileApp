@@ -8,6 +8,8 @@ export default {
     profileEdit:"",
     lostBeacons:"",
     lostBeacon:"",
-    password:""
+    password:"",
+    logout:"",
+    beaconRange:""
 }
 //default parametreler oluşturuldu

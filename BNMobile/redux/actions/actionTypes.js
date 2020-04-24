@@ -10,4 +10,6 @@ export const PROFILEEDIT="PROFILEEDIT"
 export const LOSTBEACONLIST="LOSTBEACONLIST"
 export const ADDLOSTBEACON="ADDLOSTBEACON"
 export const CHANGEPASSWORD="CHANGEPASSWORD"
+export const LOGOUT="LOGOUT"
+export const BEACONRANGE="BEACONRANGE"
 //action types belirlendi 

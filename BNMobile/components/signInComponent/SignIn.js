@@ -23,8 +23,9 @@ class SıgnIn extends Component {
     
 
   onSignUpButtonPress(){
-    var hash = md5("deneme12");
+    var hash = md5("deneme123");
     var paramsValues=["den57@gmail.com",hash];
+    //var paramsValues=[this.state.email,md5(this.state.password)];
     this.props.actions.getToken(paramsValues);
   }
   onPasswordIconPress = () => {
@@ -34,15 +35,16 @@ class SıgnIn extends Component {
   };
   componentDidUpdate = () =>
   {
-    console.log("this.props.login")
-    if(this.props.login.error=="false")
+    console.log("a")
+    if(this.props.login.error==false)
     {
-      console.log("giriyor")
+      console.log("false")
       Actions.drawerMenu();
       Actions.Device();
     }
-    if(this.props.login.error=="true")
+    if(this.props.login.error==true)
     {
+      console.log("true")
       this.setState({
         showError:true
       })
@@ -100,7 +102,7 @@ class SıgnIn extends Component {
           style={styles.signInButton}
           textStyle={styles.buttonColor}
           size='giant'
-          onPress={() => this.onSignUpButtonPress()}>
+          onPress={() => this.onSignUpButtonPress(this.state)}>
           SIGN IN
         </Button>
         <View style={styles.socialAuthContainer}>

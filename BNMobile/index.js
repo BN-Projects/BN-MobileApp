@@ -8,6 +8,7 @@ import {name as appName} from './app.json';
 import { Provider } from "react-redux";
 import configureStore from "./redux/reducers/configureStore";
 import { PersistGate } from 'redux-persist/integration/react';
+import { BeaconMonitoringAndRanging } from "./beaconMonitoringAndRanging";
 const store = configureStore().store;
 const persistor = configureStore().persistor;
 const Root = () => (

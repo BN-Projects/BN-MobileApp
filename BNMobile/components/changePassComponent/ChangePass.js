@@ -14,6 +14,8 @@ import Success from '../../modals/successModal/Success';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import * as LoginActions from "../../redux/actions/loginActions";
+import * as LogoutActions from "../../redux/actions/logoutActions";
 import md5 from 'md5';
 
 class ChangePass extends Component {
@@ -120,7 +122,7 @@ class ChangePass extends Component {
       this.toggleModal()
       setTimeout(
         () => {
-          this.goToProfile() 
+          this.logout() 
         },
         3000);
     }
@@ -129,6 +131,10 @@ class ChangePass extends Component {
       this.props.actions.clearChangePass("");
       Actions.replace("Error")
     }
+  }
+  logout = () => {
+    this.props.actions.setLogout("logout");
+    this.props.actions.setToken("")
   }
   render() {
     return (
@@ -188,7 +194,8 @@ function mapStateToProps(state) {
     profil: state.profileReducer,
     token:state.loginReducer,
     profileEdit:state.profileEditReducer,
-    passwordEdit:state.changePassReducer
+    passwordEdit:state.changePassReducer,
+    logout:state.logoutReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {
@@ -197,7 +204,9 @@ function mapDispatchToProps(dispatch) {
       getProfile: bindActionCreators(ProfileActions.getProfile, dispatch),
       putProfileEdit: bindActionCreators(ProfileEditActions.putProfileEdit, dispatch),
       putChangePass: bindActionCreators(changePassActions.setPassword, dispatch),
-      clearChangePass: bindActionCreators(changePassActions.changePassword, dispatch)
+      clearChangePass: bindActionCreators(changePassActions.changePassword, dispatch),
+      setLogout: bindActionCreators(LogoutActions.logout, dispatch),
+      setToken: bindActionCreators(LoginActions.getToken, dispatch),
     }
   };
 }//actions alındı
