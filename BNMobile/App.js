@@ -23,10 +23,9 @@ import { Router, Scene, Modal, Actions } from 'react-native-router-flux';
 import * as LoginActions from "./redux/actions/loginActions";
 import Map from './components/mapComponent/map';
 import ChangePass from './components/changePassComponent/ChangePass';
-import BeaconMonitoringAndRanging from './beaconMonitoringAndRanging';
+import Settings from './components/settingsComponent/Settings'
 class App extends Component{
   componentDidMount(){
-    this.props.actions.login("")
     console.log("token "+this.props.token)
     if(this.props.token=="")
     {
@@ -44,7 +43,6 @@ class App extends Component{
     return(
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <IconRegistry icons={EvaIconsPack} />
-        <BeaconMonitoringAndRanging></BeaconMonitoringAndRanging>
         <Router>
           <Modal>
             <Scene key="root" hideNavBar>
@@ -67,6 +65,7 @@ class App extends Component{
                 <Scene key="FindDevice" component={FindDevice}/>
                 <Scene key="Map" component={Map}/>
                 <Scene key="Card" component={AddCreditCard}/>
+                <Scene key="Settings" component={Settings}/>
                 <Scene key="Error" component={Error}/>
                 <Scene key="ChangePass" component={ChangePass}/>
                 {/* üste dinamik path gelecek */}

@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import { Actions } from 'react-native-router-flux';
-import { BeaconMonitoringAndRanging } from '../../beaconMonitoringAndRanging';
+import Torch from 'react-native-torch';
 class Device extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class Device extends Component {
       <Spinner/>
     </View>
   );
+ 
   componentDidMount = () =>{
   }
   componentDidUpdate = () => {

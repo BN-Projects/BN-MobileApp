@@ -1,18 +1,18 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
-var login="";
-export default async function postLogin(paramsValues){
-    var directory="login";
-    paramsValues.push("mobil")
-    var paramsNames=["email","password","loginType"];
+var device="";
+export default async function postCheckLostDevice(paramsValues){
+    var directory="checklostdevice";
+    var paramsNames=["uuid"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
+    console.log(obj)
     await axios.post(obj.url,obj.data)
     .then((res) => {
           console.log(res.data)
-         login=res.data.user_token;
+          device=res.data;
      })
      .catch(error => {
        console.log(error);
      });
-    return login;
+    return device;
  }

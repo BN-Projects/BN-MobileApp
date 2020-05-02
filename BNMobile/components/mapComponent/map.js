@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { bindActionCreators } from "redux";
 import { Actions } from 'react-native-router-flux';
+import LostBeacon from '../../modals/lostBeaconModal/LostBeacon';
+import * as LostBeaconModalActions from "../../redux/actions/lostBeaconModalActions";
 const pin = style => <Icon {...style} fill={'#fff'} name="pin" />;
 const ArrowRightIcon = style => <Icon {...style} name='arrow-right' fill="#fff"/>
 const CloseOutlineIcon = style => <Icon {...style} name='close-outline' fill="#55AFFB"/>
@@ -28,11 +30,10 @@ class Map extends Component {
       //   latitudeDelta: 0.01,
       //   longitudeDelta: 0.01,
       // },
-      isModalVisible: false,
       scrollOffset: null,
       spinner: false,
       addItemModalVisible:false,
-      newItemDes:''
+      newItemDes:'',
     };
     this.scrollViewRef = React.createRef();
     this.map = React.createRef();
@@ -61,8 +62,9 @@ class Map extends Component {
       return false
     }
   }
-  isVisible = () => {
-    this.setState({isModalVisible: !this.state.isModalVisible});
+  isVisible = (id, mail, phone, desc) => {
+    console.log(id)
+    this.props.actions.setLostBeaconModalActions({isActive:true, beacon_id:id, user_mail:mail, user_phone:phone, desc:desc})
   };
   zoomDelta = 0.005;
   onZoom = zoomSign => {
@@ -118,7 +120,6 @@ class Map extends Component {
     }
     else{
       return lostBeacons.map((marker, index) => {
-        console.log("döküyo "+marker)
         let coordinate = {
           latitude: marker.lost_lat,
           longitude: marker.lost_long,
@@ -129,10 +130,10 @@ class Map extends Component {
           <Marker
             pinColor={'#55AFFB'}
             coordinate={coordinate}
-            description={marker.lost_desc}
-            title={marker.lost_date}
+            // description={marker.lost_desc}
+            // title={marker.lost_date}
             key={index}
-            onPress={this.isVisible}
+            onPress={() => this.isVisible(marker.beacon_id,marker.user_mail,marker.user_phone, marker.lost_desc)}
           />
         );
       });
@@ -172,49 +173,6 @@ class Map extends Component {
           onPress={this.isVisible}
         />
       );
-  }
-  handleOnScroll = event => {
-    this.setState({
-      scrollOffset: event.nativeEvent.contentOffset.y,
-    });
-  };
-  handleScrollTo = p => {
-    if (this.scrollViewRef.current) {
-      this.scrollViewRef.current.scrollTo(p);
-    }
-  };
-  modal(device)
-  {
-    console.log("bu cihaz "+device)
-    return(
-      <View>
-      <Modal
-        testID={'modal'}
-        isVisible={this.state.isModalVisible}
-        onSwipeComplete={this.close}
-        swipeDirection={['down']}
-        scrollTo={this.handleScrollTo}
-        onBackdropPress={this.isVisible}
-        onBackButtonPress={this.isVisible}
-        scrollOffset={this.state.scrollOffset}
-        scrollOffsetMax={400 - 300} // content height - ScrollView height
-        propagateSwipe={true}
-        style={styles.modal}>
-        <View style={styles.scrollableModal}>
-          <ScrollView
-            ref={this.scrollViewRef}
-            onScroll={this.handleOnScroll}
-            scrollEventThrottle={16}>
-            <View style={styles.scrollableModalContent1}>
-              <Text style={styles.scrollableModalText1}>
-                You can scroll me up! 👆
-              </Text>
-            </View>
-          </ScrollView>
-        </View>
-      </Modal>
-      </View>
-    )
   }
   addModal()
   {
@@ -297,8 +255,8 @@ class Map extends Component {
                   onPress={() => this.goToAddLostDevice(this.state)}
                 />
               </TouchableOpacity>
-            </View>      
-            {this.modal()}
+            </View>
+            <LostBeacon></LostBeacon>
             {this.addModal()}
            </View>
     );
@@ -308,12 +266,14 @@ function mapStateToProps(state) {
   return {
     lostBeacons: state.lostBeaconListReducer,
     profile: state.profileReducer,
+    isModalVisible: state.lostBeaconModalReducer,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
       getLostBeacons: bindActionCreators(LostBeaconListActions.getLostBeacons, dispatch),
+      setLostBeaconModalActions: bindActionCreators(LostBeaconModalActions.lostBeaconModal, dispatch),
     }
   };
 }

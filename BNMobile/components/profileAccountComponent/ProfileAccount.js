@@ -144,11 +144,9 @@ class ProfileAccount extends Component {
       return false
     }
   }
-  //regPhone'a bak
   regPhone = (phone) => {
-    //buraya bakılacak
-    var re = "";
-    if(true)
+    var re = /^[+]?(?:[0-9]{2})?[0-9]{10}$/;
+    if(re.test(phone))
     {
       this.isValid.phoneIsValid=true
       return true
@@ -273,6 +271,7 @@ class ProfileAccount extends Component {
           captionStyle={Styles.red}
           caption={this.regPhone(this.state.phone) ? '' : 'Can not be empty'}
           keyboardType={'numeric'}
+          maxLength = {10}
         />
         <View style={Styles.changePasswordContainer}>
         <Button

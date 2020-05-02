@@ -3,7 +3,8 @@ import axios from 'axios';
 var profile="";
 export default async function postToken(paramsValues){
     var directory="profile";
-    var paramsNames=["token"];
+    paramsValues.push("mobil")
+    var paramsNames=["token","tokenType"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
     await axios.post(obj.url,obj.data)
     .then((res) => {

@@ -3,7 +3,6 @@ import {StyleSheet,View,Text,Platform,TouchableOpacity,Animated,Image,Easing} fr
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as pageActions from "../../redux/actions/pageActions";
-import {BeaconMonitoringAndRanging} from '../../beaconMonitoringAndRanging';
 import BouncyDrawer from 'react-native-bouncy-drawer';
 import FAIcon from 'react-native-vector-icons/FontAwesome5';
 import Drawer from 'react-native-drawer';
@@ -12,10 +11,12 @@ import {TopNavigation} from '@ui-kitten/components';
 import {Actions} from 'react-native-router-flux';
 import * as LoginActions from "../../redux/actions/loginActions";
 import * as LogoutActions from "../../redux/actions/logoutActions";
+import Alarm from '../../modals/alarmModal/Alarm';
 
 import SıgnIn from '../signInComponent/SignIn';
 import Notification from '../notificationComponent/Notification';
 import About from '../aboutComponent/About'
+import BeaconMonitoringAndRanging from '../../beaconMonitoringAndRanging';
 
 const StarIcon = (style) => (
   <Icon {...style} fill={'#0bc1f1'} name='star'/>
@@ -93,8 +94,8 @@ const data = [
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Giriş Yap',
-    key:'Login',
+    title: 'Ayarlar',
+    key:'Settings',
     icon: StarIcon,
     style: styles.menuItem,
     titleStyle:styles.menuItemTitle,
@@ -164,7 +165,8 @@ export class DrawerMenu extends Component{
       panOpenMask={0.9}
       negotiatePan
       
-      >
+      ><Alarm></Alarm>
+      <BeaconMonitoringAndRanging></BeaconMonitoringAndRanging>
       <TopNavigation
       title='BN Mobil'
       titleStyle={{color:'#0bc1f1'}}

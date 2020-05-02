@@ -11,6 +11,9 @@ import lostBeaconReducer from './lostBeaconReducer';
 import changePassReducer from './changePassReducer';
 import logoutReducer from './logoutReducer';
 import beaconRangeReducer from './beaconRangeReducer';
+import lostBeaconModalReducer from './lostBeaconModalReducer';
+import checkLostDeviceReducer from './checkLostDeviceReducer';
+import alarmControlReducer from './alarmControlReducer';
 const appReducer = combineReducers({
     changePageReducer,
     loginReducer,
@@ -24,7 +27,10 @@ const appReducer = combineReducers({
     changePageReducer,
     changePassReducer,
     logoutReducer,
-    beaconRangeReducer
+    beaconRangeReducer,
+    lostBeaconModalReducer,
+    checkLostDeviceReducer,
+    alarmControlReducer
 })
 const rootReducer = (state, action) => {
     if (action.type === 'LOGOUT') {

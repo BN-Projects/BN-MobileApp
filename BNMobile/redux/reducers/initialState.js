@@ -10,6 +10,19 @@ export default {
     lostBeacon:"",
     password:"",
     logout:"",
-    beaconRange:""
+    beaconRange:"",
+    lostBeaconModal:{
+        isActive:false,
+        beacon_id:"",
+        user_mail:"",
+        user_phone:"",
+        desc:""
+    },
+    checkLostDevice:"",
+    alarmControl:{
+        flash:true,
+        music:false,
+        vibration:true
+    }
 }
 //default parametreler oluşturuldu

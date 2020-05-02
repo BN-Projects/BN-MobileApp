@@ -4,18 +4,52 @@ import {Button, Layout, Modal, Text} from '@ui-kitten/components';
 import { EmailIcon, PhoneIcon, MapIcon } from './extra/icons';
 import { ProfileAvatar } from './extra/profile-avatar.component';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-export default class FindDevice extends Component {
+import { Actions } from 'react-native-router-flux';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as CheckLostDeviceActions from "../../redux/actions/checkLostDeviceActions";
+class FindDevice extends Component {
   state = {
     visible: true,
     name:'burak',
-    image:''
+    image:'',
+    loadingBeacon:false,
+    loadingPage:false,
   };
   toggleModal = () => {
+    this.props.actions.clearLostDevice("")
     this.setState({
-        visible:!this.state.visible
+        visible:!false
     })
   };
-
+  componentDidUpdate()
+  {
+    if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length && this.state.loadingBeacon==false)
+    {
+      this.props.getBeaconRange.map((range) =>{
+        if(range.distance<1)
+        {
+          console.log("girdi")
+          this.props.actions.setLostDevice([range.uuid]);
+        }
+      })
+      this.setState({
+        loadingBeacon:true
+      })
+    }
+    if(this.props.getLostDevice != "" && this.state.loadingPage==false)
+    {
+      this.setState({
+        loadingPage:true
+      })
+    }
+  }
+  componentDidMount()
+  {
+  }
+  LostBeacons(){
+    
+  }
   renderModalElement = () => (
     <KeyboardAwareScrollView style={styles.bnBackgroundColor}>
         <View style={styles.headerContainer}>
@@ -34,7 +68,11 @@ export default class FindDevice extends Component {
           <Text style={styles.socialAuthHintText}
             status='control'
             category="p1">
-            {this.state.name}
+              {
+                this.state.loadingPage==true 
+                ? this.props.getLostDevice
+                : <></>
+              }
           </Text>
           <View style={styles.socialAuthButtonsContainer}>
             <Button
@@ -72,6 +110,21 @@ export default class FindDevice extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    getBeaconRange:state.beaconRangeReducer,
+    getLostDevice:state.checkLostDeviceReducer
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      setLostDevice: bindActionCreators(CheckLostDeviceActions.setLostDevice, dispatch),
+      clearLostDevice: bindActionCreators(CheckLostDeviceActions.checkLostDevice, dispatch),
+    }
+  };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(FindDevice);
 
 const styles = StyleSheet.create({
   container: {

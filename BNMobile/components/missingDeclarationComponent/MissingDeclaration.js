@@ -140,11 +140,9 @@ class MissingDeclaration extends Component {
       return false
     }
   }
-  //regPhone'a bak
   regPhone = (phone) => {
-    //buraya bakılacak
-    var re = "";
-    if(true)
+    var re = /^[+]?(?:[0-9]{2})?[0-9]{10}$/;
+    if(re.test(phone))
     {
       this.isValid.phoneIsValid=true
       return true
@@ -177,6 +175,7 @@ class MissingDeclaration extends Component {
             captionStyle={Styles.red}
             keyboardType={'numeric'}
             disabled={this.state.checkedInformations ? false : true}
+            maxLength = {10}
           />
      <Input
            style={this.regEmail(this.state.email) ? Styles.successInput : this.state.email=='' ? Styles.input : Styles.emptyInput}

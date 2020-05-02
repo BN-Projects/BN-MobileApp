@@ -23,7 +23,7 @@ class SıgnIn extends Component {
     
 
   onSignUpButtonPress(){
-    var hash = md5("deneme123");
+    var hash = md5("deneme");
     var paramsValues=["den57@gmail.com",hash];
     //var paramsValues=[this.state.email,md5(this.state.password)];
     this.props.actions.getToken(paramsValues);

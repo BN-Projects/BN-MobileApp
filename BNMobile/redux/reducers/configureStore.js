@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const persistCongfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['loginReducer']
+    whitelist: ['loginReducer','alarmControlReducer']
 }
 
 const persistedReducer = persistReducer(persistCongfig, rootReducer)
