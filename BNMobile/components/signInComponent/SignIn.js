@@ -24,7 +24,7 @@ class SıgnIn extends Component {
 
   onSignUpButtonPress(){
     var hash = md5("deneme");
-    var paramsValues=["den57@gmail.com",hash];
+    var paramsValues=["den57@gmail.com",hash,this.props.getPush];
     //var paramsValues=[this.state.email,md5(this.state.password)];
     this.props.actions.getToken(paramsValues);
   }
@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     login: state.loginReducer,
-    profile: state.profileReducer
+    profile: state.profileReducer,
+    getPush: state.pushReducer
   };
 }//reducer'dan çekilen veri props'lara işlendi
 function mapDispatchToProps(dispatch) {

@@ -15,4 +15,5 @@ export const BEACONRANGE="BEACONRANGE"
 export const LOSTBEACONMODAL="LOSTBEACONMODAL"
 export const CHECKLOSTDEVICE="CHECKLOSTDEVICE"
 export const ALARMCONTROL="ALARMCONTROL"
+export const PUSH="PUSH"
 //action types belirlendi 

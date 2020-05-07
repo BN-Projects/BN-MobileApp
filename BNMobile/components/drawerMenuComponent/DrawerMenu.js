@@ -17,6 +17,7 @@ import SıgnIn from '../signInComponent/SignIn';
 import Notification from '../notificationComponent/Notification';
 import About from '../aboutComponent/About'
 import BeaconMonitoringAndRanging from '../../beaconMonitoringAndRanging';
+import FindDevice from '../../modals/findDeviceModal/FindDevice';
 
 const StarIcon = (style) => (
   <Icon {...style} fill={'#0bc1f1'} name='star'/>
@@ -107,6 +108,7 @@ export class DrawerMenu extends Component{
     super(props);
     this.state={
       menuContent: null,
+      findDeviceModalVisible:false
     }
     
   }
@@ -172,7 +174,13 @@ export class DrawerMenu extends Component{
       titleStyle={{color:'#0bc1f1'}}
       alignment='center'
       leftControl={this.renderLeftControl()}
+      rightControls={this.renderFindDevice()}
     />
+    {
+      this.state.findDeviceModalVisible
+      ? <FindDevice data={this}></FindDevice>
+      : <View></View>
+    }
     {this.props.children}
     </Drawer>
     );
@@ -185,6 +193,18 @@ export class DrawerMenu extends Component{
       <FAIcon style={{color:'#0bc1f1'}} size={18} name={'align-left'}></FAIcon>
     </TouchableOpacity>
   );
+  renderFindDevice = () => (
+    <TouchableOpacity onPress={this.modalIsVisible.bind(this)}>
+      <FAIcon style={{color:'#0bc1f1'}} size={18} name={'search'}></FAIcon>
+    </TouchableOpacity>
+  )
+  modalIsVisible(){
+    console.log("burda")
+      this.setState({
+        findDeviceModalVisible:!this.state.findDeviceModalVisible
+      });
+    console.log(this.state.findDeviceModalVisible)
+  }
 }
 class DrawerMenuContent extends Component{
   constructor(props){

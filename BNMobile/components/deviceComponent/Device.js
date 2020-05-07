@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View, Image, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import {Button, List, Text, Layout, Spinner} from '@ui-kitten/components';
 import {ArrowRightIcon} from './extra/icons';
 import { connect } from "react-redux";
@@ -7,12 +7,11 @@ import { bindActionCreators } from "redux";
 import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import { Actions } from 'react-native-router-flux';
-import Torch from 'react-native-torch';
 class Device extends Component {
   constructor(props) {
     super(props);
     this.state={
-      spinner: false,
+      spinner: false
     }
     props.actions.getProfile([this.props.login])
   }
@@ -25,8 +24,7 @@ class Device extends Component {
       <Spinner/>
     </View>
   );
- 
-  componentDidMount = () =>{
+  componentDidMount(){
   }
   componentDidUpdate = () => {
     if(this.props.profile.error==false && this.state.spinner==false)
@@ -133,12 +131,20 @@ class Device extends Component {
           />
         </>
         }
-      
       </Layout>
       
     );
   }
 }
+
+
+
+
+
+
+
+
+
 function mapStateToProps(state) {
   return {
     beacons: state.beaconListReducer,

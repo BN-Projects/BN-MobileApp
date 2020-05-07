@@ -7,12 +7,20 @@ export function beaconDetailList(beacon)
         payload:beacon
     }
 }
-export function getBeaconDetail(paramsValues)
+export function getBeaconDetail(paramsValues,classData)
 {
     return function(dispatch){
         getBeaconDetailData(paramsValues)
         .then((result)=>{
             dispatch(beaconDetailList(result))
+            classData.setState({
+                name:result.beacon_name,
+                type:result.type,
+                variance:result.variance,
+                image:result.img,
+                uuid:result.uuid,
+                spinner:true
+            })
         })
     }
 }

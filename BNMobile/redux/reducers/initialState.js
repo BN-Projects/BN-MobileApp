@@ -23,6 +23,7 @@ export default {
         flash:true,
         music:false,
         vibration:true
-    }
+    },
+    push:""
 }
 //default parametreler oluşturuldu

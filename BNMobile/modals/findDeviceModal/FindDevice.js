@@ -10,18 +10,16 @@ import { bindActionCreators } from "redux";
 import * as CheckLostDeviceActions from "../../redux/actions/checkLostDeviceActions";
 class FindDevice extends Component {
   state = {
-    visible: true,
     name:'burak',
     image:'',
     loadingBeacon:false,
     loadingPage:false,
   };
-  toggleModal = () => {
-    this.props.actions.clearLostDevice("")
-    this.setState({
-        visible:!false
-    })
-  };
+  constructor(props)
+  {
+    super(props);
+    props.actions.clearLostDevice("")
+  }
   componentDidUpdate()
   {
     if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length && this.state.loadingBeacon==false)
@@ -43,7 +41,7 @@ class FindDevice extends Component {
         loadingPage:true
       })
     }
-  }
+   }
   componentDidMount()
   {
   }
@@ -69,9 +67,9 @@ class FindDevice extends Component {
             status='control'
             category="p1">
               {
-                this.state.loadingPage==true 
+                this.state.loadingPage==true && this.props.getLostDevice.error==false
                 ? this.props.getLostDevice
-                : <></>
+                : "Cihaz Taranıyor ..."
               }
           </Text>
           <View style={styles.socialAuthButtonsContainer}>
@@ -99,14 +97,16 @@ class FindDevice extends Component {
 
   render() {
     return (
-      <Layout style={styles.container}>
-        <Modal
-          backdropStyle={styles.backdrop}
-          onBackdropPress={this.toggleModal}
-          visible={this.state.visible}>
-          {this.renderModalElement()}
-        </Modal>
-      </Layout>
+      this.props.data.state.findDeviceModalVisible
+      ? <Layout style={styles.container}>
+          <Modal
+            backdropStyle={styles.backdrop}
+            onBackdropPress={this.props.data.modalIsVisible.bind(this.props.data)}
+            visible={this.props.data.state.findDeviceModalVisible}>
+            {this.renderModalElement()}
+          </Modal>
+        </Layout>
+      :<></>
     );
   }
 }

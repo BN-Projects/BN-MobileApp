@@ -19,7 +19,7 @@ class DeviceDetail extends Component {
       spinner: false
     };
     var paramsValues=[this.props.ID];
-    this.props.actions.getBeaconDetail(paramsValues);
+    this.props.actions.getBeaconDetail(paramsValues,this);
   }
   distance(uuid){
     if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length)
@@ -62,22 +62,6 @@ class DeviceDetail extends Component {
       return "Tanımsız"
       
     }
-  }
-  componentDidUpdate()
-  {
-    if(this.props.beaconDetail.error==false && this.state.spinner==false)
-    {
-      console.log(this.props.beaconDetail)
-      this.setState({
-      name:this.props.beaconDetail.beacon_name,
-      type:this.props.beaconDetail.type,
-      variance:this.props.beaconDetail.variance,
-      image:this.props.beaconDetail.img,
-      uuid:this.props.beaconDetail.uuid,
-      spinner:true
-    })
-    }
-    
   }
   renderLoading = () => (
     <View style={Styles.loading}>
