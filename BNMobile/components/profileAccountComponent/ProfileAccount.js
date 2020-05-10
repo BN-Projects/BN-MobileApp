@@ -13,7 +13,7 @@ import Success from '../../modals/successModal/Success';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 
 class ProfileAccount extends Component {
   isValid ={
@@ -43,7 +43,6 @@ class ProfileAccount extends Component {
   {
     if(this.props.profileEdit.error=="false")
     {
-      console.log("girdi")
       this.props.actions.clearProfileEdit("");
       this.props.actions.clearProfile("");
       this.toggleModal()
@@ -78,7 +77,6 @@ class ProfileAccount extends Component {
   };
   onPress(state)
   {
-    console.log(state)
     this.regName(state.name);
     this.regSurname(state.surname);
     this.regEmail(state.email);
@@ -86,12 +84,17 @@ class ProfileAccount extends Component {
     
     if(this.isFormValid())
     {
-      console.log("form geçerli")
       var paramsValues=[state.name, state.surname, state.email, state.phone, state.image_logo_uri, state.image_type, state.id];
       this.props.actions.putProfileEdit(paramsValues)
     }else{
-      console.log("form geçersiz")
-      Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "OK"}
+      ],
+      { cancelable: false }
+      )
     }
   }
   goToDevice = () =>
@@ -180,7 +183,6 @@ class ProfileAccount extends Component {
         let source = { uri: 'data:'+image.mime+';base64,' + image.data };
         let typeNum=image.mime.indexOf('/');
         let type=image.mime.slice(typeNum+1);
-        console.log(type)
         this.setState({
           image_logo: source,
           image_logo_uri:image.data,
@@ -233,7 +235,7 @@ class ProfileAccount extends Component {
           onChangeText={item => this.setState({ name:item})}
           onIconPress={() => this.setState({ name: '' })}
           captionStyle={Styles.red}
-          caption={this.regName(this.state.name) ? '' : 'Can not be empty'}
+          caption={this.regName(this.state.name) ? '' : 'Bu alan boş bırakılamaz'}
         />
         <Input
           style={this.regSurname(this.state.surname) ? Styles.successInput : this.state.surname=='' ? Styles.input : Styles.emptyInput}
@@ -245,7 +247,7 @@ class ProfileAccount extends Component {
           onChangeText={item => this.setState({ surname:item})}
           onIconPress={() => this.setState({ surname: '' })}
           captionStyle={Styles.red}
-          caption={this.regSurname(this.state.surname) ? '' : 'Can not be empty'}
+          caption={this.regSurname(this.state.surname) ? '' : 'Bu alan boş bırakılamaz'}
         />
         <Input
          style={this.regEmail(this.state.email) ? Styles.successInput : this.state.email=='' ? Styles.input : Styles.emptyInput}
@@ -257,7 +259,7 @@ class ProfileAccount extends Component {
          onChangeText={item => this.setState({ email:item})}
          onIconPress={() => this.setState({ email: '' })}
          captionStyle={Styles.red}
-         caption={this.regEmail(this.state.email) ? '' : 'Can not be empty'}
+         caption={this.regEmail(this.state.email) ? '' : 'Geçerli bir email giriniz'}
         />
         <Input
           style={this.regPhone(this.state.phone) ? Styles.successInput : this.state.phone=='' ? Styles.input : Styles.emptyInput}
@@ -269,7 +271,7 @@ class ProfileAccount extends Component {
           onChangeText={item => this.setState({ phone:item})}
           onIconPress={() => this.setState({ phone: '' })}
           captionStyle={Styles.red}
-          caption={this.regPhone(this.state.phone) ? '' : 'Can not be empty'}
+          caption={this.regPhone(this.state.phone) ? '' : 'Geçerli bir telefon numarası giriniz'}
           keyboardType={'numeric'}
           maxLength = {10}
         />

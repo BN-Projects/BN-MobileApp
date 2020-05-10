@@ -27,7 +27,6 @@ class DeviceDetail extends Component {
       var condition = this.props.getBeaconRange.map((range) =>{
         if(range.uuid==uuid)
         {
-          console.log(range)
           return Math.floor(range.distance)
           
         }
@@ -48,7 +47,6 @@ class DeviceDetail extends Component {
       var condition = this.props.getBeaconRange.map((range) =>{
         if(range.uuid==uuid)
         {
-          console.log(range)
           return Math.floor(range.battery_level)
           
         }
@@ -69,7 +67,6 @@ class DeviceDetail extends Component {
     </View>
   );
   onItemPress = (beacon) => {
-    console.log(this.props.beaconDetail)
     beacon["deviceId"]=this.props.ID
     Actions.replace("DeviceEdit",{ beacon: beacon })
     // Actions.DeviceEdit({ beacon: beacon })

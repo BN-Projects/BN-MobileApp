@@ -1,7 +1,7 @@
 import Styles from './Styles';
 import React, {Component} from 'react';
 import {Select, Layout, Input, Button, CheckBox, Text, Spinner, Icon, Datepicker} from '@ui-kitten/components';
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -40,7 +40,6 @@ class MissingDeclaration extends Component {
   }
   _onChange(form)
   {
-    console.log(form)
     this.setState({
       creditCard:form
     })
@@ -51,7 +50,6 @@ class MissingDeclaration extends Component {
   }
   componentDidMount()
   {
-    console.log(" BAK BAK BAK"+this.props.desc)
     let data=[];
     this.setState({
       coordinate : this.props.coordinate,
@@ -77,7 +75,6 @@ class MissingDeclaration extends Component {
   {
     if(this.state.data!=[] && this.state.spinner==false)
     {
-      console.log(this.state.data)
       this.setState({
         spinner:true
       })
@@ -117,7 +114,6 @@ class MissingDeclaration extends Component {
     })
   };
   chooseDevice = (item) => {
-    console.log(item.text)
     this.setState({
       selectedOption: item.id,
       selectedIndex: item.text
@@ -196,7 +192,6 @@ class MissingDeclaration extends Component {
       const card = await CardIOModule.scanCard();
       alert(JSON.stringify(card));
     } catch (err) {
-      console.log(err);
     }
   };
   creditCard = () => (
@@ -216,14 +211,12 @@ class MissingDeclaration extends Component {
   )
   onPress(state)
   {
-    console.log(state)
     if(this.state.checkedInformations==true)
     {
       this.regPhone(state.phone);
       this.regEmail(state.email);
       if(this.isFormValid() && state.selectedOption!=null && state.creditCard.valid)
       {
-      console.log("1 form geçerli ")
       let expiry = state.creditCard.values.expiry
       let year = "20";
       let position = 3;
@@ -233,14 +226,21 @@ class MissingDeclaration extends Component {
       var paramsValues=[state.phone, state.email, number, state.creditCard.values.name, expiry, state.creditCard.values.cvc,
       this.state.date.toLocaleDateString(),state.coordinate.latitude,state.coordinate.longitude,state.selectedOption,state.description];
       this.props.actions.setLostDevice(paramsValues)
-      }else{
-      console.log("form geçersiz")
+      }
+      else{
+        Alert.alert(
+          "Hata!",
+        "Verileriniz olması gereken değerlerin dışında",
+        [
+          { text: "OK"}
+        ],
+        { cancelable: false }
+        )
       }
     }
     else{
       if(this.state.selectedOption!=null && state.creditCard.valid)
       {
-        console.log("2 form geçerli ")
         let expiry = state.creditCard.values.expiry
         let year = "20";
         let position = 3;
@@ -251,7 +251,14 @@ class MissingDeclaration extends Component {
         this.props.actions.setLostDevice(paramsValues)
       }
       else{
-        console.log("form geçersiz")
+        Alert.alert(
+          "Hata!",
+        "Verileriniz olması gereken değerlerin dışında",
+        [
+          { text: "OK"}
+        ],
+        { cancelable: false }
+        )
       }
     }
   }

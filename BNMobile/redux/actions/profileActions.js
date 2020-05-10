@@ -14,7 +14,6 @@ export function getProfile(paramsValues)
         postToken(paramsValues)
         .then((result)=>{
             dispatch(profile(result))
-            console.log(result);
         })
     }
 }

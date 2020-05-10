@@ -24,6 +24,7 @@ export default {
         music:false,
         vibration:true
     },
-    push:""
+    push:"",
+    notification:""
 }
 //default parametreler oluşturuldu

@@ -13,7 +13,6 @@ export function setLostBeacon(paramsValues)
         postLostBeacon(paramsValues)
         .then((result)=>{
             dispatch(addLostBeacon(result))
-            console.log(result);
         })
     }
 }

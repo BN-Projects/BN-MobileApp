@@ -1,59 +1,60 @@
 const Styles = {
   container: {
-    backgroundColor: '#F0F3F6',
-    flex: 1,
+    backgroundColor:'#F0F3F6'
   },
-  header: {
-    height: '15%',
+  headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    minHeight: 216,
+    backgroundColor: '#55AFFB',
   },
-  benimkiNerede: {
-    color: '#55AFFB',
-    fontWeight: 'bold',
-    fontSize: 18,
+  buttonColor: {
+    color:"white"
   },
-  vertical: {
+  bnColor: {
+    color:'#55AFFB'
+  },
+  formContainer: {
+    flex: 1,
+    paddingTop:'5%',
+    paddingHorizontal:'5%',
+    backgroundColor:'#F0F3F6'
+  },
+  signInButton: {
+    marginVertical:'4%',
+    backgroundColor:'#55AFFB',
+    borderColor:'#55AFFB',
+    borderRadius:15
+  },
+  signUpButton: {
+    marginVertical: 12,
+    marginHorizontal: 16
+  },
+  input: {
+    marginTop:'4%',
+    borderColor: '#55AFFB',
+  },
+  emptyInput:{
+    marginTop:'4%',
+    borderColor: '#FF3D71',
+  }, 
+  socialAuthContainer: {
+    marginTop: 32,
+  },
+  socialAuthButtonsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  icons: {
+  socialAuthHintText: {
+    alignSelf: 'center',
+    marginBottom: 16,
+    color:'#55AFFB'
   },
-  main: {
-    height: '70%',
-    marginLeft: '5%',
-    marginRight: '5%',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 15,
-  },
-  signIn: {
-    marginTop: '10%',
-    color: '#55AFFB',
-    fontWeight: 'bold',
-    fontSize: 25,
-  },
-  textInput: {
-      paddingTop: '15%',
-      borderBottomColor: '#55AFFB',
-      borderBottomWidth: 1,
-      width: '80%',
-  },
-  newAccount: {
-    marginTop: '20%',
-    color: '#55AFFB',
-    fontSize: 10
-  },
-  footer:{
-    height: '15%',
-    marginLeft: '5%',
-    marginRight: '5%',
-    marginTop:'5%'
-  },
-  SignInButton:{
-    borderRadius: 35,
-    borderWidth: 1
+  error:{
+    marginTop: 5,
+    alignSelf: 'center',
+    marginBottom: 5,
+    color:'#FF3D71'
   }
 
 };

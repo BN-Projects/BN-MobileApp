@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Alert, TouchableOpacity, StyleSheet} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {Button, Icon, Spinner, Card, Layout, Input} from '@ui-kitten/components';
 import Modal from 'react-native-modal';
@@ -63,7 +63,6 @@ class Map extends Component {
     }
   }
   isVisible = (id, mail, phone, desc) => {
-    console.log(id)
     this.props.actions.setLostBeaconModalActions({isActive:true, beacon_id:id, user_mail:mail, user_phone:phone, desc:desc})
   };
   zoomDelta = 0.005;
@@ -86,7 +85,6 @@ class Map extends Component {
   onZoomOut = () => this.onZoom(-1);
   componentDidMount()
   {
-    console.log("lostdevice kullanıcı id "+this.props.profile.user_id)
     this.props.actions.getLostBeacons([this.props.profile.user_id]);
   }
   renderLoading = () => (
@@ -113,7 +111,6 @@ class Map extends Component {
   // }
   showLostBeaconsMarkers(lostBeacons)
   {
-    console.log(lostBeacons)
     if(lostBeacons=="")
     {
       return <View></View>
@@ -148,7 +145,6 @@ class Map extends Component {
     this.regNewItemDes(state.newItemDes);
     if(this.isFormValid())
     {
-      console.log("form geçerli")
       this.showaddItemModal();
     let regionToBeMarked = {
         latitude: state.region.latitude,
@@ -160,8 +156,16 @@ class Map extends Component {
         marker: regionToBeMarked,
     });
     this.showMarker();
-    }else{
-      console.log("form geçersiz")
+    }
+    else{
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "OK"}
+      ],
+      { cancelable: false }
+      )
     }
   }
   showMarker() {

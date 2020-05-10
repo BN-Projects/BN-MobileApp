@@ -5,11 +5,9 @@ export default async function getBeaconList(paramsValues){
     var directory="devices";
     var paramsNames=["userId"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"GET")
-    console.log("getbeaconlist "+obj)
     await axios.get(obj)
     .then((res) => {
       if(!res.data.error){
-        console.log(res.data.beacons)
         beacons = res.data.beacons;
       }  
       else{
@@ -17,7 +15,6 @@ export default async function getBeaconList(paramsValues){
       }
      })
      .catch(error => {
-       console.log(error);
      });
     return beacons;
  }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View} from 'react-native';
 import { Button, Input, Layout, Text } from '@ui-kitten/components';
 import { EyeIcon, EyeOffIcon, PersonIcon, GoogleIcon, FacebookIcon, TwitterIcon } from './extra/icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import * as LoginActions from "../../redux/actions/loginActions";
 import { Actions } from 'react-native-router-flux';
 import * as ProfileActions from "../../redux/actions/profileActions";
+import Styles from './Styles';
 import md5 from 'md5';
 class SıgnIn extends Component {
   constructor(props)
@@ -35,16 +36,13 @@ class SıgnIn extends Component {
   };
   componentDidUpdate = () =>
   {
-    console.log("a")
     if(this.props.login.error==false)
     {
-      console.log("false")
       Actions.drawerMenu();
       Actions.Device();
     }
     if(this.props.login.error==true)
     {
-      console.log("true")
       this.setState({
         showError:true
       })
@@ -53,35 +51,35 @@ class SıgnIn extends Component {
   render()
   {
     return (
-      <KeyboardAwareScrollView style={styles.container}>
-        <View style={styles.headerContainer}>
+      <KeyboardAwareScrollView style={Styles.container}>
+        <View style={Styles.headerContainer}>
           <Text
             category='h2'
             status='control'>
             Benimki Nerede?
           </Text>
           <Text
-            style={styles.signInLabel}
+            style={Styles.signInLabel}
             category='h6'
             status='control'>
             Giriş Yap
           </Text>
         </View>
         <Layout
-          style={styles.formContainer}
+          style={Styles.formContainer}
           level='1'>
           <Input
-            style={styles.input}
+            style={Styles.input}
             placeholder='Email'
             icon={PersonIcon}
             value={this.state.email}
             onChangeText={item => this.setState({email:item})}
-            textStyle={styles.bnColor}
+            textStyle={Styles.bnColor}
           />
           <Input
-            style={styles.input}
+            style={Styles.input}
             placeholder='Password'
-            textStyle={styles.bnColor}
+            textStyle={Styles.bnColor}
             icon={this.state.passwordVisible ? EyeIcon : EyeOffIcon}
             value={this.state.password}
             onChangeText={item => this.setState({password:item})}
@@ -91,7 +89,7 @@ class SıgnIn extends Component {
           {
             this.state.showError==true ?
             <Text
-            style={styles.error}
+            style={Styles.error}
             status='danger'>
             Kullanıcı adı veya şifre hatalı
             </Text>:
@@ -99,19 +97,19 @@ class SıgnIn extends Component {
           }
           
           <Button
-          style={styles.signInButton}
-          textStyle={styles.buttonColor}
+          style={Styles.signInButton}
+          textStyle={Styles.buttonColor}
           size='giant'
           onPress={() => this.onSignUpButtonPress(this.state)}>
           SIGN IN
         </Button>
-        <View style={styles.socialAuthContainer}>
+        <View style={Styles.socialAuthContainer}>
           <Text
-            style={styles.socialAuthHintText}
+            style={Styles.socialAuthHintText}
             status='control'>
             Or Sign In using Social Media
           </Text>
-          <View style={styles.socialAuthButtonsContainer}>
+          <View style={Styles.socialAuthButtonsContainer}>
             <Button
               appearance='ghost'
               status='control'
@@ -134,8 +132,8 @@ class SıgnIn extends Component {
         </View>
         
         <Button
-          textStyle={styles.bnColor}
-          style={styles.signUpButton}
+          textStyle={Styles.bnColor}
+          style={Styles.signUpButton}
           appearance='ghost'
           status='basic'
           >
@@ -148,67 +146,6 @@ class SıgnIn extends Component {
   }
   
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor:'#F0F3F6'
-  },
-  headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 216,
-    backgroundColor: '#55AFFB',
-  },
-  buttonColor: {
-    color:"white"
-  },
-  bnColor: {
-    color:'#55AFFB'
-  },
-  formContainer: {
-    flex: 1,
-    paddingTop:'5%',
-    paddingHorizontal:'5%',
-    backgroundColor:'#F0F3F6'
-  },
-  signInButton: {
-    marginVertical:'4%',
-    backgroundColor:'#55AFFB',
-    borderColor:'#55AFFB',
-    borderRadius:15
-  },
-  signUpButton: {
-    marginVertical: 12,
-    marginHorizontal: 16
-  },
-  input: {
-    marginTop:'4%',
-    borderColor: '#55AFFB',
-  },
-  emptyInput:{
-    marginTop:'4%',
-    borderColor: '#FF3D71',
-  }, 
-  socialAuthContainer: {
-    marginTop: 32,
-  },
-  socialAuthButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  socialAuthHintText: {
-    alignSelf: 'center',
-    marginBottom: 16,
-    color:'#55AFFB'
-  },
-  error:{
-    marginTop: 5,
-    alignSelf: 'center',
-    marginBottom: 5,
-    color:'#FF3D71'
-  }
-});
-
 function mapStateToProps(state) {
   return {
     login: state.loginReducer,

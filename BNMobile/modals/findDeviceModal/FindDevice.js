@@ -27,7 +27,6 @@ class FindDevice extends Component {
       this.props.getBeaconRange.map((range) =>{
         if(range.distance<1)
         {
-          console.log("girdi")
           this.props.actions.setLostDevice([range.uuid]);
         }
       })

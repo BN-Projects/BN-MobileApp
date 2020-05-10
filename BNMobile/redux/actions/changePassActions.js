@@ -12,8 +12,6 @@ export function setPassword(paramsValues)
     return function(dispatch){
         putPassword(paramsValues)
         .then((result)=>{
-            dispatch(changePassword(result))
-            console.log(result);
         })
     }
 }

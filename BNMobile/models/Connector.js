@@ -39,28 +39,3 @@ export default function getConnectionLink(directory, paramsNames, paramsValues,r
         }
     }
 }
-//     export function getBeacon(directory="updatedevice",paramsNames=[""],paramsValues=[""]){
-//     //axios işlemleri
-//     /*
-//         body = new FormData();
-//         body.set('name',value);
-//     */
-//    var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
-//    axios.post(obj.url,obj.data)
-//    .then(function(res){console.log(res.data.message)})
-//    .then(result => {
-//        var temp = new Beacon()
-//        for(var i=0;i<result.length;i++){
-//            console.log("result bu "+result)
-//            temp.uuid=result[i].uuid;
-//            temp.lat=result[i].lat;
-//            temp.long=result[i].long;
-//            beacons.push(temp);
-//        }
-//        console.log("beacons bu "+beacons);
-//    })
-//     .catch(error => {
-//       console.log(error);
-//     });
-//     return beacons;
-// }

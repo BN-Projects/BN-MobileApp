@@ -75,7 +75,7 @@ class BeaconMonitoringAndRanging extends Component {
     // region information
     uuid: '',
     identifier: 'some id',
-
+    count:0,
     rangingDataSource:     new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
     regionEnterDatasource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([]),
     regionExitDatasource:  new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([])
@@ -118,8 +118,26 @@ try {
 
 // Print a log of the detected iBeacons (1 per second)
 DeviceEventEmitter.addListener('beaconsDidRange', (data) => {
-  this.props.actions.setBeaconRange(data.beacons)
-  console.log('Found beacons!', data.beacons)
+  if(Array.isArray(data.beacons) && data.beacons.length)
+  {
+    this.props.actions.setBeaconRange(data.beacons)
+    console.log('Found beacons!', data.beacons)
+    this.setState({
+      count:0
+    })
+  }
+  else{
+    this.setState({count:this.state.count+1},function(){
+      if(this.state.count>=7)
+      {
+        this.props.actions.setBeaconRange(data.beacons)
+        console.log('Found beacons!', data.beacons)
+        this.setState({
+          count:0
+        })
+      }
+    })  
+  }
 })//buraya bak
   }
 

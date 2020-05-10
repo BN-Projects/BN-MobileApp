@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes"
 import putProfile from '../../models/api/putProfile';
 export function profileEdit(profile)
 {
-    console.log(profile.error)
     return {
         type:actionTypes.PROFILEEDIT,
         payload:profile

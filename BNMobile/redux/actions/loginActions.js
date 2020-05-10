@@ -14,7 +14,6 @@ export function getToken(paramsValues)
         postLogin(paramsValues)
         .then((result)=>{
             dispatch(login(result))
-            console.log(result);
             Actions.replace("drawerMenu");
             Actions.Device();
         })

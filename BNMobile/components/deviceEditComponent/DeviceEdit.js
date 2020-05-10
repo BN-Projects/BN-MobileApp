@@ -15,6 +15,7 @@ import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import { Alert } from "react-native";
 
 class DeviceEdit extends Component {
   isValid ={
@@ -81,7 +82,6 @@ class DeviceEdit extends Component {
         let source = { uri: 'data:'+image.mime+';base64,' + image.data };
         let typeNum=image.mime.indexOf('/');
         let type=image.mime.slice(typeNum+1);
-        console.log(type)
         this.setState({
           image_logo: source,
           image_logo_uri:image.data,
@@ -104,17 +104,22 @@ class DeviceEdit extends Component {
       }
   onPress(state)
   {
-    console.log(state)
     this.regName(state.name);
     this.regSecurityArea(state.securityArea);
     if(this.isFormValid())
     {
-      console.log("form geçerli")
       var paramsValues=[state.name, state.securityArea, state.image_logo_uri, state.image_type, this.props.beacon.deviceId];
       this.props.actions.putBeaconEdit(paramsValues)
     }else{
-      console.log("form geçersiz")
-      Actions.replace("Error")
+      //Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "OK"}
+      ],
+      { cancelable: false }
+    );
     }
   }
   goToDevice = () =>
@@ -179,7 +184,7 @@ class DeviceEdit extends Component {
             onChangeText={item => this.setState({ name:item})}
             onIconPress={() => this.setState({ name: '' })}
             captionStyle={Styles.red}
-            caption={this.regName(this.state.name) ? '' : 'Can not be empty'}
+            caption={this.regName(this.state.name) ? '' : 'Bu alan boş bırakılamaz'}
           />
           <Input
             style={this.regSecurityArea(this.state.securityArea) ? Styles.successInput : this.state.securityArea=='' ? Styles.input : Styles.emptyInput}
@@ -192,7 +197,7 @@ class DeviceEdit extends Component {
             onIconPress={() => this.setState({ securityArea: '' })}
             keyboardType={'numeric'}
             captionStyle={Styles.red}
-            caption={this.regSecurityArea(this.state.securityArea) ? '' : 'must be 0-500'}
+            caption={this.regSecurityArea(this.state.securityArea) ? '' : 'Değer 0-500 arasında olmalıdır'}
           />
         </Layout>
         <Button 

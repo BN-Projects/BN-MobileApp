@@ -42,7 +42,6 @@ class LostBeacon extends Component {
           let name = this.props.getBeacons.map((beacon) =>{
             if(beacon.beacon_id==this.props.isModalVisible.beacon_id)
             {
-              console.log("beacon adı "+beacon.beacon_name)
               return beacon.beacon_name
             }
           })

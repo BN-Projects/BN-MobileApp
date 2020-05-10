@@ -5,14 +5,11 @@ export default async function putPassword(paramsValues){
     var directory="changepassword";
     var paramsNames=["oldPass","newPass","newPassAgain","id"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"PUT")
-    console.log(obj)
     await axios.put(obj.url,obj.data)
     .then((res) => {
-        console.log(res.data)
         password=res.data;
      })
      .catch(error => {
-       console.log(error);
      });
     return password;
  }

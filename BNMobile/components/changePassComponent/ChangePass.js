@@ -17,7 +17,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import * as LoginActions from "../../redux/actions/loginActions";
 import * as LogoutActions from "../../redux/actions/logoutActions";
 import md5 from 'md5';
-
+import {Alert} from 'react-native';
 class ChangePass extends Component {
   isValid ={
     passwordIsValid: false,
@@ -44,7 +44,6 @@ class ChangePass extends Component {
   };
   onPress(state)
   {
-    console.log(state)
     let hashCheckPass=md5(state.checkPass);
     let hashNewPass=md5(state.newPass);
     let hashCheckNewPass=md5(state.checkNewPass);
@@ -52,17 +51,28 @@ class ChangePass extends Component {
     {
         if(this.isFormValid())
         {
-        console.log("form geçerli")
           var paramsValues=[hashCheckPass, hashNewPass, hashCheckNewPass, state.id];
           this.props.actions.putChangePass(paramsValues)
         }else{
-        console.log("form geçersiz")
-          Actions.replace("Error")
+          Alert.alert(
+            "Hata!",
+          "Verileriniz olması gereken değerlerin dışında",
+          [
+            { text: "OK"}
+          ],
+          { cancelable: false }
+          )
         }
     }
     else{
-        console.log("form geçersiz")
-          Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "OK"}
+      ],
+      { cancelable: false }
+      )
     }
     
   }
@@ -117,7 +127,6 @@ class ChangePass extends Component {
   {
     if(this.props.passwordEdit.error=="false")
     {
-      console.log("girdi")
       this.props.actions.clearChangePass("");
       this.toggleModal()
       setTimeout(

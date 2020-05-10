@@ -8,11 +8,9 @@ export default async function postLogin(paramsValues){
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
     await axios.post(obj.url,obj.data)
     .then((res) => {
-          console.log(res.data)
          login=res.data.user_token;
      })
      .catch(error => {
-       console.log(error);
      });
     return login;
  }

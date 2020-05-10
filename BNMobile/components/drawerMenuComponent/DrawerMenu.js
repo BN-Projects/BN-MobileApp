@@ -74,13 +74,6 @@ const data = [
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Cihaz Tarama',
-    key:'FindDevice',
-    icon: StarIcon,
-    style: styles.menuItem,
-    titleStyle:styles.menuItemTitle,
-  },
-  {
     title: 'Bildirimlerim',
     key:'Notification',
     icon: StarIcon,
@@ -199,11 +192,9 @@ export class DrawerMenu extends Component{
     </TouchableOpacity>
   )
   modalIsVisible(){
-    console.log("burda")
       this.setState({
         findDeviceModalVisible:!this.state.findDeviceModalVisible
       });
-    console.log(this.state.findDeviceModalVisible)
   }
 }
 class DrawerMenuContent extends Component{

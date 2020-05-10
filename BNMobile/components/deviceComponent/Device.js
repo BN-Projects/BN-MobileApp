@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image, ScrollView, TouchableOpacity, Alert} from 'react-native';
+import {View, Image} from 'react-native';
 import {Button, List, Text, Layout, Spinner} from '@ui-kitten/components';
 import {ArrowRightIcon} from './extra/icons';
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import { Actions } from 'react-native-router-flux';
+import Styles from './Styles';
 class Device extends Component {
   constructor(props) {
     super(props);
@@ -17,10 +18,9 @@ class Device extends Component {
   }
   onItemPress = (ID) => {
     Actions.replace("DeviceDetail",{ ID: ID })
-    // Actions.DeviceDetail({ID: ID})
   };
   renderLoading = () => (
-    <View style={styles.loading}>
+    <View style={Styles.loading}>
       <Spinner/>
     </View>
   );
@@ -34,7 +34,6 @@ class Device extends Component {
   }
   getBeaconList()
   {
-    console.log("asda "+this.props.profile.user_id)
     this.props.actions.getBeacons([this.props.profile.user_id]);
     this.showSpinner()
   }
@@ -50,16 +49,15 @@ class Device extends Component {
       var condition = this.props.getBeaconRange.map((range) =>{
         if(range.uuid==item.uuid)
         {
-          console.log(range)
           return(
-          <Text style={styles.itemDescription} category="h6" status="control">
+          <Text style={Styles.itemDescription} category="h6" status="control">
           {range.proximity}
           </Text>
           );
         }
         else{
           return(
-            <Text style={styles.itemDescription} category="h6" status="control">
+            <Text style={Styles.itemDescription} category="h6" status="control">
               Tanımsız
             </Text>
           )
@@ -69,8 +67,8 @@ class Device extends Component {
     }
     else{
       return(
-        <Text style={styles.itemDescription} category="h6" status="control">
-          Tanımsız asdasda
+        <Text style={Styles.itemDescription} category="h6" status="control">
+          Tanımsız
         </Text>
       )
       
@@ -78,33 +76,33 @@ class Device extends Component {
   }
     
   renderItem = info => (
-    <View style={styles.item}>
-      <Layout style={styles.itemImage}>
-        <View style={styles.layout}>
-          <View style={styles.left}>
-            <Text style={styles.itemTitle} category="h4" status="control">
+    <View style={Styles.item}>
+      <Layout style={Styles.itemImage}>
+        <View style={Styles.layout}>
+          <View style={Styles.left}>
+            <Text style={Styles.itemTitle} category="h4" status="control">
               {info.item.beacon_name}
             </Text>
-            <Text style={styles.itemDescription} category="s1" status="control">
+            <Text style={Styles.itemDescription} category="s1" status="control">
               Tür: {info.item.type}
             </Text>
           </View>
-          <View style={styles.right}>
+          <View style={Styles.right}>
               {this.proximity(info.item)}
           </View>
         </View>
 
-        <View style={styles.itemFooter}>
+        <View style={Styles.itemFooter}>
           <Image
-            style={styles.headerImage}
+            style={Styles.headerImage}
             source={{
               uri:info.item.img? info.item.img :
                 'https://clipartart.com/images/default-profile-picture-clipart-1.jpg',
             }}
           />
-          <View style={styles.space}></View>
+          <View style={Styles.space}></View>
           <Button
-            style={styles.iconButton}
+            style={Styles.iconButton}
             appearance="outline"
             status="control"
             icon={ArrowRightIcon}
@@ -117,15 +115,15 @@ class Device extends Component {
   );
   render() {
     return (
-      <Layout style={styles.layout}>
+      <Layout style={Styles.layout}>
         {
           this.state.spinner == false ?
           this.renderLoading()
         :
         <>
           <List
-          style={styles.list}
-          contentContainerStyle={styles.listContent}
+          style={Styles.list}
+          contentContainerStyle={Styles.listContent}
           data={this.props.beacons}
           renderItem={this.renderItem.bind()}
           />
@@ -164,72 +162,3 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Device);
 
-const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-  },
-  spinnerTextStyle: {
-    color: '#FFF'
-  },
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  layout: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  left: {
-    flex: 2,
-  },
-  right: {
-    flex: 1,
-  },
-  listContent: {
-    paddingHorizontal: '5%',
-    paddingVertical: '2%',
-  },
-  headerImage: {
-    resizeMode: 'contain',
-    width: '100%',
-    height: '100%',
-    borderRadius: 75,
-    flex: 1,
-  },
-  item: {
-    marginVertical: '3%',
-    height: 180,
-    borderRadius: 15,
-  },
-  itemImage: {
-    width: '100%',
-    height: '100%',
-    paddingVertical: 24,
-    paddingHorizontal: 16,
-    backgroundColor: '#55AFFB',
-    borderRadius: 15,
-  },
-  itemDescription: {
-    marginVertical: '5%',
-  },
-  itemFooter: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  iconButton: {
-    flex: 3
-  },
-  space: {
-    flex:3
-  },
-  headerImage: {
-    resizeMode: 'contain',
-    width: '100%',
-    height: '100%',
-    justifyContent: 'flex-end',
-    alignContent: 'flex-end',
-    borderRadius: 75,
-    flex: 2,
-  },
-});

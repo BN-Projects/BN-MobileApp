@@ -16,4 +16,5 @@ export const LOSTBEACONMODAL="LOSTBEACONMODAL"
 export const CHECKLOSTDEVICE="CHECKLOSTDEVICE"
 export const ALARMCONTROL="ALARMCONTROL"
 export const PUSH="PUSH"
+export const NOTIFICATION="NOTIFICATION"
 //action types belirlendi 

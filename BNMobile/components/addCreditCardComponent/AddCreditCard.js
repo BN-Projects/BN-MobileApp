@@ -12,12 +12,10 @@ export default class AddCreditCard extends Component {
       const card = await CardIOModule.scanCard();
       alert(JSON.stringify(card));
     } catch (err) {
-      console.log(err);
     }
   };
   _onChange(form)
   {
-    console.log(form)
   }
   render() {
     return (

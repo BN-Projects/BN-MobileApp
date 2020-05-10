@@ -5,7 +5,6 @@ export default async function getLostBeaconList(paramsValues){
     var directory="lostdevices";
     var paramsNames=["userId"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
-    console.log("getLostBeaconList "+obj)
     await axios.post(obj.url,obj.data)
     .then((res) => {
       if(!res.data.error){
@@ -16,7 +15,6 @@ export default async function getLostBeaconList(paramsValues){
       }
      })
      .catch(error => {
-       console.log(error);
      });
     return lostBeacons;
  }

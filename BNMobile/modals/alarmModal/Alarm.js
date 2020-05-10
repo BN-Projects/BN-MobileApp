@@ -93,14 +93,15 @@ class Alarm extends Component {
           for(let range in this.props.getBeaconRange){
             for(let item in this.props.getBeacons){
               if(range.uuid==item.uuid){
-                if(Math.floor(range.distance)>30){
+                console.log(item)
+                if(Math.floor(range.distance)>item.variance){
                   this.setState({
                     beacon_name:item.beacon_name,
                     error:2,
                     loading:true,
                     visible:true
                   })
-                  //this.control()
+                  // this.control()
                 }
               }
             }
@@ -132,7 +133,7 @@ class Alarm extends Component {
             loading:true,
             visible:true
           })
-          //this.control()
+          // this.control()
         }
       }
       else{
@@ -142,7 +143,7 @@ class Alarm extends Component {
           loading:true,
           visible:true
         })
-        //this.control()
+        // this.control()
       }
     }
     }

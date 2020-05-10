@@ -13,7 +13,6 @@ export function setLostDevice(paramsValues)
         postCheckLostDevice(paramsValues)
         .then((result)=>{
             dispatch(checkLostDevice(result))
-            console.log(result);
         })
     }
 }

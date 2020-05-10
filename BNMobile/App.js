@@ -61,17 +61,48 @@ class App extends Component{
     this.props.actions.push(device.userId)
   }
   componentDidMount(){
-    this.props.actions.login("")
     console.log("token "+this.props.token)
     if(this.props.token=="")
     {
       Actions.Login();
     }
     else{
+      console.log("gidiyor")
       Actions.drawerMenu();
       Actions.Device();
     }
   }
+
+  // componentDidMount(){
+  //   if(this.props.token!="")
+  //   {
+  //     console.log("token var")
+  //     this.props.actions.getProfile([this.props.token])
+  //   }
+  //   else{
+  //     Actions.Login();
+  //   }
+  // }
+  // componentDidUpdate()
+  // {
+  //   if(this.props.profile.error==false && this.state.loading==false)
+  //   {
+  //     console.log("false")
+  //     this.setState({
+  //       loading:true
+  //     })
+  //     Actions.drawerMenu();
+  //     Actions.Device();
+  //   }
+  //   if(this.props.profile.error==true && this.state.loading==false)
+  //   {
+  //     console.log("true")
+  //     Actions.Login();
+  //     this.setState({
+  //       loading:true
+  //     })
+  //   }
+  // }
   render()
   {
     return(
@@ -102,6 +133,7 @@ class App extends Component{
                 <Scene key="Settings" component={Settings}/>
                 <Scene key="Error" component={Error}/>
                 <Scene key="ChangePass" component={ChangePass}/>
+                {/* üste dinamik path gelecek */}
               </Scene>
             </Scene>
           </Modal>
