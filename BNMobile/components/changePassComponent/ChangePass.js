@@ -58,7 +58,7 @@ class ChangePass extends Component {
             "Hata!",
           "Verileriniz olması gereken değerlerin dışında",
           [
-            { text: "OK"}
+            { text: "Tamam"}
           ],
           { cancelable: false }
           )
@@ -69,7 +69,7 @@ class ChangePass extends Component {
         "Hata!",
       "Verileriniz olması gereken değerlerin dışında",
       [
-        { text: "OK"}
+        { text: "Tamam"}
       ],
       { cancelable: false }
       )

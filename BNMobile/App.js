@@ -61,6 +61,7 @@ class App extends Component{
     this.props.actions.push(device.userId)
   }
   componentDidMount(){
+    this.props.actions.login("")
     console.log("token "+this.props.token)
     if(this.props.token=="")
     {

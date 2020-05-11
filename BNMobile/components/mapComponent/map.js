@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Alert, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Alert, TouchableOpacity, StyleSheet, PermissionsAndroid} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import {Button, Icon, Spinner, Card, Layout, Input} from '@ui-kitten/components';
 import Modal from 'react-native-modal';
@@ -10,6 +10,7 @@ import { bindActionCreators } from "redux";
 import { Actions } from 'react-native-router-flux';
 import LostBeacon from '../../modals/lostBeaconModal/LostBeacon';
 import * as LostBeaconModalActions from "../../redux/actions/lostBeaconModalActions";
+import Geolocation from '@react-native-community/geolocation';
 const pin = style => <Icon {...style} fill={'#fff'} name="pin" />;
 const ArrowRightIcon = style => <Icon {...style} name='arrow-right' fill="#fff"/>
 const CloseOutlineIcon = style => <Icon {...style} name='close-outline' fill="#55AFFB"/>
@@ -19,17 +20,11 @@ class Map extends Component {
     this.state = {
       region: {
         latitude: 41.0329,
-        longitude: 29.1014,
+        longitude: 36.1014,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
       marker:"",
-      // marker: {
-      //   latitude: 41.0329,
-      //   longitude: 29.1014,
-      //   latitudeDelta: 0.01,
-      //   longitudeDelta: 0.01,
-      // },
       scrollOffset: null,
       spinner: false,
       addItemModalVisible:false,
@@ -83,9 +78,46 @@ class Map extends Component {
   };
   onZoomIn = () => this.onZoom(1);
   onZoomOut = () => this.onZoom(-1);
-  componentDidMount()
+  async componentDidMount()
   {
     this.props.actions.getLostBeacons([this.props.profile.user_id]);
+    const grantedLocation = await PermissionsAndroid.request( PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    //   ,{
+    //   title: "Konum tanımlama için izin isteği",
+    //   message:
+    //     "Konumunuzu tanımlayabilmemiz için lütfen izin veriniz.",
+    //   buttonNeutral: "Daha sonra sor",
+    //   buttonNegative: "Reddet",
+    //   buttonPositive: "Kabul et"
+    // }
+    );
+    //const granted = await PermissionsAndroid.check( PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+    if (grantedLocation===PermissionsAndroid.RESULTS.GRANTED) {
+      var watchId=Geolocation.watchPosition(
+          position => {
+            this.setState({
+              region:{
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }
+            })
+          },
+          (error) =>{
+          console.log("2 ",error),
+           Alert.alert(
+            "",
+          "Eğer geçerli konumunuz ile işlem yapmak istiyorsanız lütfen konumlama sisteminizi aktif hale getiriniz.",
+          [
+            { text: "Kabul et"}
+          ],
+          { cancelable: false }
+        )});
+    }
+    else{
+      Actions.replace("Device")
+    }
   }
   renderLoading = () => (
     <View style={styles.loading}>
@@ -162,7 +194,7 @@ class Map extends Component {
         "Hata!",
       "Verileriniz olması gereken değerlerin dışında",
       [
-        { text: "OK"}
+        { text: "Tamam"}
       ],
       { cancelable: false }
       )

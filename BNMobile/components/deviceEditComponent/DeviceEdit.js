@@ -116,7 +116,7 @@ class DeviceEdit extends Component {
         "Hata!",
       "Verileriniz olması gereken değerlerin dışında",
       [
-        { text: "OK"}
+        { text: "Tamam"}
       ],
       { cancelable: false }
     );

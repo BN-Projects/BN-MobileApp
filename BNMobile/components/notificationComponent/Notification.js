@@ -38,7 +38,7 @@ class Notification extends Component {
         "Hata!",
       "Kayıt bulunamamıştır",
       [
-        { text: "OK"}
+        { text: "Tamam"}
       ],
       { cancelable: false }
     );
