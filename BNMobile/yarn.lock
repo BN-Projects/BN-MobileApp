@@ -670,6 +670,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@cs125/wait-until@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@cs125/wait-until/-/wait-until-0.0.3.tgz#957fc279121704845300dac47ee37a3b34c203d2"
+  integrity sha512-Z3+GXZbAjiiI0cJi1si+WfBBPfmLwZ9Tk4wqyFJGeZHJilyveBCpSktHdJlmqjHBBvrMi8ymXefYi2S833LhRA==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -5514,6 +5519,13 @@ react-native-beacons-manager@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/react-native-beacons-manager/-/react-native-beacons-manager-1.0.7.tgz#b25a70e80f2b025013f3e2156e3ba59055078364"
   integrity sha512-pTaVaM7lwQ2yiWAfU3lgsYvd+Y65YAKhID/axSmNqoPKAu2RdgLTUJUhYNYPOArWJCa6IdQ6OuMx5IqWl/gEIQ==
+
+react-native-bluetooth-status@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-bluetooth-status/-/react-native-bluetooth-status-1.5.0.tgz#038e64a7a67b500676d108284fc083d84ba66373"
+  integrity sha512-Oz7PRTsGX1OgZwSXvWyfDRKPcpcQTolwZVBBWZZa76Up3qB9zLgwm15S06CwacRE/GFGccJNnnLQg6XCXn4MOw==
+  dependencies:
+    "@cs125/wait-until" "^0.0.3"
 
 react-native-bouncy-drawer@^1.0.1:
   version "1.0.1"

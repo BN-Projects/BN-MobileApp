@@ -16,6 +16,8 @@ import checkLostDeviceReducer from './checkLostDeviceReducer';
 import alarmControlReducer from './alarmControlReducer';
 import pushReducer from './pushReducer';
 import notificationReducer from './notificationReducer';
+import profileReducer2 from './profileReducer2';
+import lostPasswordReducer from './lostPasswordReducer'
 const appReducer = combineReducers({
     changePageReducer,
     loginReducer,
@@ -34,7 +36,9 @@ const appReducer = combineReducers({
     checkLostDeviceReducer,
     alarmControlReducer,
     pushReducer,
-    notificationReducer
+    notificationReducer,
+    profileReducer2,
+    lostPasswordReducer
 })
 const rootReducer = (state, action) => {
     if (action.type === 'LOGOUT') {

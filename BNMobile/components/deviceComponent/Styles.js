@@ -49,7 +49,7 @@ list: {
   },
   itemFooter: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   iconButton: {
     flex: 3

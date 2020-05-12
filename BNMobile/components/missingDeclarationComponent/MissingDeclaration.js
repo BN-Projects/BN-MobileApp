@@ -92,6 +92,7 @@ class MissingDeclaration extends Component {
     }
     if(this.props.lostBeacon.error=="true")
     {
+      console.log(this.props.lostBeacon)
       this.props.actions.clearLostDevice("");
       Actions.replace("Error")
     }
@@ -308,7 +309,7 @@ class MissingDeclaration extends Component {
         style={Styles.save} 
         size="giant" 
         textStyle={Styles.buttonColor}  >
-          Save Changes
+          Değişiklikleri kaydet
         </Button>
         </Layout>
         </View>

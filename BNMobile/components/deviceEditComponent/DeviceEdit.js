@@ -205,7 +205,7 @@ class DeviceEdit extends Component {
         style={Styles.save} 
         size="giant" 
         textStyle={Styles.buttonColor}  >
-          Save Changes
+          Değişiklikleri kaydet
         </Button>
         <ActionSheet
           ref={o => this.ActionSheet = o}

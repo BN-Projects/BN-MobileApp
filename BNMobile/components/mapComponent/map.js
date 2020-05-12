@@ -74,24 +74,13 @@ class Map extends Component {
     if (this.map.current != null) {
       this.map.current.animateToRegion(zoomedRegion);
     }
-    //this.state.map.current!.animateToRegion(zoomedRegion);
   };
   onZoomIn = () => this.onZoom(1);
   onZoomOut = () => this.onZoom(-1);
   async componentDidMount()
   {
     this.props.actions.getLostBeacons([this.props.profile.user_id]);
-    const grantedLocation = await PermissionsAndroid.request( PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-    //   ,{
-    //   title: "Konum tanımlama için izin isteği",
-    //   message:
-    //     "Konumunuzu tanımlayabilmemiz için lütfen izin veriniz.",
-    //   buttonNeutral: "Daha sonra sor",
-    //   buttonNegative: "Reddet",
-    //   buttonPositive: "Kabul et"
-    // }
-    );
-    //const granted = await PermissionsAndroid.check( PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+    const grantedLocation = await PermissionsAndroid.request( PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
     if (grantedLocation===PermissionsAndroid.RESULTS.GRANTED) {
       var watchId=Geolocation.watchPosition(
           position => {
@@ -129,18 +118,6 @@ class Map extends Component {
       region: region,
     });
   };
-  // adddMarker(state) {
-  //   let regionToBeMarked = {
-  //       latitude: state.region.latitude,
-  //       longitude: state.region.longitude,
-  //       latitudeDelta: 0.01,
-  //       longitudeDelta: 0.01,
-  //   };
-  //   this.setState({
-  //       marker: regionToBeMarked,
-  //   });
-  //   this.showMarker();
-  // }
   showLostBeaconsMarkers(lostBeacons)
   {
     if(lostBeacons=="")
@@ -159,8 +136,6 @@ class Map extends Component {
           <Marker
             pinColor={'#55AFFB'}
             coordinate={coordinate}
-            // description={marker.lost_desc}
-            // title={marker.lost_date}
             key={index}
             onPress={() => this.isVisible(marker.beacon_id,marker.user_mail,marker.user_phone, marker.lost_desc)}
           />
@@ -237,7 +212,7 @@ class Map extends Component {
             style={styles.save} 
             size="giant" 
             textStyle={styles.buttonColor}  >
-            Save Changes
+            Değişiklikleri kaydet
             </Button>
             </KeyboardAwareScrollView>
           </Card>

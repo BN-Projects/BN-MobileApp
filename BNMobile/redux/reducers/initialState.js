@@ -5,6 +5,7 @@ export default {
     beaconDetail:"",
     beaconEdit:"",
     profile:"",
+    profile2:"",
     profileEdit:"",
     lostBeacons:"",
     lostBeacon:"",
@@ -25,6 +26,7 @@ export default {
         vibration:true
     },
     push:"",
-    notification:""
+    notification:"",
+    lostPassword:""
 }
 //default parametreler oluşturuldu

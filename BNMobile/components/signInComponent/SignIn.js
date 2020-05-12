@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View} from 'react-native';
-import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import { View, ToastAndroid} from 'react-native';
+import { Button, Input, Layout, Text, Modal, Card } from '@ui-kitten/components';
 import { EyeIcon, EyeOffIcon, PersonIcon, GoogleIcon, FacebookIcon, TwitterIcon } from './extra/icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from "react-redux";
@@ -8,8 +8,10 @@ import { bindActionCreators } from "redux";
 import * as LoginActions from "../../redux/actions/loginActions";
 import { Actions } from 'react-native-router-flux';
 import * as ProfileActions from "../../redux/actions/profileActions";
+import * as LostPasswordActions from "../../redux/actions/lostPasswordActions";
 import Styles from './Styles';
 import md5 from 'md5';
+
 class SıgnIn extends Component {
   constructor(props)
   {
@@ -18,10 +20,24 @@ class SıgnIn extends Component {
       email:"",
       password:"",
       passwordVisible:false,
-      showError:false
+      showError:false,
+      lostEmail:"",
+      lostEmailmodal:false,
+      loadinglostEmail:false,
+      toastVisible:false
+    }
+    console.log(this.props.all)
+  }
+  showToast(){
+    if(this.props.getMail.error=="false")
+    {
+      ToastAndroid.show("İşlem başarılı", ToastAndroid.SHORT);
+    }
+    if(this.props.getMail.error=="true")
+    {
+      ToastAndroid.show("İşlem başarısız", ToastAndroid.SHORT);
     }
   }
-    
 
   onSignUpButtonPress(){
     var hash = md5("deneme");
@@ -34,20 +50,66 @@ class SıgnIn extends Component {
       passwordVisible:!this.state.passwordVisible
     })
   };
-  componentDidUpdate = () =>
+  componentDidUpdate()
   {
-    if(this.props.login.error==false)
+    // if(this.props.login.error==false)
+    // {
+    //   Actions.drawerMenu();
+    //   Actions.Device();
+    // }
+    // if(this.props.login.error==true)
+    // {
+    //   this.setState({
+    //     showError:true
+    //   })
+    // }
+    if(this.props.getMail.error=="true" && this.state.loadinglostEmail==false)
     {
-      Actions.drawerMenu();
-      Actions.Device();
-    }
-    if(this.props.login.error==true)
-    {
+      this.props.actions.clearMail("")
       this.setState({
-        showError:true
+        lostEmailmodal:false,
+        loadinglostEmail:true
       })
+      this.showToast()
+    }
+    if(this.props.getMail.error=="false"  && this.state.loadinglostEmail==false)
+    {
+      this.props.actions.clearMail("")
+      this.setState({
+        lostEmailmodal:false,
+        loadinglostEmail:true
+      })
+      this.showToast()
     }
   }
+  sendEmail = (state) => {
+    this.props.actions.setMail([state.lostEmail])
+  }
+  renderModal=() => (
+    <Modal
+        visible={this.state.lostEmailmodal}
+        backdropStyle={Styles.backdrop}
+        onBackdropPress={() => this.setState({lostEmailmodal:false})}>
+        <Card disabled={true}>
+          <Text>Lütfen kayıtlı mail adresinizi giriniz.</Text>
+          <Input
+            style={Styles.input}
+            placeholder='Email'
+            icon={PersonIcon}
+            value={this.state.lostEmail}
+            onChangeText={item => this.setState({lostEmail:item})}
+            textStyle={Styles.bnColor}
+          />
+          <Button
+          style={Styles.signInButton}
+          textStyle={Styles.buttonColor}
+          size='giant'
+          onPress={() => this.sendEmail(this.state)}>
+          GÖNDER
+        </Button>
+        </Card>
+      </Modal>
+  )
   render()
   {
     return (
@@ -101,13 +163,13 @@ class SıgnIn extends Component {
           textStyle={Styles.buttonColor}
           size='giant'
           onPress={() => this.onSignUpButtonPress(this.state)}>
-          SIGN IN
+          GİRİŞ YAP
         </Button>
         <View style={Styles.socialAuthContainer}>
           <Text
             style={Styles.socialAuthHintText}
             status='control'>
-            Or Sign In using Social Media
+            Bizi sosyal medya hesaplarımızdan takip edin!
           </Text>
           <View style={Styles.socialAuthButtonsContainer}>
             <Button
@@ -130,14 +192,15 @@ class SıgnIn extends Component {
             />
           </View>
         </View>
-        
+        {this.renderModal()}
         <Button
           textStyle={Styles.bnColor}
           style={Styles.signUpButton}
           appearance='ghost'
           status='basic'
+          onPress={() => this.setState({lostEmailmodal:true})}
           >
-          Don't have an account? Create
+          Şifreni mi unuttun? Tıkla!
         </Button>
         </Layout>
         
@@ -150,16 +213,20 @@ function mapStateToProps(state) {
   return {
     login: state.loginReducer,
     profile: state.profileReducer,
-    getPush: state.pushReducer
+    getPush: state.pushReducer,
+    getMail:state.lostPasswordReducer,
+    all:state
   };
-}//reducer'dan çekilen veri props'lara işlendi
+}
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
       getToken: bindActionCreators(LoginActions.getToken, dispatch),
       getProfile: bindActionCreators(ProfileActions.getProfile, dispatch),
+      setMail: bindActionCreators(LostPasswordActions.getlostPassword, dispatch),
+      clearMail: bindActionCreators(LostPasswordActions.lostPassword, dispatch),
     }
   };
-}//actions alındı
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SıgnIn);

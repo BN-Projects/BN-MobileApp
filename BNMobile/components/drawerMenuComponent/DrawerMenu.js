@@ -150,6 +150,7 @@ export class DrawerMenu extends Component{
         }
     })}
       captureGestures={true}
+      acceptPan={Actions.currentScene=="Map" ? false : true}
       tweenDuration={350}
       panThreshold={0.10}
       disabled={this.state.drawerDisabled}
@@ -179,7 +180,6 @@ export class DrawerMenu extends Component{
     );
   }
   componentDidMount(){
-    Actions.Login()
   }
   renderLeftControl = () => (
     <TouchableOpacity style={{width:'50%',height:'50%'}} onPress={()=>this._drawer.open()}>

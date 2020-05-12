@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image} from 'react-native';
+import {View, Image, DeviceEventEmitter} from 'react-native';
 import {Button, List, Text, Layout, Spinner} from '@ui-kitten/components';
 import {ArrowRightIcon} from './extra/icons';
 import { connect } from "react-redux";
@@ -8,12 +8,14 @@ import * as BeaconListActions from "../../redux/actions/beaconListActions";
 import * as ProfileActions from "../../redux/actions/profileActions";
 import { Actions } from 'react-native-router-flux';
 import Styles from './Styles';
+import { BluetoothStatus } from 'react-native-bluetooth-status';
 class Device extends Component {
   constructor(props) {
     super(props);
     this.state={
       spinner: false
     }
+    BluetoothStatus.enable();
     props.actions.getProfile([this.props.login])
   }
   onItemPress = (ID) => {
@@ -24,7 +26,13 @@ class Device extends Component {
       <Spinner/>
     </View>
   );
+  listening=(status)=>{
+    console.log("");
+  }
   componentDidMount(){
+    BluetoothStatus.addListener((status)=>{
+        BluetoothStatus.enable();
+    })
   }
   componentDidUpdate = () => {
     if(this.props.profile.error==false && this.state.spinner==false)

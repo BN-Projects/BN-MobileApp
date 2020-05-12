@@ -191,7 +191,7 @@ class ChangePass extends Component {
         style={Styles.save} 
         size="giant" 
         textStyle={Styles.buttonColor} >
-          Save Changes
+          Değişiklikleri kaydet
         </Button>
         <Success visible={this.state.visible} ></Success>
       </KeyboardAwareScrollView>

@@ -10,8 +10,6 @@ import { bindActionCreators } from "redux";
 import * as CheckLostDeviceActions from "../../redux/actions/checkLostDeviceActions";
 class FindDevice extends Component {
   state = {
-    name:'burak',
-    image:'',
     loadingBeacon:false,
     loadingPage:false,
   };
@@ -24,10 +22,12 @@ class FindDevice extends Component {
   {
     if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length && this.state.loadingBeacon==false)
     {
+      console.log("içerde",this.props.getBeaconRange)
       this.props.getBeaconRange.map((range) =>{
         if(range.distance<1)
         {
-          this.props.actions.setLostDevice([range.uuid]);
+          console.log("yolluyo", range.uuid)
+          this.props.actions.setLostDevice(["sadassasd"]);
         }
       })
       this.setState({
@@ -36,6 +36,7 @@ class FindDevice extends Component {
     }
     if(this.props.getLostDevice != "" && this.state.loadingPage==false)
     {
+      console.log("var",this.props.getLostDevice)
       this.setState({
         loadingPage:true
       })
@@ -67,17 +68,11 @@ class FindDevice extends Component {
             category="p1">
               {
                 this.state.loadingPage==true && this.props.getLostDevice.error==false
-                ? this.props.getLostDevice
+                ? this.props.getLostDevice.BeaconInfos.beacon_name
                 : "Cihaz Taranıyor ..."
               }
           </Text>
           <View style={styles.socialAuthButtonsContainer}>
-            <Button
-              appearance='ghost'
-              size='giant'
-              icon={MapIcon}
-            >
-            </Button>
             <Button
               appearance='ghost'
               size='giant'
@@ -155,7 +150,8 @@ const styles = StyleSheet.create({
   socialAuthButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginVertical:'10%'
+    marginVertical:'10%',
+    marginHorizontal:'15%'
   },
   socialAuthHintText: {
     alignSelf: 'center',

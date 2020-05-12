@@ -55,7 +55,10 @@ const Styles = {
     alignSelf: 'center',
     marginBottom: 5,
     color:'#FF3D71'
-  }
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 
 };
 export default Styles;

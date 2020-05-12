@@ -26,9 +26,13 @@ import ChangePass from './components/changePassComponent/ChangePass';
 import Settings from './components/settingsComponent/Settings'
 import OneSignal from 'react-native-onesignal';
 import * as PushActions from "./redux/actions/pushActions";
+import * as ProfileActions from "./redux/actions/profileActions";
 class App extends Component{
   constructor(props) {
     super(props);
+    this.state={
+      loading:false
+    }
     //Remove this method to stop OneSignal Debugging 
     OneSignal.setLogLevel(6, 0);
     
@@ -57,7 +61,7 @@ class App extends Component{
   }
 
   onIds(device) {
-    console.log('Device info: ', device);//logine yolla. bu sayfada da login'i güncelle
+    console.log('Device info: ', device);
     this.props.actions.push(device.userId)
   }
   componentDidMount(){
@@ -75,6 +79,8 @@ class App extends Component{
   }
 
   // componentDidMount(){
+  //   this.props.actions.login("")
+  //   console.log(this.props.all)
   //   if(this.props.token!="")
   //   {
   //     console.log("token var")
@@ -86,8 +92,9 @@ class App extends Component{
   // }
   // componentDidUpdate()
   // {
-  //   if(this.props.profile.error==false && this.state.loading==false)
+  //   if(this.props.all.error==false && this.state.loading==false)
   //   {
+  //     console.log(this.props.all)
   //     console.log("false")
   //     this.setState({
   //       loading:true
@@ -95,7 +102,7 @@ class App extends Component{
   //     Actions.drawerMenu();
   //     Actions.Device();
   //   }
-  //   if(this.props.profile.error==true && this.state.loading==false)
+  //   if(this.props.all.error==true && this.state.loading==false)
   //   {
   //     console.log("true")
   //     Actions.Login();
@@ -134,7 +141,6 @@ class App extends Component{
                 <Scene key="Settings" component={Settings}/>
                 <Scene key="Error" component={Error}/>
                 <Scene key="ChangePass" component={ChangePass}/>
-                {/* üste dinamik path gelecek */}
               </Scene>
             </Scene>
           </Modal>
@@ -145,7 +151,7 @@ class App extends Component{
 }
 function mapStateToProps(state) {
   return {
-    token: state.loginReducer,
+    token: state.loginReducer
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -153,6 +159,7 @@ function mapDispatchToProps(dispatch) {
     actions: {
       login: bindActionCreators(LoginActions.login, dispatch),
       push: bindActionCreators(PushActions.push, dispatch),
+      getProfile: bindActionCreators(ProfileActions.getProfile, dispatch)
     }
   };
 }//actions alındı
