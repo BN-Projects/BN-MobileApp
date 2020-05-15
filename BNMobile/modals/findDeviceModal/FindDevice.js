@@ -8,6 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as CheckLostDeviceActions from "../../redux/actions/checkLostDeviceActions";
+import Communications from 'react-native-communications';
 class FindDevice extends Component {
   state = {
     loadingBeacon:false,
@@ -22,12 +23,10 @@ class FindDevice extends Component {
   {
     if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length && this.state.loadingBeacon==false)
     {
-      console.log("içerde",this.props.getBeaconRange)
       this.props.getBeaconRange.map((range) =>{
         if(range.distance<1)
         {
-          console.log("yolluyo", range.uuid)
-          this.props.actions.setLostDevice(["sadassasd"]);
+          this.props.actions.setLostDevice([range.uuid]);
         }
       })
       this.setState({
@@ -36,7 +35,6 @@ class FindDevice extends Component {
     }
     if(this.props.getLostDevice != "" && this.state.loadingPage==false)
     {
-      console.log("var",this.props.getLostDevice)
       this.setState({
         loadingPage:true
       })
@@ -74,12 +72,14 @@ class FindDevice extends Component {
           </Text>
           <View style={styles.socialAuthButtonsContainer}>
             <Button
+              onPress={this.state.loadingPage==true && this.props.getLostDevice.error==false?() => Communications.email([this.props.getLostDevice.UserInfos.user_mail],null,null,null,null):null}
               appearance='ghost'
               size='giant'
               icon={EmailIcon}
             >
             </Button>
             <Button
+            onPress={this.state.loadingPage==true && this.props.getLostDevice.error==false?() => Communications.phonecall(this.props.getLostDevice.UserInfos.user_phone,true):null}
               appearance='ghost'
               size='giant'
               icon={PhoneIcon}>

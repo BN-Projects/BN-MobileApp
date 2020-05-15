@@ -26,7 +26,6 @@ class SıgnIn extends Component {
       loadinglostEmail:false,
       toastVisible:false
     }
-    console.log(this.props.all)
   }
   showToast(){
     if(this.props.getMail.error=="false")

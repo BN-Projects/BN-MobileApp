@@ -22,7 +22,7 @@ export default class About extends Component {
       }}
     />
       <Text style={[Styles.headerText,Styles.bnColor]} category="h6">
-        Biz var ya bizz
+        Motivasyonumuz hakkında kısa bir yazı.
       </Text>
     </React.Fragment>
   );

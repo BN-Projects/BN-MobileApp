@@ -15,9 +15,16 @@ class Notification extends Component {
   constructor(props) {
     super(props);
     this.state={
-      spinner:true
+      spinner:true,
+      refreshing:false
     }
     props.actions.getNotification([props.profile.user_id])
+  }
+  _onRefresh(){
+    this.setState({refreshing: true}, function(){
+      this.props.actions.getNotification([this.props.profile.user_id])
+    });
+      this.setState({refreshing: false});
   }
   renderLoading = () => (
     <View style={Styles.loading}>
@@ -26,17 +33,17 @@ class Notification extends Component {
   );
   componentDidUpdate()
   {
-    if(this.props.notification.error==false && this.state.spinner==true)
+    if(this.props.notification.error=="false" && this.state.spinner==true)
     {
       this.setState({
         spinner:false
       })
     }
-    if(this.props.notification.error==true && this.state.spinner==true)
+    if(this.props.notification.error=="true" && this.state.spinner==true)
     {
       Alert.alert(
         "Hata!",
-      "Kayıt bulunamamıştır",
+      "Kayıt bulunamamıştır!",
       [
         { text: "Tamam"}
       ],
@@ -109,7 +116,19 @@ class Notification extends Component {
   }
   render() {
     return (
-          <View style={Styles.container}>
+      <View style={Styles.container}>
+      <KeyboardAwareScrollView
+      contentContainerStyle={{
+      flex: 1
+      }}
+        refreshControl={
+          <RefreshControl
+            colors={['#55AAFB']}
+            refreshing={this.state.refreshing}
+            onRefresh={() => this._onRefresh()}
+          />
+        }
+      >
         {
           this.state.spinner == true ?
           this.renderLoading()
@@ -121,7 +140,8 @@ class Notification extends Component {
             renderItem={this.renderItem.bind(this.props.notification.notifications)}
           />
         }
-         </View>
+        </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

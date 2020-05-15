@@ -51,16 +51,20 @@ class MissingDeclaration extends Component {
   componentDidMount()
   {
     let data=[];
+    console.log(this.props.beacons)
     this.setState({
       coordinate : this.props.coordinate,
       description: this.props.desc
     });
     this.props.beacons.map((beacon, index) => {
-      let obj = {
-        id:beacon.beacon_id,
-        text:beacon.beacon_name
+      if(beacon.lost_status==false)
+      {
+        let obj = {
+          id:beacon.beacon_id,
+          text:beacon.beacon_name
+        }
+        data.push(obj)
       }
-      data.push(obj)
     });
     this.setState({
       data:data
@@ -189,8 +193,16 @@ class MissingDeclaration extends Component {
     </View>
   )
   scanCard = async () => {
+    let config={
+      suppressManualEntry:true,
+      suppressConfirmation:true,
+      requireCVV:false,
+      usePaypalActionbarIcon:false,
+      hideCardIOLogo: true,
+
+    }
     try {
-      const card = await CardIOModule.scanCard();
+      const card = await CardIOModule.scanCard(config);
       alert(JSON.stringify(card));
     } catch (err) {
     }
@@ -301,6 +313,7 @@ class MissingDeclaration extends Component {
           this.renderTextbox() :
           <View></View>
         }
+        <Text style={Styles.textColor}>Kredi Kartı bilgileriniz</Text>
         {
           this.creditCard()
         }
@@ -309,7 +322,7 @@ class MissingDeclaration extends Component {
         style={Styles.save} 
         size="giant" 
         textStyle={Styles.buttonColor}  >
-          Değişiklikleri kaydet
+          Gönder
         </Button>
         </Layout>
         </View>

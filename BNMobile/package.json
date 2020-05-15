@@ -29,6 +29,7 @@
     "react-native-beacons-manager": "^1.0.7",
     "react-native-bluetooth-status": "^1.5.0",
     "react-native-bouncy-drawer": "^1.0.1",
+    "react-native-communications": "^2.2.1",
     "react-native-credit-card-input": "^0.4.1",
     "react-native-drawer": "^2.5.1",
     "react-native-gesture-handler": "^1.6.1",

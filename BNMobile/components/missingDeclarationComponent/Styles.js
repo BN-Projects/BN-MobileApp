@@ -26,6 +26,11 @@ const Styles = {
       marginTop:'2%',
       borderColor: '#55AFFB',
     },
+    textColor: {
+      marginVertical:'2%',
+      color: '#55AFFB',
+      fontSize: 13
+    },
     emptyInput:{
       marginTop:'2%',
       borderColor: '#FF3D71',
