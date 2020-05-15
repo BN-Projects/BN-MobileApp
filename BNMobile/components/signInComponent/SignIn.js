@@ -28,11 +28,11 @@ class SıgnIn extends Component {
     }
   }
   showToast(){
-    if(this.props.getMail.error=="false")
+    if(this.props.getMail.error==false)
     {
       ToastAndroid.show("İşlem başarılı", ToastAndroid.SHORT);
     }
-    if(this.props.getMail.error=="true")
+    if(this.props.getMail.error==true)
     {
       ToastAndroid.show("İşlem başarısız", ToastAndroid.SHORT);
     }
@@ -40,8 +40,8 @@ class SıgnIn extends Component {
 
   onSignUpButtonPress(){
     var hash = md5("deneme");
-    var paramsValues=["den57@gmail.com",hash,this.props.getPush];
-    //var paramsValues=[this.state.email,md5(this.state.password)];
+    //var paramsValues=["den57@gmail.com",hash,this.props.getPush];
+    var paramsValues=[this.state.email,md5(this.state.password),this.props.getPush];
     this.props.actions.getToken(paramsValues);
   }
   onPasswordIconPress = () => {
@@ -62,7 +62,7 @@ class SıgnIn extends Component {
     //     showError:true
     //   })
     // }
-    if(this.props.getMail.error=="true" && this.state.loadinglostEmail==false)
+    if(this.props.getMail.error==true && this.state.loadinglostEmail==false)
     {
       this.props.actions.clearMail("")
       this.setState({
@@ -71,7 +71,7 @@ class SıgnIn extends Component {
       })
       this.showToast()
     }
-    if(this.props.getMail.error=="false"  && this.state.loadinglostEmail==false)
+    if(this.props.getMail.error==false && this.state.loadinglostEmail==false)
     {
       this.props.actions.clearMail("")
       this.setState({

@@ -125,7 +125,7 @@ class ChangePass extends Component {
   }
   componentDidUpdate()
   {
-    if(this.props.passwordEdit.error=="false")
+    if(this.props.passwordEdit.error==false)
     {
       this.props.actions.clearChangePass("");
       this.toggleModal()
@@ -135,7 +135,7 @@ class ChangePass extends Component {
         },
         3000);
     }
-    if(this.props.passwordEdit.error=="true")
+    if(this.props.passwordEdit.error==true)
     {
       this.props.actions.clearChangePass("");
       Actions.replace("Error")

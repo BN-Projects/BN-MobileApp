@@ -40,12 +40,6 @@ class FindDevice extends Component {
       })
     }
    }
-  componentDidMount()
-  {
-  }
-  LostBeacons(){
-    
-  }
   renderModalElement = () => (
     <KeyboardAwareScrollView style={styles.bnBackgroundColor}>
         <View style={styles.headerContainer}>

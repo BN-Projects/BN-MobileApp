@@ -1,5 +1,6 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
+import { Alert } from "react-native";
 var beacon="";
 export default async function getBeaconDetailData(paramsValues){
     var directory="devicedetail";
@@ -11,7 +12,14 @@ export default async function getBeaconDetailData(paramsValues){
         beacon = res.data;
       }  
       else{
-        alert(res.data.message);
+        Alert.alert(
+          "Hata!",
+        "Bir şeyler ters gitti!",
+        [
+          { text: "Tamam"}
+        ],
+        { cancelable: false }
+      );
       }
      })
      .catch(error => {

@@ -83,7 +83,7 @@ class MissingDeclaration extends Component {
         spinner:true
       })
     }
-    if(this.props.lostBeacon.error=="false")
+    if(this.props.lostBeacon.error==false)
     {
       this.toggleModal()
       this.props.actions.clearLostDevice("");
@@ -94,11 +94,19 @@ class MissingDeclaration extends Component {
         },
         3000);
     }
-    if(this.props.lostBeacon.error=="true")
+    if(this.props.lostBeacon.error==true)
     {
       console.log(this.props.lostBeacon)
       this.props.actions.clearLostDevice("");
-      Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "Tamam"}
+      ],
+      { cancelable: false }
+    );
+      //Actions.replace("Error")
     }
   }
   goToDevice = () =>
@@ -203,7 +211,7 @@ class MissingDeclaration extends Component {
     }
     try {
       const card = await CardIOModule.scanCard(config);
-      alert(JSON.stringify(card));
+      //alert(JSON.stringify(card));
     } catch (err) {
     }
   };
@@ -296,7 +304,7 @@ class MissingDeclaration extends Component {
             style={Styles.checkbox}
             status="control"
             textStyle={Styles.bnColor}
-            text='Kullanıcı iletişim bilgilerini kullan'
+            text='Başka bir kullanıcı iletişim bilgisi kullan'
             checked={this.state.checkedInformations}
             onChange={this.onCheckedInformations}
         />

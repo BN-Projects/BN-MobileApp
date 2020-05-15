@@ -43,7 +43,7 @@ class DeviceEdit extends Component {
   }
   componentDidUpdate()
   {
-    if(this.props.beaconEdit.error=="false")
+    if(this.props.beaconEdit.error==false)
     {
       this.toggleModal()
       this.props.actions.clearBeaconEdit("");
@@ -55,7 +55,7 @@ class DeviceEdit extends Component {
         },
         3000);
     }
-    if(this.props.beaconEdit.error=="true")
+    if(this.props.beaconEdit.error==true)
     {
       this.props.actions.clearBeaconEdit("");
       Actions.replace("Error")

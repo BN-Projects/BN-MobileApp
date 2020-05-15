@@ -27,8 +27,8 @@ class DeviceDetail extends Component {
       var condition = this.props.getBeaconRange.map((range) =>{
         if(range.uuid==uuid)
         {
-          return Math.floor(range.distance)
-          
+          let distance= Math.floor(range.distance);
+          return distance+" metre civarı uzaklıkta";
         }
         else{
           return "Tanımsız"
@@ -47,11 +47,15 @@ class DeviceDetail extends Component {
       var condition = this.props.getBeaconRange.map((range) =>{
         if(range.uuid==uuid)
         {
-          return Math.floor(range.battery_level)
-          
+          if(range.battery_level== -1){
+            return "-"
+          }
+          else{
+            return Math.floor(range.battery_level)
+          }    
         }
         else{
-          return "Tanımsız"
+          return "-"
         }
       })
       return(condition+"");
@@ -130,7 +134,7 @@ class DeviceDetail extends Component {
           />
         </Layout>
         <Button style={Styles.save} size="giant" onPress={() => this.onItemPress(this.props.beaconDetail)}>
-          Edit
+          Güncelle
         </Button>
         </KeyboardAwareScrollView>
    

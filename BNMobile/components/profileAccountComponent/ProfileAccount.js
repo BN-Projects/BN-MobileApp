@@ -38,10 +38,11 @@ class ProfileAccount extends Component {
       image_type:null,
       spinner: false
     };
+    props.actions.getProfile([this.props.token])
   }
   componentDidUpdate()
   {
-    if(this.props.profileEdit.error=="false")
+    if(this.props.profileEdit.error==false)
     {
       this.props.actions.clearProfileEdit("");
       this.props.actions.clearProfile("");
@@ -52,13 +53,14 @@ class ProfileAccount extends Component {
         },
         3000);
     }
-    if(this.props.profileEdit.error=="true")
+    if(this.props.profileEdit.error==true)
     {
       this.props.actions.clearProfileEdit("");
       Actions.replace("Error")
     }
-    if(this.state.profil != "" && this.state.spinner == false)
+    if(this.props.profil.error == false && this.state.spinner == false)
     {
+      console.log(this.props.profil)
       this.setState({
         name:this.props.profil.user_real_name,
         surname:this.props.profil.user_surname,
@@ -159,9 +161,6 @@ class ProfileAccount extends Component {
       return false
     }
   }
-  componentDidMount = () =>{
-    this.props.actions.getProfile([this.props.token])
-  }
   renderPhotoButton = () => (
     <Button style={Styles.editAvatarButton} status={'info'} icon={CameraIcon} onPress={() =>this.show()}/>
   );
@@ -221,9 +220,9 @@ class ProfileAccount extends Component {
         <View>
           <ProfileAvatar
         style={Styles.profileAvatar}
-        source={this.state.image_logo ? this.state.image_logo : this.state.user_img}
+        source={{uri:this.state.image_logo ? this.state.image_logo : this.state.user_img}}
         editButton={this.renderPhotoButton}
-      />
+          />
       <Layout style={Styles.formContainer} level="1">
         <Input
           style={this.regName(this.state.name) ? Styles.successInput : this.state.name=='' ? Styles.input : Styles.emptyInput}

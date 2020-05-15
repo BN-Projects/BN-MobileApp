@@ -1,5 +1,6 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
+import { Alert } from "react-native";
 var lostBeacons=[];
 export default async function getLostBeaconList(paramsValues){
     var directory="lostdevices";
@@ -11,7 +12,14 @@ export default async function getLostBeaconList(paramsValues){
         lostBeacons = JSON.parse(JSON.stringify(res.data.beacons));
       }  
       else{
-        alert(res.data.message);
+        Alert.alert(
+          "Hata!",
+        "Kayıp ilanı bulunmamaktadır!",
+        [
+          { text: "Tamam"}
+        ],
+        { cancelable: false }
+      );
       }
      })
      .catch(error => {

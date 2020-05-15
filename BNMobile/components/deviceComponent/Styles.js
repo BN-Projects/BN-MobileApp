@@ -2,6 +2,16 @@ const Styles = {
 list: {
     flex: 1,
   },
+  text: {
+    margin: '5%',
+    fontSize:15
+  },
+  formContainer: {
+    backgroundColor: '#F0F3F6',
+    flex: 1,
+    paddingTop: 5,
+    paddingHorizontal: 16,
+  },
   spinnerTextStyle: {
     color: '#FFF'
   },

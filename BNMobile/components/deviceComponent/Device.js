@@ -26,9 +26,6 @@ class Device extends Component {
       <Spinner/>
     </View>
   );
-  listening=(status)=>{
-    console.log("");
-  }
   componentDidMount(){
     BluetoothStatus.addListener((status)=>{
         BluetoothStatus.enable();
@@ -51,6 +48,17 @@ class Device extends Component {
       spinner:true
     })
   }
+  calculateProximity(variance,distance){
+    if(distance<variance/3){
+      return "Yakın";
+    }
+    else if(distance<2*variance/3){
+      return "Erişilebilir";
+    }
+    else{
+      return "Uzak";
+    }
+  }
   proximity(item){
     if(Array.isArray(this.props.getBeaconRange) && this.props.getBeaconRange.length)
     {
@@ -59,7 +67,7 @@ class Device extends Component {
         {
           return(
           <Text style={Styles.itemDescription} category="h6" status="control">
-          {range.proximity}
+          {this.calculateProximity(item.variance,range.distance)}
           </Text>
           );
         }
@@ -127,15 +135,20 @@ class Device extends Component {
         {
           this.state.spinner == false ?
           this.renderLoading()
-        :
-        <>
-          <List
-          style={Styles.list}
-          contentContainerStyle={Styles.listContent}
-          data={this.props.beacons}
-          renderItem={this.renderItem.bind()}
-          />
-        </>
+
+          : this.props.beacons.error==true?
+          <View style={Styles.formContainer}>
+            <Text status="danger" style={Styles.text}>Kayıtlı cihazınız bulunmamaktadır!</Text>
+          </View>
+          :
+          <>
+            <List
+            style={Styles.list}
+            contentContainerStyle={Styles.listContent}
+            data={this.props.beacons}
+            renderItem={this.renderItem.bind()}
+            />
+          </>
         }
       </Layout>
       

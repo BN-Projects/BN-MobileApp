@@ -1,5 +1,6 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
+import { Alert } from "react-native";
 var login="";
 export default async function postLogin(paramsValues){
     var directory="login";
@@ -8,7 +9,20 @@ export default async function postLogin(paramsValues){
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
     await axios.post(obj.url,obj.data)
     .then((res) => {
-         login=res.data.user_token;
+        if(!res.data.error)
+        {
+            login=res.data.user_token;
+        }
+        else{
+            Alert.alert(
+                "Hata!",
+              "Kullanıcı adı veya şifre hatalı!",
+              [
+                { text: "Tamam"}
+              ],
+              { cancelable: false }
+            );
+        }
      })
      .catch(error => {
      });

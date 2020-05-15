@@ -1,5 +1,6 @@
 import getConnectionLink from '../Connector'
 import axios from 'axios';
+import { Alert } from "react-native";
 var beacons=[];
 export default async function getBeaconList(paramsValues){
     var directory="devices";
@@ -7,11 +8,19 @@ export default async function getBeaconList(paramsValues){
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"GET")
     await axios.get(obj)
     .then((res) => {
+      console.log(res.data)
       if(!res.data.error){
         beacons = res.data.beacons;
       }  
       else{
-        alert(res.data.message);
+        Alert.alert(
+          "Hata!",
+        "Bir şeyler ters gitti!",
+        [
+          { text: "Tamam"}
+        ],
+        { cancelable: false }
+      );
       }
      })
      .catch(error => {

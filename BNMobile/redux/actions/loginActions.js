@@ -14,8 +14,13 @@ export function getToken(paramsValues)
         postLogin(paramsValues)
         .then((result)=>{
             dispatch(login(result))
-            Actions.replace("drawerMenu");
-            Actions.Device();
+            if(result!="")
+            {
+                Actions.replace("drawerMenu");
+                Actions.Device();
+            }
+            else{
+            }
         })
     }
 }

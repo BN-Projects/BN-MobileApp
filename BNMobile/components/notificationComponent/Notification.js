@@ -33,13 +33,13 @@ class Notification extends Component {
   );
   componentDidUpdate()
   {
-    if(this.props.notification.error=="false" && this.state.spinner==true)
+    if(this.props.notification.error==false && this.state.spinner==true)
     {
       this.setState({
         spinner:false
       })
     }
-    if(this.props.notification.error=="true" && this.state.spinner==true)
+    if(this.props.notification.error==true && this.state.spinner==true)
     {
       Alert.alert(
         "Hata!",

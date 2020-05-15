@@ -101,7 +101,7 @@ class Alarm extends Component {
                     loading:true,
                     visible:true
                   })
-                  // this.control()
+                  this.control()
                 }
               }
             }
@@ -133,7 +133,7 @@ class Alarm extends Component {
             loading:true,
             visible:true
           })
-          // this.control()
+          this.control()
         }
       }
       else{
@@ -143,7 +143,7 @@ class Alarm extends Component {
           loading:true,
           visible:true
         })
-        // this.control()
+        this.control()
       }
     }
     }
@@ -218,43 +218,43 @@ class Alarm extends Component {
         }
     }
     render() {
-    // return(
-    //     <View>
-    //       {
-    //         this.state.loading==false && this.state.beacon== null
-    //         ? this.renderLoading
-    //         :
-    //         <Modal
-    //         testID={'modal'}
-    //         isVisible={this.state.visible}
-    //         swipeDirection={['down']}
-    //         scrollTo={this.handleScrollTo}
-    //         scrollOffset={this.state.scrollOffset}
-    //         scrollOffsetMax={400 - 300} // content height - ScrollView height
-    //         propagateSwipe={true}
-    //         style={styles.modal}>
-    //         <View style={styles.scrollableModal}>
-    //           <ScrollView
-    //             ref={this.scrollViewRef}
-    //             onScroll={this.handleOnScroll}
-    //             scrollEventThrottle={16}>
-    //             <View style={styles.scrollableModalContent1}>
-    //                 { this.renderBeacons(this.state.beacon_name) }
-    //               <Button onPress={this.close}
-    //               style={styles.save} 
-    //               size="giant" 
-    //               textStyle={styles.buttonColor}>Tamam</Button>
-    //             </View>
-    //           </ScrollView>
-    //         </View>
-    //         </Modal>
-          
-    //       }
-    //     </View>
-    //   )
     return(
-      <></>
-    )
+        <View>
+          {
+            this.state.loading==false && this.state.beacon== null
+            ? this.renderLoading
+            :
+            <Modal
+            testID={'modal'}
+            isVisible={this.state.visible}
+            swipeDirection={['down']}
+            scrollTo={this.handleScrollTo}
+            scrollOffset={this.state.scrollOffset}
+            scrollOffsetMax={400 - 300} // content height - ScrollView height
+            propagateSwipe={true}
+            style={styles.modal}>
+            <View style={styles.scrollableModal}>
+              <ScrollView
+                ref={this.scrollViewRef}
+                onScroll={this.handleOnScroll}
+                scrollEventThrottle={16}>
+                <View style={styles.scrollableModalContent1}>
+                    { this.renderBeacons(this.state.beacon_name) }
+                  <Button onPress={this.close}
+                  style={styles.save} 
+                  size="giant" 
+                  textStyle={styles.buttonColor}>Tamam</Button>
+                </View>
+              </ScrollView>
+            </View>
+            </Modal>
+          
+          }
+        </View>
+      )
+    // return(
+    //   <></>
+    // )
   }
 }
 function mapStateToProps(state) {
