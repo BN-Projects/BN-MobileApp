@@ -41,14 +41,9 @@ class Notification extends Component {
     }
     if(this.props.notification.error==true && this.state.spinner==true)
     {
-      Alert.alert(
-        "Hata!",
-      "Kayıt bulunamamıştır!",
-      [
-        { text: "Tamam"}
-      ],
-      { cancelable: false }
-    );
+      this.setState({
+        spinner:false
+      })
     }
   }
 
@@ -132,6 +127,10 @@ class Notification extends Component {
         {
           this.state.spinner == true ?
           this.renderLoading()
+        : this.props.notification.error==true ?
+        <View style={Styles.formContainer}>
+        <Text status="danger" style={Styles.text}>Herhangi bir bildiriminiz bulunmamaktadır!</Text>
+        </View>
         :
           <List
             style={Styles.list}

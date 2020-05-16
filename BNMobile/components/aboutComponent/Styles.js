@@ -1,6 +1,6 @@
 const Styles = {
   container: {
-    paddingTop:'5%',
+    paddingVertical:'5%',
     backgroundColor: '#F0F3F6',
     paddingHorizontal: '5%',
   },

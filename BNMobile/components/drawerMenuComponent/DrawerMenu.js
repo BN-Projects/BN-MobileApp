@@ -60,7 +60,7 @@ const data = [
     titleStyle:styles.menuItemTitle,
   },
   {
-    title: 'Profil',
+    title: 'Kişisel bilgilerim',
     key:'ProfileAccount',
     icon: StarIcon,
     style: styles.menuItem,

@@ -38,7 +38,7 @@ class DeviceEdit extends Component {
     this.setState({
       name:this.props.beacon.beacon_name,
       securityArea:this.props.beacon.variance+"",
-      image:{uri:this.props.beacon.img}
+      image:this.props.beacon.img
     })
   }
   componentDidUpdate()
@@ -58,7 +58,15 @@ class DeviceEdit extends Component {
     if(this.props.beaconEdit.error==true)
     {
       this.props.actions.clearBeaconEdit("");
-      Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "Tamam"}
+      ],
+      { cancelable: false }
+    );
+      //Actions.replace("Error")
     }
   }
   renderPhotoButton = () => (
@@ -170,7 +178,7 @@ class DeviceEdit extends Component {
       <KeyboardAwareScrollView style={Styles.container}>
         <ProfileAvatar
           style={Styles.profileAvatar}
-          source={this.state.image_logo ? this.state.image_logo : this.state.image}
+          source={this.state.image_logo ? this.state.image_logo : this.state.image ? {uri:this.state.image} : {uri:'https://lh6.googleusercontent.com/proxy/Bqqq2DHYLI-9bYWmUQkSz7UdLfvGavr6tPysMgBl6y7GDFFwc1dwlxqOr0tCtkWVVRfXI9j-fx-0LM5f-GW2jWfm4aCIkj5HJmwDuTL8h4mh5uzlR0plpUk'}}
           editButton={this.renderPhotoButton}
         />
         <Layout style={Styles.formContainer} level="1">

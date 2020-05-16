@@ -8,7 +8,6 @@ export default async function postLostPassword(paramsValues){
     await axios.post(obj.url,obj.data)
     .then((res) => {
         email=res.data;
-        console.log(res.data)
      })
      .catch(error => {
      });

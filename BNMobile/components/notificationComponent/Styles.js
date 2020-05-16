@@ -6,6 +6,16 @@ const Styles ={
         padding:0,
         backgroundColor: '#F0F3F6',
       },
+      text: {
+        margin: '5%',
+        fontSize:15
+      },
+      formContainer: {
+        backgroundColor: '#F0F3F6',
+        flex: 1,
+        paddingTop: 5,
+        paddingHorizontal: 16,
+      },
       scroll:{
         backgroundColor: '#F0F3F6',
       },

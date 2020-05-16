@@ -39,8 +39,9 @@ class SıgnIn extends Component {
   }
 
   onSignUpButtonPress(){
-    var hash = md5("deneme");
-    //var paramsValues=["den57@gmail.com",hash,this.props.getPush];
+    //var hash = md5("Deneme123*");
+    //var paramsValues=["fbbrksvk@gmail.com",hash,this.props.getPush];
+    //var paramsValues=["admin@gmail.com",hash,this.props.getPush];
     var paramsValues=[this.state.email,md5(this.state.password),this.props.getPush];
     this.props.actions.getToken(paramsValues);
   }

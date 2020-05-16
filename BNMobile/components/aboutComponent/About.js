@@ -11,15 +11,18 @@ export default class About extends Component {
     <React.Fragment>
       <ImageBackground
       style={{
-        height: responsiveHeight(30),
-        width: responsiveWidth(100),
+        height: responsiveHeight(45),
+        width: responsiveWidth(90),
         justifyContent: 'center',
         alignItems: 'center',
         resizeMode: 'contain',
       }}
-      source={{
-        uri: 'https://upload.wikimedia.org/wikipedia/commons/4/46/BN_Logo_1000px.png',
-      }}
+      // source={{
+      //   uri: 'https://upload.wikimedia.org/wikipedia/commons/4/46/BN_Logo_1000px.png',
+      // }}
+      source={
+        require('../../assets/bnLogo.png')
+      }
     />
       <Text style={[Styles.headerText,Styles.bnColor]} category="h6">
         Motivasyonumuz hakkında kısa bir yazı.
@@ -40,13 +43,15 @@ export default class About extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView style={Styles.container}>
+      <KeyboardAwareScrollView>
+        <View style={Styles.container}>
       <Card header={this.Header} footer={this.Footer}>
         <Text style={Styles.bnColor}>
         Günümüz dünyasında artık insanlar çok meşguldür ve her an her şeylerini kaybedebilmektedirler.
         Bizim projemiz ise insanların bu tip sorunlarını ortadan kaldırmak amacıyla ortaya çıkmış bir sosyal sorumluluk projesi olmaktadır.
         </Text>
       </Card>
+      </View>
       </KeyboardAwareScrollView>
     );
   }

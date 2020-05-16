@@ -19,8 +19,8 @@ class Map extends Component {
     super(props);
     this.state = {
       region: {
-        latitude: 41.0329,
-        longitude: 36.1014,
+        latitude: 41.117138,
+        longitude: 29.003904,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
@@ -94,7 +94,6 @@ class Map extends Component {
             })
           },
           (error) =>{
-          console.log("2 ",error),
            Alert.alert(
             "",
           "Eğer geçerli konumunuz ile işlem yapmak istiyorsanız lütfen konumlama sisteminizi aktif hale getiriniz.",
@@ -212,7 +211,7 @@ class Map extends Component {
             style={styles.save} 
             size="giant" 
             textStyle={styles.buttonColor}  >
-            Değişiklikleri kaydet
+            Devam et
             </Button>
             </KeyboardAwareScrollView>
           </Card>

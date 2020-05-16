@@ -8,7 +8,6 @@ export default async function getBeaconList(paramsValues){
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"GET")
     await axios.get(obj)
     .then((res) => {
-      console.log(res.data)
       if(!res.data.error){
         beacons = res.data.beacons;
       }  

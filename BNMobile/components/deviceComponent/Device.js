@@ -123,7 +123,7 @@ class Device extends Component {
             status="control"
             icon={ArrowRightIcon}
             onPress={() => this.onItemPress(info.item.beacon_id)}>
-            {'Details'}
+            {'Detaylar'}
           </Button>
         </View>
       </Layout>

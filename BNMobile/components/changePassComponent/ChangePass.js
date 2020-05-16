@@ -56,7 +56,7 @@ class ChangePass extends Component {
         }else{
           Alert.alert(
             "Hata!",
-          "Verileriniz olması gereken değerlerin dışında",
+          "Verileriniz hatalı",
           [
             { text: "Tamam"}
           ],
@@ -67,7 +67,7 @@ class ChangePass extends Component {
     else{
       Alert.alert(
         "Hata!",
-      "Verileriniz olması gereken değerlerin dışında",
+      "Verileriniz hatalı",
       [
         { text: "Tamam"}
       ],
@@ -138,7 +138,15 @@ class ChangePass extends Component {
     if(this.props.passwordEdit.error==true)
     {
       this.props.actions.clearChangePass("");
-      Actions.replace("Error")
+      //Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz hatalı",
+      [
+        { text: "Tamam"}
+      ],
+      { cancelable: false }
+    );
     }
   }
   logout = () => {

@@ -13,7 +13,7 @@ import Success from '../../modals/successModal/Success';
 import ImagePicker from 'react-native-image-crop-picker';
 import ActionSheet from 'react-native-actionsheet';
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import { View, Alert } from 'react-native';
+import { View, Alert,RefreshControl } from 'react-native';
 
 class ProfileAccount extends Component {
   isValid ={
@@ -36,9 +36,10 @@ class ProfileAccount extends Component {
       image_logo:null,
       image_logo_uri:null,
       image_type:null,
-      spinner: false
+      spinner: false,
+      refreshing:false
     };
-    props.actions.getProfile([this.props.token])
+    props.actions.getProfile([props.token])
   }
   componentDidUpdate()
   {
@@ -56,11 +57,18 @@ class ProfileAccount extends Component {
     if(this.props.profileEdit.error==true)
     {
       this.props.actions.clearProfileEdit("");
-      Actions.replace("Error")
+      //Actions.replace("Error")
+      Alert.alert(
+        "Hata!",
+      "Verileriniz olması gereken değerlerin dışında",
+      [
+        { text: "Tamam"}
+      ],
+      { cancelable: false }
+    );
     }
     if(this.props.profil.error == false && this.state.spinner == false)
     {
-      console.log(this.props.profil)
       this.setState({
         name:this.props.profil.user_real_name,
         surname:this.props.profil.user_surname,
@@ -150,7 +158,7 @@ class ProfileAccount extends Component {
     }
   }
   regPhone = (phone) => {
-    var re = /^[+]?(?:[0-9]{2})?[0-9]{10}$/;
+    var re = /^[+]([0-9]{2})[0-9]{10}$/;
     if(re.test(phone))
     {
       this.isValid.phoneIsValid=true
@@ -210,9 +218,27 @@ class ProfileAccount extends Component {
       <Spinner/>
     </View>
   );
+  _onRefresh(){
+    this.setState({refreshing: true, spinner:false}, function(){
+      this.props.actions.getProfile([this.props.token])
+    });
+      this.setState({refreshing: false});
+  }
   render() {
     return (
-      <KeyboardAwareScrollView style={Styles.container}>
+      <View style={Styles.container}>
+      <KeyboardAwareScrollView 
+      contentContainerStyle={{
+      flex: 1
+      }}
+        refreshControl={
+          <RefreshControl
+            colors={['#55AAFB']}
+            refreshing={this.state.refreshing}
+            onRefresh={() => this._onRefresh()}
+          />
+        }
+      >
          {
           this.state.spinner == false ?
           this.renderLoading()
@@ -220,7 +246,7 @@ class ProfileAccount extends Component {
         <View>
           <ProfileAvatar
         style={Styles.profileAvatar}
-        source={{uri:this.state.image_logo ? this.state.image_logo : this.state.user_img}}
+        source={this.state.image_logo ?this.state.image_logo : {uri:this.state.user_img}}
         editButton={this.renderPhotoButton}
           />
       <Layout style={Styles.formContainer} level="1">
@@ -267,12 +293,12 @@ class ProfileAccount extends Component {
           labelStyle={Styles.customizeLabelStyle}
           textStyle={Styles.customizeTextStyle}
           icon={CloseOutlineIcon}
-          onChangeText={item => this.setState({ phone:item})}
-          onIconPress={() => this.setState({ phone: '' })}
+          onChangeText={item => item==''? this.setState({phone:'+90'}):this.setState({ phone:item})}
+          onIconPress={() => this.setState({ phone: '+90' })}
           captionStyle={Styles.red}
           caption={this.regPhone(this.state.phone) ? '' : 'Geçerli bir telefon numarası giriniz'}
           keyboardType={'numeric'}
-          maxLength = {10}
+          maxLength = {13}
         />
         <View style={Styles.changePasswordContainer}>
         <Button
@@ -280,7 +306,7 @@ class ProfileAccount extends Component {
           appearance='ghost'
           status='basic'
           onPress={() => this.onChangePasswordButtonPress()}>
-          Change Password
+          Şifre değiştir
         </Button>
       </View>
       </Layout>
@@ -305,6 +331,7 @@ class ProfileAccount extends Component {
          }
         
       </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

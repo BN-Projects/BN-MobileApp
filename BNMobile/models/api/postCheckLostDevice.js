@@ -7,7 +7,6 @@ export default async function postCheckLostDevice(paramsValues){
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
     await axios.post(obj.url,obj.data)
     .then((res) => {
-        console.log(res.data)
           device=res.data;
      })
      .catch(error => {

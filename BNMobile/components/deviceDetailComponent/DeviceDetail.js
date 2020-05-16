@@ -28,7 +28,13 @@ class DeviceDetail extends Component {
         if(range.uuid==uuid)
         {
           let distance= Math.floor(range.distance);
+          if(distance<1)
+          {
+            return "Bir metreden daha az uzaklıkta";
+          }
+          else{
           return distance+" metre civarı uzaklıkta";
+          }
         }
         else{
           return "Tanımsız"

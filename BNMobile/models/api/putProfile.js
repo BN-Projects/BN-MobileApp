@@ -5,7 +5,6 @@ export default async function putProfile(paramsValues){
     var directory="updateprofile";
     var paramsNames=["name","surname","email","phone", "img", "imgDesc","id"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"PUT")
-    console.log(obj)
     await axios.put(obj.url,obj.data)
     .then((res) => {
         profile=res.data;

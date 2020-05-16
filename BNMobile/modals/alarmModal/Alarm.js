@@ -28,7 +28,6 @@ class Alarm extends Component {
         this.scrollViewRef = React.createRef();
         this.sound = new Sound('alarm.mp3', Sound.MAIN_BUNDLE, (error) => {
           if (error) {
-            console.log('failed to load the sound', error);
             return;
           }
         })
@@ -93,7 +92,6 @@ class Alarm extends Component {
           for(let range in this.props.getBeaconRange){
             for(let item in this.props.getBeacons){
               if(range.uuid==item.uuid){
-                console.log(item)
                 if(Math.floor(range.distance)>item.variance){
                   this.setState({
                     beacon_name:item.beacon_name,

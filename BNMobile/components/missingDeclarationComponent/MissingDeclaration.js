@@ -51,7 +51,6 @@ class MissingDeclaration extends Component {
   componentDidMount()
   {
     let data=[];
-    console.log(this.props.beacons)
     this.setState({
       coordinate : this.props.coordinate,
       description: this.props.desc
@@ -96,7 +95,6 @@ class MissingDeclaration extends Component {
     }
     if(this.props.lostBeacon.error==true)
     {
-      console.log(this.props.lostBeacon)
       this.props.actions.clearLostDevice("");
       Alert.alert(
         "Hata!",
@@ -150,7 +148,7 @@ class MissingDeclaration extends Component {
     }
   }
   regPhone = (phone) => {
-    var re = /^[+]?(?:[0-9]{2})?[0-9]{10}$/;
+    var re = /^[+]([0-9]{2})[0-9]{10}$/;
     if(re.test(phone))
     {
       this.isValid.phoneIsValid=true
@@ -179,12 +177,12 @@ class MissingDeclaration extends Component {
             labelStyle={Styles.customizeLabelStyle}
             textStyle={Styles.customizeTextStyle}
             icon={CloseOutlineIcon}
-            onChangeText={item => this.setState({ phone:item})}
-            onIconPress={() => this.setState({ phone: '' })}
+            onChangeText={item => item==''? this.setState({phone:'+90'}):this.setState({ phone:item})}
+            onIconPress={() => this.setState({ phone: '+90' })}
             captionStyle={Styles.red}
             keyboardType={'numeric'}
             disabled={this.state.checkedInformations ? false : true}
-            maxLength = {10}
+            maxLength = {13}
           />
      <Input
            style={this.regEmail(this.state.email) ? Styles.successInput : this.state.email=='' ? Styles.input : Styles.emptyInput}

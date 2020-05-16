@@ -5,7 +5,6 @@ export default async function postLostBeacon(paramsValues){
     var directory="addlostdevice";
     var paramsNames=["phone","email","creditCardNo","creditCardFullName","creditCardExDate","cvv","lastSeen","lostLat","lostLong","beaconID","lostDesc"];
     var obj = getConnectionLink(directory,paramsNames,paramsValues,"POST")
-    console.log("231123",obj)
     await axios.post(obj.url,obj.data)
     .then((res) => {
           beacon=res.data;

@@ -11,16 +11,6 @@ export default async function getLostBeaconList(paramsValues){
       if(!res.data.error){
         lostBeacons = JSON.parse(JSON.stringify(res.data.beacons));
       }  
-      else{
-        Alert.alert(
-          "Hata!",
-        "Kayıp ilanı bulunmamaktadır!",
-        [
-          { text: "Tamam"}
-        ],
-        { cancelable: false }
-      );
-      }
      })
      .catch(error => {
      });
